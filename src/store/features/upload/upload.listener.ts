@@ -1,7 +1,7 @@
-import { startListening } from '../listener';
+import { appListener } from '@/store/app/listener';
 import { createNode } from './upload.action';
 
-startListening({
+appListener.startListening({
   actionCreator: createNode,
   effect: (action, api) => {
     const { activeNodeId } = api.getState().upload;

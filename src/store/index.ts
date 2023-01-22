@@ -1,48 +1,21 @@
-import {
-  configureStore,
-  combineReducers,
-  ThunkAction,
-  Action,
-  TypedStartListening,
-} from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import { createWrapper } from 'next-redux-wrapper';
+import { persistStore } from 'redux-persist';
 
-import { listenerMiddleware } from './listener';
-import { uploadSlice } from './upload/upload.slice';
-import { videoSlice } from './video/video.slice';
-import { uploadApi } from './upload/upload.service';
-import { videoApi } from './video/video.service';
+import { appReducer } from './app/reducer';
+import { appMiddleware } from './app/middleware';
 
-function makeStore() {
-  const combinedReducer = combineReducers({
-    [uploadApi.reducerPath]: uploadApi.reducer,
-    [videoApi.reducerPath]: videoApi.reducer,
-    [uploadSlice.name]: uploadSlice.reducer,
-    [videoSlice.name]: videoSlice.reducer,
-  });
+const store = configureStore({
+  reducer: appReducer,
+  middleware: appMiddleware,
+});
 
-  const rootReducer: typeof combinedReducer = (state, action) => {
-    if (action.type === 'HYDRATE') return { ...state, ...action.payload };
-    return combinedReducer(state, action);
-  };
+setupListeners(store.dispatch);
 
-  const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware()
-        .prepend(listenerMiddleware)
-        .concat([uploadApi.middleware, videoApi.middleware]),
-  });
+export const wrapper = createWrapper(() => store);
+export const persistor = persistStore(store);
 
-  setupListeners(store.dispatch);
-
-  return store;
-}
-
-export const wrapper = createWrapper(makeStore);
-
-export type AppState = ReturnType<ReturnType<typeof makeStore>['getState']>;
-export type AppDispatch = ReturnType<typeof makeStore>['dispatch'];
+export type AppState = ReturnType<typeof store['getState']>;
+export type AppDispatch = typeof store['dispatch'];
 export type AppThunk<T = void> = ThunkAction<T, AppState, unknown, Action>;
-export type AppStartListening = TypedStartListening<AppState, AppDispatch>;
