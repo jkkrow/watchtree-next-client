@@ -1,7 +1,7 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query/react';
 import { createWrapper } from 'next-redux-wrapper';
-import { persistStore } from 'redux-persist';
+import { wrapMakeStore } from 'next-redux-cookie-wrapper';
 
 import { appReducer } from './app/reducer';
 import { appMiddleware } from './app/middleware';
@@ -13,8 +13,7 @@ const store = configureStore({
 
 setupListeners(store.dispatch);
 
-export const wrapper = createWrapper(() => store);
-export const persistor = persistStore(store);
+export const wrapper = createWrapper(wrapMakeStore(() => store));
 
 export type AppState = ReturnType<typeof store['getState']>;
 export type AppDispatch = typeof store['dispatch'];

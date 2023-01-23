@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import storage from 'redux-persist/lib/storage';
 
 interface UserSliceState {
   refreshToken: string | null;
@@ -23,9 +22,3 @@ export const userSlice = createSlice({
     setUserData() {},
   },
 });
-
-export const userPersistConfig = {
-  key: userSlice.name,
-  blacklist: ['accessToken'],
-  storage,
-};

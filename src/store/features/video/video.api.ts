@@ -1,29 +1,19 @@
 import { appApi } from '@/store/app/api';
+import { GetVideosResult } from './video.dto';
 
 const videoApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
+    getVideos: builder.query<GetVideosResult, unknown>({
+      query: () => ({ url: `http://localhost:5000/video-trees` }),
+    }),
     getCreatedVideo: builder.query({
-      query: (id: string) => ({ url: `videos/${id}` }),
+      query: (id: string) => ({ url: `users/current/video-trees/${id}` }),
     }),
     deleteCreatedVideo: builder.mutation({
       query: (id: string) => ({ url: `videos/${id}`, method: 'DELETE' }),
-      onQueryStarted: async (id, { dispatch, queryFulfilled }) => {
-        try {
-          const getFilteredVideos = (videos: any) => {
-            return videos.filter((v: any) => v.id !== id);
-          };
-          await queryFulfilled;
-          dispatch(
-            videoApi.util.updateQueryData(
-              'getCreatedVideo',
-              id,
-              getFilteredVideos
-            )
-          );
-        } catch {}
-      },
     }),
   }),
 });
 
-export const { useGetCreatedVideoQuery } = videoApi;
+export const { useGetVideosQuery, useGetCreatedVideoQuery } = videoApi;
+export const { getVideos, getCreatedVideo } = videoApi.endpoints;

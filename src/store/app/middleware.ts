@@ -1,4 +1,5 @@
 import { CurriedGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
+import { nextReduxCookieMiddleware } from 'next-redux-cookie-wrapper';
 
 import { appReducer } from './reducer';
 import { appApi } from './api';
@@ -10,13 +11,14 @@ export const appMiddleware = (
     ReturnType<typeof appReducer>
   >
 ) => {
-  const defaultMiddleware = getDefaultMiddleware({
-    serializableCheck: { ignoredActions: ['persist/PERSIST'] },
-  });
+  const defaultMiddleware = getDefaultMiddleware();
+  const cookieMiddlewareConfig = {
+    subtrees: ['video.volume', 'user.userData'],
+  };
 
-  defaultMiddleware.prepend(appListener.middleware);
-  defaultMiddleware.concat(appApi.middleware);
-  defaultMiddleware.concat(errorMiddleware);
-
-  return defaultMiddleware;
+  return defaultMiddleware
+    .prepend(appListener.middleware)
+    .prepend(nextReduxCookieMiddleware(cookieMiddlewareConfig))
+    .concat(appApi.middleware)
+    .concat(errorMiddleware);
 };

@@ -1,9 +1,13 @@
 import {
   createListenerMiddleware,
   ListenerMiddlewareInstance,
+  TypedStartListening,
 } from '@reduxjs/toolkit';
 
-import type { AppState } from '..';
+import type { AppState, AppDispatch } from '..';
 
-export const appListener: ListenerMiddlewareInstance<AppState> =
-  createListenerMiddleware();
+export interface AppListener extends ListenerMiddlewareInstance {
+  startListening: TypedStartListening<AppState, AppDispatch>;
+}
+
+export const appListener = createListenerMiddleware() as AppListener;

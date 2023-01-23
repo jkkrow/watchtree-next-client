@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 interface VideoSliceState {
   videoTree: null;
@@ -25,10 +25,14 @@ export const videoSlice = createSlice({
   initialState,
   reducers: {
     setVideoTree() {},
-    setActiveNode() {},
+    setActiveNode(state, { payload }) {
+      state.activeNodeId = payload;
+    },
     setInitialProgress() {},
     setCurrentProgress() {},
-    setVolume() {},
+    setVolume(state, { payload }) {
+      state.volume = payload;
+    },
     setResolution() {},
     setPlaybackRate() {},
   },
