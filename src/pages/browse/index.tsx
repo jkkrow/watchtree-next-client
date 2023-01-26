@@ -13,7 +13,7 @@ export default function BrowsePage() {
 
 export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => {
   return async (context) => {
-    const { data } = await dispatch(getVideos.initiate({}));
+    const { data } = await dispatch(getVideos.initiate());
 
     return { props: { data: data || null } };
   };

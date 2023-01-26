@@ -3,7 +3,7 @@ import { GetVideosResult } from './video.type';
 
 const videoApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
-    getVideos: builder.query<GetVideosResult, unknown>({
+    getVideos: builder.query<GetVideosResult, void>({
       query: () => ({ url: `video-trees` }),
     }),
     getCreatedVideo: builder.query({

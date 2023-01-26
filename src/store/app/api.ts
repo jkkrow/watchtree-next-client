@@ -16,8 +16,12 @@ export const appApi = createApi({
 export const { getRunningQueriesThunk } = appApi.util;
 
 function configureBaseQuery() {
+  const baseUrl =
+    typeof window === 'undefined'
+      ? process.env.SERVER_URL
+      : process.env.NEXT_PUBLIC_SERVER_URL;
   const baseQuery: AppBaseQuery = fetchBaseQuery({
-    baseUrl: process.env.SERVER_URL,
+    baseUrl,
     prepareHeaders: (headers, { getState }) => {
       const { credentials } = (getState() as AppState).user;
 
