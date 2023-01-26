@@ -7,8 +7,11 @@ specifiers:
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
   '@types/react-redux': ^7.1.25
+  async-mutex: ^0.4.0
+  dayjs: ^1.11.7
   eslint: 8.32.0
   eslint-config-next: 13.1.2
+  jwt-decode: ^3.1.2
   next: 13.1.2
   next-redux-cookie-wrapper: ^2.2.1
   next-redux-wrapper: ^8.1.0
@@ -24,8 +27,11 @@ dependencies:
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
   '@types/react-redux': 7.1.25
+  async-mutex: 0.4.0
+  dayjs: 1.11.7
   eslint: 8.32.0
   eslint-config-next: 13.1.2_7uibuqfxkfaozanbtbziikiqje
+  jwt-decode: 3.1.2
   next: 13.1.2_biqbaboplfbrettd7655fr4n2y
   next-redux-cookie-wrapper: 2.2.1_next-redux-wrapper@8.1.0
   next-redux-wrapper: 8.1.0_y34iadpuipqk5cxypqrh4vrr4i
@@ -484,6 +490,12 @@ packages:
     resolution: {integrity: sha512-eBvWn1lvIApYMhzQMsu9ciLfkBY499mFZlNqG+/9WR7PVlroQw0vG30cOQQbaKz3sCEc44TAOu2ykzqXSNnwag==}
     dev: false
 
+  /async-mutex/0.4.0:
+    resolution: {integrity: sha512-eJFZ1YhRR8UN8eBLoNzcDPcy/jqjsg6I1AP+KvWQX80BqOSW1oJPJXDylPUEeMr2ZQvHgnQ//Lp6f3RQ1zI7HA==}
+    dependencies:
+      tslib: 2.4.1
+    dev: false
+
   /available-typed-arrays/1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -581,6 +593,10 @@ packages:
 
   /damerau-levenshtein/1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
+    dev: false
+
+  /dayjs/1.11.7:
+    resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
     dev: false
 
   /debug/3.2.7:
@@ -1541,6 +1557,10 @@ packages:
     dependencies:
       array-includes: 3.1.6
       object.assign: 4.1.4
+    dev: false
+
+  /jwt-decode/3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: false
 
   /language-subtag-registry/0.3.22:

@@ -1,10 +1,10 @@
 import { appApi } from '@/store/app/api';
-import { GetVideosResult } from './video.dto';
+import { GetVideosResult } from './video.type';
 
 const videoApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     getVideos: builder.query<GetVideosResult, unknown>({
-      query: () => ({ url: `http://localhost:5000/video-trees` }),
+      query: () => ({ url: `video-trees` }),
     }),
     getCreatedVideo: builder.query({
       query: (id: string) => ({ url: `users/current/video-trees/${id}` }),

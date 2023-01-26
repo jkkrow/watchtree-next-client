@@ -1,24 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface UserSliceState {
-  refreshToken: string | null;
-  accessToken: string | null;
-  userData: null;
-}
+import { UserSliceState } from './user.type';
 
 const initialState: UserSliceState = {
-  accessToken: null,
-  refreshToken: null,
-  userData: null,
+  info: null,
+  credentials: null,
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    signin() {},
-    signout() {},
-    setTokens() {},
-    setUserData() {},
+    setUser(state, { payload }: PayloadAction<Partial<UserSliceState>>) {
+      const { info, credentials } = payload;
+      state.info = info || state.info;
+      state.credentials = credentials || state.credentials;
+    },
+    clearUser(state) {
+      state.info = null;
+      state.credentials = null;
+    },
   },
 });
+
+export const { setUser, clearUser } = userSlice.actions;

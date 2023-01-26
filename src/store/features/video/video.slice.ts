@@ -1,14 +1,6 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-interface VideoSliceState {
-  videoTree: null;
-  activeNodeId: string;
-  initialProgress: number;
-  currentProgress: number;
-  volume: number;
-  resolution: number | 'auto';
-  playbackRate: number;
-}
+import { VideoSliceState } from './video.type';
 
 const initialState: VideoSliceState = {
   videoTree: null,
@@ -37,3 +29,13 @@ export const videoSlice = createSlice({
     setPlaybackRate() {},
   },
 });
+
+export const {
+  setVideoTree,
+  setActiveNode,
+  setInitialProgress,
+  setCurrentProgress,
+  setVolume,
+  setResolution,
+  setPlaybackRate,
+} = videoSlice.actions;

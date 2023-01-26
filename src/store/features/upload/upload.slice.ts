@@ -1,11 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface UploadSliceState {
-  sourceTree: null;
-  renderTree: null;
-  activeNodeId: string;
-  isUploadSaved: boolean;
-}
+import { UploadSliceState } from './upload.type';
 
 const initialState: UploadSliceState = {
   sourceTree: null,
@@ -21,10 +16,21 @@ export const uploadSlice = createSlice({
     initiateUpload() {},
     completeUpload() {},
     saveUpload() {},
-    createNode() {},
+    createNode(state, { payload }: PayloadAction<{ parentId: string }>) {},
     updateNode() {},
     removeNode() {},
     updateTree() {},
     setActiveNode() {},
   },
 });
+
+export const {
+  initiateUpload,
+  completeUpload,
+  saveUpload,
+  createNode,
+  updateNode,
+  removeNode,
+  updateTree,
+  setActiveNode,
+} = uploadSlice.actions;
