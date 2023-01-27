@@ -1,6 +1,7 @@
 export interface UserSliceState {
   info: User | null;
-  credentials: Credentials | null;
+  accessToken?: string | null;
+  refreshTokenExp: string | null;
 }
 
 export interface User {
@@ -22,6 +23,17 @@ export interface Membership {
 }
 
 export interface Credentials {
+  accessToken: string;
+  refreshTokenExp: string;
+}
+
+export interface SigninRequest {
+  email: string;
+  password: string;
+}
+
+export interface SigninResponse {
+  user: User;
   accessToken: string;
   refreshTokenExp: string;
 }

@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 import type { AppState, AppBaseQuery } from '..';
 import { setMessage, clearMessage } from '../features/ui/ui.slice';
-import { setUser } from '../features/user/user.slice';
+import { setCredentials, clearUser } from '../features/user/user.slice';
 import { Credentials } from '../features/user/user.type';
 
 export const appApi = createApi({
@@ -16,39 +16,49 @@ export const appApi = createApi({
 export const { getRunningQueriesThunk } = appApi.util;
 
 function configureBaseQuery() {
-  const baseUrl =
-    typeof window === 'undefined'
-      ? process.env.SERVER_URL
-      : process.env.NEXT_PUBLIC_SERVER_URL;
-  const baseQuery: AppBaseQuery = fetchBaseQuery({
+  const isServer = typeof window === 'undefined';
+  const baseUrl = isServer
+    ? process.env.SERVER_URL
+    : process.env.NEXT_PUBLIC_SERVER_URL;
+
+  let baseQuery: AppBaseQuery = fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers, { getState }) => {
-      const { credentials } = (getState() as AppState).user;
+      const { accessToken, refreshTokenExp } = (getState() as AppState).user;
 
-      if (credentials) {
-        headers.set('Authorization', `Bearer ${credentials.accessToken}`);
+      if (refreshTokenExp && accessToken) {
+        headers.set('Authorization', `Bearer ${accessToken}`);
       }
 
       return headers;
     },
   });
 
-  const baseQueryWithAuth = configureAuth(baseQuery);
-  const baseQueryWithResponse = configureResponse(baseQueryWithAuth);
+  baseQuery = configureReauthentication(baseQuery);
+  baseQuery = configureUnauthorized(baseQuery);
+  baseQuery = configureResponse(baseQuery);
 
-  return baseQueryWithResponse;
+  return baseQuery;
 }
 
-function configureAuth(baseQuery: AppBaseQuery): AppBaseQuery {
+function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
   const mutex = new Mutex();
   return async (args, api, extraOptions) => {
     const { dispatch, getState } = api;
-    const { credentials } = (getState() as AppState).user;
+    const { accessToken, refreshTokenExp } = (getState() as AppState).user;
     let tokenExpired = false;
 
-    if (credentials) {
-      const { exp } = jwtDecode<JwtPayload>(credentials.accessToken);
+    if (refreshTokenExp && !accessToken) {
+      tokenExpired = true;
+    }
+
+    if (refreshTokenExp && accessToken) {
+      const { exp } = jwtDecode<JwtPayload>(accessToken);
       tokenExpired = dayjs.unix(exp as number).isBefore(dayjs());
+    }
+
+    if (refreshTokenExp && dayjs(refreshTokenExp).isBefore(dayjs())) {
+      dispatch(clearUser());
     }
 
     if (!tokenExpired) {
@@ -57,16 +67,35 @@ function configureAuth(baseQuery: AppBaseQuery): AppBaseQuery {
 
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
-      const endpoint = 'users/current/credentials';
-      const { data } = await baseQuery(endpoint, api, extraOptions);
 
-      dispatch(setUser({ credentials: data as Credentials }));
+      const url = 'users/current/credentials';
+      const credentials = 'include';
+      const { data } = await baseQuery({ url, credentials }, api, extraOptions);
+
+      dispatch(setCredentials(data as Credentials));
       release();
     } else {
       await mutex.waitForUnlock();
     }
 
     return baseQuery(args, api, extraOptions);
+  };
+}
+
+function configureUnauthorized(baseQuery: AppBaseQuery): AppBaseQuery {
+  return async (args, api, extraOptions) => {
+    const { dispatch } = api;
+
+    const result = await baseQuery(args, api, extraOptions);
+
+    if (result.error && result.error.status === 401) {
+      dispatch(clearUser());
+      const url = 'users/signout';
+      const credentials = 'include';
+      return baseQuery({ url, method: 'POST', credentials }, api, extraOptions);
+    }
+
+    return result;
   };
 }
 
@@ -82,7 +111,7 @@ function configureResponse(baseQuery: AppBaseQuery): AppBaseQuery {
 
     const result = await baseQuery(args, api, extraOptions);
 
-    if (extraOptions && !extraOptions.ignoreMessage) {
+    if (extraOptions && extraOptions.ignoreMessage) {
       return result;
     }
 

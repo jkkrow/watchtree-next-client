@@ -1,20 +1,28 @@
+import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 
-import { wrapper } from '@/store';
-import { getVideos } from '@/store/features/video/video.api';
+import { useGetVideosQuery } from '@/store/features/video/video.api';
+import {
+  useSigninMutation,
+  useSignoutMutation,
+} from '@/store/features/user/user.api';
 
-export default function BrowsePage() {
+export default function Browse() {
+  const router = useRouter();
+  const { data } = useGetVideosQuery();
+
+  const [signin] = useSigninMutation();
+  const [signout] = useSignoutMutation();
+
   return (
     <Fragment>
-      <h2>Browse Page</h2>
+      <h2 onClick={() => router.push('/')}>Browse Page</h2>
+      <button
+        onClick={() => signin({ email: 'test@test.com', password: 'Test!234' })}
+      >
+        signin
+      </button>
+      <button onClick={() => signout()}>signout</button>
     </Fragment>
   );
 }
-
-export const getServerSideProps = wrapper.getServerSideProps(({ dispatch }) => {
-  return async (context) => {
-    const { data } = await dispatch(getVideos.initiate());
-
-    return { props: { data: data || null } };
-  };
-});

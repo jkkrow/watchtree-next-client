@@ -1,26 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { UserSliceState } from './user.type';
+import { UserSliceState, User, Credentials } from './user.type';
 
 const initialState: UserSliceState = {
   info: null,
-  credentials: null,
+  accessToken: null,
+  refreshTokenExp: null,
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser(state, { payload }: PayloadAction<Partial<UserSliceState>>) {
-      const { info, credentials } = payload;
-      state.info = info || state.info;
-      state.credentials = credentials || state.credentials;
+    setInfo(state, { payload }: PayloadAction<User>) {
+      state.info = payload;
+    },
+    setCredentials(state, { payload }: PayloadAction<Credentials>) {
+      state.accessToken = payload.accessToken;
+      state.refreshTokenExp = payload.refreshTokenExp;
     },
     clearUser(state) {
       state.info = null;
-      state.credentials = null;
+      state.accessToken = null;
+      state.refreshTokenExp = null;
     },
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setInfo, setCredentials, clearUser } = userSlice.actions;

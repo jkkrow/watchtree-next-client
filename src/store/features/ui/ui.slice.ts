@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { randomUUID } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 
 import { UiSliceState, Message } from './ui.type';
 
@@ -13,7 +13,7 @@ export const uiSlice = createSlice({
   initialState,
   reducers: {
     setMessage(state, { payload }: PayloadAction<Omit<Message, 'id'>>) {
-      state.messages.push({ id: randomUUID(), ...payload });
+      state.messages.push({ id: uuidv4(), ...payload });
     },
     clearMessage(state, { payload }: PayloadAction<{ id: string }>) {
       state.messages = state.messages.filter((msg) => msg.id !== payload.id);

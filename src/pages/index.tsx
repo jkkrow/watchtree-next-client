@@ -1,9 +1,12 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 import styles from '@/styles/Home.module.css';
 
 export default function Home() {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -37,7 +40,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.center}>
+        <div className={styles.center} onClick={() => router.push('/browse')}>
           <Image
             className={styles.logo}
             src="/next.svg"
