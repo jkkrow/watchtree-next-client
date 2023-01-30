@@ -14,8 +14,26 @@ export const appMiddleware = (
   >
 ) => {
   const defaultMiddleware = getDefaultMiddleware();
+
+  const day = 60 * 60 * 24;
+  const week = day * 7;
+  const year = day * 365;
+
   const cookieMiddlewareConfig: NextReduxCookieMiddlewareConfig = {
-    subtrees: ['video.volume', 'user.info', 'user.refreshTokenExp'],
+    subtrees: [
+      {
+        subtree: 'video.volume',
+        maxAge: year,
+      },
+      {
+        subtree: 'user.info',
+        maxAge: week,
+      },
+      {
+        subtree: 'user.refreshTokenExp',
+        maxAge: week,
+      },
+    ],
   };
 
   return defaultMiddleware
