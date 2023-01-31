@@ -1,19 +1,46 @@
 import { appApi } from '@/store/app/api';
+import { MessageResponse } from '@/store/common/common.type';
 import { setInfo, setCredentials, clearUser } from './user.slice';
-import { User, SigninRequest, SigninResponse } from './user.type';
+import {
+  User,
+  SignupRequest,
+  SigninRequest,
+  SigninResponse,
+  ResetPasswordRequest,
+  UpdatePasswordRequest,
+  DeleteUserRequest,
+} from './user.type';
 
 export const userApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query<{ user: User }, void>({
-      query: () => ({ url: 'users/current' }),
+      query: () => ({
+        url: 'users/current',
+      }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
         dispatch(setInfo(data.user));
       },
+      providesTags: ['User', 'UserInfo'],
+    }),
+
+    signup: builder.mutation<SigninResponse, SignupRequest>({
+      query: (body) => ({
+        url: 'users/signup',
+        method: 'POST',
+        body,
+        credentials: 'include',
+      }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+        const { accessToken, refreshTokenExp } = data;
+        dispatch(setCredentials({ accessToken, refreshTokenExp }));
+      },
+      invalidatesTags: ['User'],
     }),
 
     signin: builder.mutation<SigninResponse, SigninRequest>({
-      query: (body: SigninRequest) => ({
+      query: (body) => ({
         url: 'users/signin',
         method: 'POST',
         body,
@@ -21,10 +48,25 @@ export const userApi = appApi.injectEndpoints({
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
-        const { user, accessToken, refreshTokenExp } = data;
-        dispatch(setInfo(user));
+        const { accessToken, refreshTokenExp } = data;
         dispatch(setCredentials({ accessToken, refreshTokenExp }));
       },
+      invalidatesTags: ['User'],
+    }),
+
+    signinGoogle: builder.mutation<SigninResponse, string>({
+      query: (token) => ({
+        url: 'users/signin-google',
+        method: 'POST',
+        body: { token },
+        credentials: 'include',
+      }),
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        const { data } = await queryFulfilled;
+        const { accessToken, refreshTokenExp } = data;
+        dispatch(setCredentials({ accessToken, refreshTokenExp }));
+      },
+      invalidatesTags: ['User'],
     }),
 
     signout: builder.mutation<void, void>({
@@ -38,10 +80,128 @@ export const userApi = appApi.injectEndpoints({
         await queryFulfilled;
       },
       extraOptions: { ignoreMessage: true },
+      invalidatesTags: ['User'],
+    }),
+
+    sendVerification: builder.mutation<MessageResponse, string>({
+      query: (email) => ({
+        url: 'users/verification',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+
+    checkVerification: builder.mutation<MessageResponse, string>({
+      query: (token) => ({
+        url: `users/verification/${token}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['UserInfo'],
+    }),
+
+    sendRecovery: builder.mutation<MessageResponse, string>({
+      query: (email) => ({
+        url: 'users/recovery',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+
+    checkRecovery: builder.mutation<MessageResponse, string>({
+      query: (token) => ({
+        url: `users/recovery/${token}`,
+        method: 'POST',
+      }),
+    }),
+
+    resetPassword: builder.mutation<MessageResponse, ResetPasswordRequest>({
+      query: ({ token, password, confirmPassword }) => ({
+        url: `users/recovery/${token}/password`,
+        method: 'PATCH',
+        body: { password, confirmPassword },
+      }),
+    }),
+
+    updateName: builder.mutation<MessageResponse, string>({
+      query: (name) => ({
+        url: 'users/current/name',
+        method: 'PATCH',
+        body: { name },
+      }),
+      invalidatesTags: ['UserInfo'],
+    }),
+
+    updatePassword: builder.mutation<MessageResponse, UpdatePasswordRequest>({
+      query: (body) => ({
+        url: 'users/current/password',
+        method: 'PATCH',
+        body,
+      }),
+    }),
+
+    updatePicture: builder.mutation<MessageResponse, string>({
+      query: (picture) => ({
+        url: 'users/current/picture',
+        method: 'PATCH',
+        body: { picture },
+      }),
+      invalidatesTags: ['UserInfo'],
+    }),
+
+    createMembership: builder.mutation<MessageResponse, string>({
+      query: (subscriptionId) => ({
+        url: 'users/current/membership',
+        method: 'POST',
+        body: { subscriptionId },
+      }),
+      invalidatesTags: ['UserInfo'],
+    }),
+
+    cancelMembership: builder.mutation<MessageResponse, string | void>({
+      query: (reason) => ({
+        url: 'users/current/membership/cancel',
+        method: 'POST',
+        body: { reason },
+      }),
+      invalidatesTags: ['UserInfo'],
+    }),
+
+    deleteUser: builder.mutation<MessageResponse, DeleteUserRequest>({
+      query: (body) => ({
+        url: 'users/current/deletion',
+        method: 'POST',
+        body,
+      }),
+    }),
+
+    deleteGoogleUser: builder.mutation<MessageResponse, string>({
+      query: (token) => ({
+        url: 'users/current/deletion-google',
+        method: 'POST',
+        body: { token },
+      }),
     }),
   }),
 });
 
-export const { getUser, signin, signout } = userApi.endpoints;
-export const { useGetUserQuery, useSigninMutation, useSignoutMutation } =
-  userApi;
+export const {
+  getUser,
+  signup,
+  signin,
+  signinGoogle,
+  signout,
+  sendVerification,
+  checkVerification,
+  sendRecovery,
+  checkRecovery,
+  resetPassword,
+} = userApi.endpoints;
+
+export const {
+  useGetUserQuery,
+  useSignupMutation,
+  useSigninMutation,
+  useSigninGoogleMutation,
+  useSignoutMutation,
+  useSendVerificationMutation,
+} = userApi;

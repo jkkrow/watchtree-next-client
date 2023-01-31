@@ -11,6 +11,7 @@ import { Credentials } from '../features/user/user.type';
 export const appApi = createApi({
   baseQuery: configureBaseQuery(),
   endpoints: () => ({}),
+  tagTypes: ['User', 'UserInfo'],
 });
 
 export const { getRunningQueriesThunk } = appApi.util;
@@ -57,7 +58,7 @@ function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
       tokenExpired = dayjs.unix(exp as number).isBefore(dayjs());
     }
 
-    if (refreshTokenExp && dayjs(refreshTokenExp).isBefore(dayjs())) {
+    if (refreshTokenExp && dayjs().isAfter(refreshTokenExp)) {
       dispatch(clearUser());
     }
 

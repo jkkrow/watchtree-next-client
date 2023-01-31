@@ -5,6 +5,7 @@ const videoApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     getVideos: builder.query<GetVideosResult, void>({
       query: () => ({ url: `video-trees` }),
+      providesTags: ['User'],
     }),
     getCreatedVideo: builder.query({
       query: (id: string) => ({ url: `users/current/video-trees/${id}` }),
