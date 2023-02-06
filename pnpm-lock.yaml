@@ -12,6 +12,7 @@ specifiers:
   async-mutex: ^0.4.0
   autoprefixer: ^10.4.13
   dayjs: ^1.11.7
+  dexie: ^3.2.3
   eslint: 8.32.0
   eslint-config-next: 13.1.2
   jwt-decode: ^3.1.2
@@ -38,6 +39,7 @@ dependencies:
   async-mutex: 0.4.0
   autoprefixer: 10.4.13_postcss@8.4.21
   dayjs: 1.11.7
+  dexie: 3.2.3
   eslint: 8.32.0
   eslint-config-next: 13.1.2_7uibuqfxkfaozanbtbziikiqje
   jwt-decode: 3.1.2
@@ -797,6 +799,11 @@ packages:
       acorn-node: 1.8.2
       defined: 1.0.1
       minimist: 1.2.7
+    dev: false
+
+  /dexie/3.2.3:
+    resolution: {integrity: sha512-iHayBd4UYryDCVUNa3PMsJMEnd8yjyh5p7a+RFeC8i8n476BC9wMhVvqiImq5zJZJf5Tuer+s4SSj+AA3x+ZbQ==}
+    engines: {node: '>=6.0'}
     dev: false
 
   /didyoumean/1.2.2:
