@@ -2,7 +2,7 @@ import { appApi } from '@/store/app/api';
 import { MessageResponse } from '@/store/common/common.type';
 import { setInfo, setCredentials, clearUser } from './user.slice';
 import {
-  User,
+  GetUserRequest,
   SignupRequest,
   SigninRequest,
   SigninResponse,
@@ -13,7 +13,7 @@ import {
 
 export const userApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
-    getUser: builder.query<{ user: User }, void>({
+    getUser: builder.query<GetUserRequest, void>({
       query: () => ({
         url: 'users/current',
       }),
@@ -166,7 +166,7 @@ export const userApi = appApi.injectEndpoints({
       invalidatesTags: ['UserInfo'],
     }),
 
-    deleteUser: builder.mutation<MessageResponse, DeleteUserRequest>({
+    deleteAccount: builder.mutation<MessageResponse, DeleteUserRequest>({
       query: (body) => ({
         url: 'users/current/deletion',
         method: 'POST',
@@ -174,7 +174,7 @@ export const userApi = appApi.injectEndpoints({
       }),
     }),
 
-    deleteGoogleUser: builder.mutation<MessageResponse, string>({
+    deleteGoogleAccount: builder.mutation<MessageResponse, string>({
       query: (token) => ({
         url: 'users/current/deletion-google',
         method: 'POST',
@@ -195,6 +195,13 @@ export const {
   sendRecovery,
   checkRecovery,
   resetPassword,
+  updateName,
+  updatePassword,
+  updatePicture,
+  createMembership,
+  cancelMembership,
+  deleteAccount,
+  deleteGoogleAccount,
 } = userApi.endpoints;
 
 export const {
@@ -204,4 +211,15 @@ export const {
   useSigninGoogleMutation,
   useSignoutMutation,
   useSendVerificationMutation,
+  useCheckVerificationMutation,
+  useSendRecoveryMutation,
+  useCheckRecoveryMutation,
+  useResetPasswordMutation,
+  useUpdateNameMutation,
+  useUpdatePasswordMutation,
+  useUpdatePictureMutation,
+  useCreateMembershipMutation,
+  useCancelMembershipMutation,
+  useDeleteAccountMutation,
+  useDeleteGoogleAccountMutation,
 } = userApi;

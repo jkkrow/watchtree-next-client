@@ -40,9 +40,13 @@ export type AppBaseQuery = BaseQueryFn<
   unknown,
   FetchBaseQueryError,
   AppQueryExtraOptions,
-  FetchBaseQueryMeta
+  FetchBaseQueryMeta & AppQueryMeta
 >;
 export type AppQueryExtraOptions = { ignoreMessage?: boolean };
+export type AppQueryMeta = {
+  userId: string | null;
+  environment: 'server' | 'client';
+};
 export interface AppListener extends ListenerMiddlewareInstance {
   startListening: TypedStartListening<AppState, AppDispatch>;
 }

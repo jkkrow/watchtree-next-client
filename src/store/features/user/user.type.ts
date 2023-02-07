@@ -34,6 +34,10 @@ export interface SignupRequest {
   confirmPassword: string;
 }
 
+export interface GetUserRequest {
+  user: User;
+}
+
 export interface SigninRequest {
   email: string;
   password: string;

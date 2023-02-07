@@ -1,5 +1,6 @@
 import { db } from './db';
 
+import { fastForward, generateToken } from './db.utils';
 import {
   VideoTreeEntryWithData,
   VideoTreeWithData,
@@ -9,22 +10,35 @@ import {
   LocalHistory,
 } from '@/store/features/history/history.type';
 
-export async function saveLocalHistory(history: LocalHistory) {
+export async function saveLocalHistory(
+  params: Omit<LocalHistory, 'updatedAt'>
+) {
+  const history: LocalHistory = { ...params, updatedAt: new Date().toString() };
   await db.histories.put(history);
 }
 
-export async function removeLocalHistory(videoId: string) {
+export async function deleteLocalHistory(videoId: string) {
   await db.histories.delete(videoId);
 }
 
 export async function getLocalHistories(params: GetHistoriesRequest) {
-  const { page, max, skipEnded } = params;
-  return db.histories
-    .where(skipEnded ? { ended: false } : {})
+  const { token, max, skipEnded } = params;
+
+  const filterFn = (item: LocalHistory) => {
+    if (!skipEnded) return true;
+    return item.ended === false;
+  };
+
+  const localHistories = await db.histories
+    .filter(fastForward(token, 'videoId', filterFn))
     .limit(max)
-    .offset(max * (page - 1))
     .reverse()
     .sortBy('updatedAt');
+
+  const lastEntry = localHistories[localHistories.length - 1];
+  const newToken = lastEntry ? generateToken(lastEntry) : null;
+
+  return { localHistories, token: newToken };
 }
 
 export async function applyLocalHistory(video: VideoTreeWithData) {

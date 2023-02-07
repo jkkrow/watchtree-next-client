@@ -11,7 +11,7 @@ import { Credentials } from '../features/user/user.type';
 export const appApi = createApi({
   baseQuery: configureBaseQuery(),
   endpoints: () => ({}),
-  tagTypes: ['User', 'UserInfo'],
+  tagTypes: ['User', 'UserInfo', 'History'],
 });
 
 export const { getRunningQueriesThunk } = appApi.util;
@@ -22,7 +22,7 @@ function configureBaseQuery() {
     ? process.env.SERVER_URL
     : process.env.NEXT_PUBLIC_SERVER_URL;
 
-  let baseQuery: AppBaseQuery = fetchBaseQuery({
+  let baseQuery = fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers, { getState }) => {
       const { accessToken, refreshTokenExp } = (getState() as AppState).user;
@@ -33,11 +33,12 @@ function configureBaseQuery() {
 
       return headers;
     },
-  });
+  }) as AppBaseQuery;
 
   baseQuery = configureReauthentication(baseQuery);
   baseQuery = configureUnauthorized(baseQuery);
   baseQuery = configureResponse(baseQuery);
+  baseQuery = configureMetadata(baseQuery);
 
   return baseQuery;
 }
@@ -129,5 +130,20 @@ function configureResponse(baseQuery: AppBaseQuery): AppBaseQuery {
     }
 
     return result;
+  };
+}
+
+function configureMetadata(baseQuery: AppBaseQuery): AppBaseQuery {
+  return async (args, api, extraOptions) => {
+    const { info } = (api.getState() as AppState).user;
+    const userId = info ? info.id : null;
+    const environment = typeof window === 'undefined' ? 'server' : 'client';
+
+    const result = await baseQuery(args, api, extraOptions);
+
+    return {
+      ...result,
+      meta: result.meta && { ...result.meta, userId, environment },
+    };
   };
 }
