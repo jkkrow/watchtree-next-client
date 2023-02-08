@@ -2,21 +2,21 @@ import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import { useEffect } from 'react';
 
+import { useAppSelector } from '@/hooks/store.hook';
+import { useGetVideosQuery } from '@/store/features/video/video.api';
 import {
   useSigninMutation,
   useSignoutMutation,
 } from '@/store/features/user/user.api';
 import {
-  useGetHistoriesQuery,
   useSaveHistoryMutation,
   useDeleteHistoryMutation,
 } from '@/store/features/history/history.api';
-import { useAppSelector } from '@/hooks/store.hook';
 
 export default function Browse() {
   const router = useRouter();
   const { info } = useAppSelector((state) => state.user);
-  const { data } = useGetHistoriesQuery({ max: 30, skipEnded: true });
+  const { data } = useGetVideosQuery({ max: 30 });
 
   const [signin] = useSigninMutation();
   const [signout] = useSignoutMutation();
@@ -25,7 +25,8 @@ export default function Browse() {
   const [deleteHistory] = useDeleteHistoryMutation();
 
   useEffect(() => {
-    console.log(data);
+    console.log(data?.videoTrees.map((d) => d.id));
+    console.log(data?.videoTrees.map((d) => d.history));
   }, [data]);
 
   const signinHandler = () => {

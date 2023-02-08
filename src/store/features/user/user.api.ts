@@ -21,7 +21,7 @@ export const userApi = appApi.injectEndpoints({
         const { data } = await queryFulfilled;
         dispatch(setInfo(data.user));
       },
-      providesTags: ['User', 'UserInfo'],
+      providesTags: ['User', { type: 'User', id: 'INFO' }],
     }),
 
     signup: builder.mutation<SigninResponse, SignupRequest>({
@@ -96,7 +96,7 @@ export const userApi = appApi.injectEndpoints({
         url: `users/verification/${token}`,
         method: 'POST',
       }),
-      invalidatesTags: ['UserInfo'],
+      invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
     sendRecovery: builder.mutation<MessageResponse, string>({
@@ -128,7 +128,7 @@ export const userApi = appApi.injectEndpoints({
         method: 'PATCH',
         body: { name },
       }),
-      invalidatesTags: ['UserInfo'],
+      invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
     updatePassword: builder.mutation<MessageResponse, UpdatePasswordRequest>({
@@ -145,7 +145,7 @@ export const userApi = appApi.injectEndpoints({
         method: 'PATCH',
         body: { picture },
       }),
-      invalidatesTags: ['UserInfo'],
+      invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
     createMembership: builder.mutation<MessageResponse, string>({
@@ -154,7 +154,7 @@ export const userApi = appApi.injectEndpoints({
         method: 'POST',
         body: { subscriptionId },
       }),
-      invalidatesTags: ['UserInfo'],
+      invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
     cancelMembership: builder.mutation<MessageResponse, string | void>({
@@ -163,7 +163,7 @@ export const userApi = appApi.injectEndpoints({
         method: 'POST',
         body: { reason },
       }),
-      invalidatesTags: ['UserInfo'],
+      invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
     deleteAccount: builder.mutation<MessageResponse, DeleteUserRequest>({

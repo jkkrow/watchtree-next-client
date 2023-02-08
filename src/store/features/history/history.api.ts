@@ -8,11 +8,11 @@ import {
   sortByLocalHistory,
 } from '@/services/history.service';
 import { MessageResponse } from '@/store/common/common.type';
-import { GetVideosResponse } from '../video/video.type';
+import { GetVideosResponse, VideoTreeWithData } from '../video/video.type';
 import {
   GetHistoriesRequest,
-  SaveHistoryRequest,
   GetHistoriesResponse,
+  SaveHistoryRequest,
 } from './history.type';
 
 const historyApi = appApi.injectEndpoints({
@@ -48,7 +48,14 @@ const historyApi = appApi.injectEndpoints({
 
         return { data: customData };
       },
-      providesTags: ['User', 'History'],
+      providesTags: (result) => [
+        ...(result
+          ? result.videoTrees
+              .filter((item): item is VideoTreeWithData => !!item)
+              .map(({ id }) => ({ type: 'Video' as const, id }))
+          : []),
+        'User',
+      ],
     }),
 
     saveHistory: builder.mutation<MessageResponse, SaveHistoryRequest>({
@@ -69,7 +76,7 @@ const historyApi = appApi.injectEndpoints({
         return { data: { message: 'History saved successfully' } };
       },
       extraOptions: { ignoreMessage: true },
-      invalidatesTags: ['History'],
+      invalidatesTags: (_, __, { videoId }) => [{ type: 'Video', id: videoId }],
     }),
 
     deleteHistory: builder.mutation<MessageResponse, string>({
@@ -84,7 +91,7 @@ const historyApi = appApi.injectEndpoints({
         await deleteLocalHistory(arg);
         return { data: { message: 'History deleted successfully' } };
       },
-      invalidatesTags: ['History'],
+      invalidatesTags: (_, __, id) => [{ type: 'Video', id }],
     }),
   }),
 });

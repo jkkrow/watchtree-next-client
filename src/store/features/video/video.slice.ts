@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { VideoSliceState } from './video.type';
+import { VideoSliceState, VideoTree } from './video.type';
 
 const initialState: VideoSliceState = {
   videoTree: null,
@@ -16,17 +16,30 @@ export const videoSlice = createSlice({
   name: 'video',
   initialState,
   reducers: {
-    setVideoTree() {},
-    setActiveNode(state, { payload }) {
+    setVideoTree(state, { payload }: PayloadAction<VideoTree>) {
+      state.videoTree = payload;
+    },
+    setActiveNode(state, { payload }: PayloadAction<string>) {
       state.activeNodeId = payload;
     },
-    setInitialProgress() {},
-    setCurrentProgress() {},
-    setVolume(state, { payload }) {
+    setInitialProgress(state, { payload }: PayloadAction<number>) {
+      state.initialProgress = payload;
+    },
+    setCurrentProgress(state, { payload }: PayloadAction<number>) {
+      state.currentProgress = payload;
+    },
+    setVolume(state, { payload }: PayloadAction<number>) {
       state.volume = payload;
     },
-    setResolution() {},
-    setPlaybackRate() {},
+    setResolution(state, { payload }: PayloadAction<number | 'auto'>) {
+      state.resolution = payload;
+    },
+    setPlaybackRate(state, { payload }: PayloadAction<number>) {
+      state.playbackRate = payload;
+    },
+    clearVideoTree(state) {
+      state.videoTree = null;
+    },
   },
 });
 
@@ -38,4 +51,5 @@ export const {
   setVolume,
   setResolution,
   setPlaybackRate,
+  clearVideoTree,
 } = videoSlice.actions;

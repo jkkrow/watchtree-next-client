@@ -26,6 +26,14 @@ export const appMiddleware = (
         maxAge: year,
       },
       {
+        subtree: 'video.resolution',
+        maxAge: year,
+      },
+      {
+        subtree: 'video.playbackRate',
+        maxAge: year,
+      },
+      {
         subtree: 'user.info',
         maxAge: week,
       },

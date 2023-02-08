@@ -4,6 +4,7 @@ import { fastForward, generateToken } from './db.utils';
 import {
   VideoTreeEntryWithData,
   VideoTreeWithData,
+  DeletedVideoTree,
 } from '@/store/features/video/video.type';
 import {
   GetHistoriesRequest,
@@ -69,8 +70,10 @@ export async function sortByLocalHistory(
 ) {
   const videosWithHistory = localHistories.map((localHistory) => {
     const video = videos.find((video) => video.id === localHistory.videoId);
-    return video ? { ...video, history: localHistory } : null;
+    return video
+      ? { ...video, history: localHistory }
+      : { id: localHistory.videoId, data: null };
   });
 
-  return videosWithHistory as (VideoTreeEntryWithData | null)[];
+  return videosWithHistory as (VideoTreeEntryWithData | DeletedVideoTree)[];
 }
