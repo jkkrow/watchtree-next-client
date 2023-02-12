@@ -9,6 +9,8 @@ import {
   setSaved,
   setProgress,
   clearProgress,
+  updateTree,
+  clearUpload,
 } from './upload.slice';
 import {
   InitiateUploadResponse,
@@ -152,8 +154,8 @@ export const uploadApi = appApi.injectEndpoints({
         });
 
         const uploadResponses = await Promise.all(uploadPartPromises);
-        const uploadParts = uploadResponses.map((response: any, index) => ({
-          Etag: response.meta?.response?.headers?.etag,
+        const uploadParts = uploadResponses.map((response, index) => ({
+          Etag: response.meta?.headers.etag,
           PartNumber: index + 1,
         }));
 
@@ -178,19 +180,85 @@ export const uploadApi = appApi.injectEndpoints({
       },
     }),
 
-    // uploadThumbnail: builder.mutation({
-    //   queryFn: () => {},
-    // }),
+    uploadThumbnail: builder.mutation<MessageResponse, File>({
+      queryFn: async (arg, api, extraOptions, baseQuery) => {
+        const { dispatch, getState } = api;
+        const { uploadTree } = (getState() as AppState).upload;
 
-    // saveUpload: builder.mutation({
-    //   queryFn: () => {},
-    //   invalidatesTags: (_, __, { id }) => [{ type: 'Video', id }],
-    // }),
+        if (!uploadTree) return { error: { status: 400 } };
+        const { data: urlData, error: urlError } = await baseQuery({
+          url: 'upload/image',
+          method: 'put',
+          data: { key: uploadTree?.thumbnail, fileType: arg.type },
+        });
 
-    // completeUpload: builder.mutation({
-    //   queryFn: () => {},
-    //   invalidatesTags: (_, __, { id }) => ['Video'],
-    // }),
+        if (urlError) return { error: urlError };
+        const uploadQuery = axiosBaseQuery();
+        const { presignedUrl, key } = urlData as {
+          presignedUrl: string;
+          key: string;
+        };
+
+        const { error: uploadError } = await uploadQuery(
+          {
+            url: presignedUrl,
+            data: arg,
+            headers: { 'Content-Type': arg.type },
+          },
+          api,
+          extraOptions
+        );
+
+        if (uploadError) return { error: uploadError };
+        dispatch(updateTree({ thumbnail: key }));
+        const updatedTree = (getState() as AppState).upload.uploadTree!;
+
+        return baseQuery({
+          url: `video-trees/${uploadTree.id}`,
+          method: 'post',
+          data: updatedTree,
+        }) as { data: MessageResponse };
+      },
+    }),
+
+    saveUpload: builder.mutation<MessageResponse, void>({
+      queryFn: (_, api, __, baseQuery) => {
+        const { getState } = api;
+        const { uploadTree } = (getState() as AppState).upload;
+
+        if (!uploadTree) return { error: { status: 400 } };
+        return baseQuery({
+          url: `video-trees/${uploadTree.id}`,
+          method: 'patch',
+          data: uploadTree,
+        }) as { data: MessageResponse };
+      },
+      invalidatesTags: ['Video'],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(setSaved(true));
+      },
+    }),
+
+    completeUpload: builder.mutation<MessageResponse, void>({
+      queryFn: (_, api, __, baseQuery) => {
+        const { dispatch, getState } = api;
+        dispatch(updateTree({ editing: false }));
+        const { uploadTree } = (getState() as AppState).upload;
+
+        if (!uploadTree) return { error: { status: 400 } };
+        return baseQuery({
+          url: `video-trees/${uploadTree.id}`,
+          method: 'patch',
+          data: uploadTree,
+        }) as { data: MessageResponse };
+      },
+      invalidatesTags: ['Video'],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(clearUpload());
+      },
+    }),
 
     deleteUpload: builder.mutation<MessageResponse, string>({
       query: (id) => ({ url: `video-trees/${id}`, method: 'delete' }),
@@ -198,9 +266,36 @@ export const uploadApi = appApi.injectEndpoints({
         { type: 'Video', id },
         { type: 'Video', id: 'LIST' },
       ],
-      // onQueryStarted: () => {},
+      onQueryStarted: async (id, { dispatch, getState, queryFulfilled }) => {
+        await queryFulfilled;
+        const { uploadTree } = (getState() as AppState).upload;
+        if (!uploadTree || id !== uploadTree.id) return;
+        dispatch(clearUpload());
+      },
     }),
   }),
 });
 
-export const { ...rest } = uploadApi;
+export const {
+  useInitiateUploadMutation,
+  useContinueUploadMutation,
+  useAppendNodeMutation,
+  useDiscardNodeMutation,
+  useUploadVideoMutation,
+  useUploadThumbnailMutation,
+  useSaveUploadMutation,
+  useCompleteUploadMutation,
+  useDeleteUploadMutation,
+} = uploadApi;
+
+export const {
+  initiateUpload,
+  continueUpload,
+  appendNode,
+  discardNode,
+  uploadVideo,
+  uploadThumbnail,
+  saveUpload,
+  completeUpload,
+  deleteUpload,
+} = uploadApi.endpoints;
