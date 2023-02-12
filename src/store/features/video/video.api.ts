@@ -9,7 +9,6 @@ import {
   GetVideosResponse,
   SearchVideosRequest,
   SearchVideosResponse,
-  GetCreatedVideoResponse,
   GetCreatedVideosResponse,
 } from './video.type';
 
@@ -24,7 +23,11 @@ const videoApi = appApi.injectEndpoints({
           : data.videoTree;
         return { videoTree };
       },
-      providesTags: (_, __, id) => [{ type: 'Video', id }, 'User'],
+      providesTags: (_, __, id) => [
+        { type: 'Video', id },
+        { type: 'History', id },
+        'User',
+      ],
     }),
 
     getVideos: builder.query<GetVideosResponse, GetVideosRequest>({
@@ -63,13 +66,8 @@ const videoApi = appApi.injectEndpoints({
       ],
     }),
 
-    getCreatedVideo: builder.query<GetCreatedVideoResponse, string>({
-      query: (id) => ({ url: `users/current/video-trees/${id}` }),
-      providesTags: (_, __, id) => [{ type: 'Video', id }],
-    }),
-
     getCreatedVideos: builder.query<GetCreatedVideosResponse, void>({
-      query: () => ({ url: 'users/current/video-trees' }),
+      query: () => ({ url: 'channels/current/video-trees' }),
       providesTags: (result) => [
         ...(result
           ? result.videoTrees.map(({ id }) => ({ type: 'Video' as const, id }))
@@ -78,21 +76,15 @@ const videoApi = appApi.injectEndpoints({
         'User',
       ],
     }),
-
-    createVideoTree: builder.mutation({
-      query: () => ({ url: 'video-trees', method: 'POST' }),
-      invalidatesTags: ['Video'],
-    }),
-
-    deleteVideoTree: builder.mutation({
-      query: (id: string) => ({ url: `video-trees/${id}`, method: 'DELETE' }),
-      invalidatesTags: (_, __, arg) => [
-        { type: 'Video', id: arg },
-        { type: 'Video', id: 'LIST' },
-      ],
-    }),
   }),
 });
 
-export const { useGetVideosQuery, useGetCreatedVideoQuery } = videoApi;
-export const { getVideos, getCreatedVideo } = videoApi.endpoints;
+export const {
+  useGetVideoQuery,
+  useGetVideosQuery,
+  useSearchVideosQuery,
+  useGetCreatedVideosQuery,
+} = videoApi;
+
+export const { getVideo, getVideos, searchVideos, getCreatedVideos } =
+  videoApi.endpoints;

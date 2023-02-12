@@ -72,6 +72,11 @@ export interface VideoTreeCreator {
   picture: string;
 }
 
+export interface DeletedVideoTree {
+  id: string;
+  data: null;
+}
+
 export interface GetVideoResponse {
   videoTree: VideoTreeWithData;
 }
@@ -90,17 +95,8 @@ export interface SearchVideosResponse extends OffsetPaginationResponse {
   videoTrees: VideoTreeEntryWithData[];
 }
 
-export interface GetCreatedVideoResponse {
-  videoTree: VideoTree;
-}
-
 export interface GetCreatedVideosResponse extends OffsetPaginationResponse {
   videoTrees: VideoTreeEntry[];
-}
-
-export interface DeletedVideoTree {
-  id: string;
-  data: null;
 }
 
 export type VideoTreeStatus = 'public' | 'private';

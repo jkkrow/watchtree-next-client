@@ -5,13 +5,8 @@ import {
   ListenerMiddlewareInstance,
   TypedStartListening,
 } from '@reduxjs/toolkit';
-import {
-  setupListeners,
-  BaseQueryFn,
-  FetchArgs,
-  FetchBaseQueryError,
-  FetchBaseQueryMeta,
-} from '@reduxjs/toolkit/query/react';
+import { setupListeners, BaseQueryFn } from '@reduxjs/toolkit/query/react';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { createWrapper } from 'next-redux-wrapper';
 import { wrapMakeStore } from 'next-redux-cookie-wrapper';
 
@@ -36,16 +31,21 @@ export type AppState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];
 export type AppThunk<T = void> = ThunkAction<T, AppState, unknown, Action>;
 export type AppBaseQuery = BaseQueryFn<
-  FetchArgs | string,
+  AxiosRequestConfig,
   unknown,
-  FetchBaseQueryError,
+  AppBaseQueryError,
   AppQueryExtraOptions,
-  FetchBaseQueryMeta & AppQueryMeta
+  AppQueryMeta
 >;
+export type AppBaseQueryConfig = {
+  baseURL?: string;
+  headers?: AxiosRequestConfig['headers'];
+};
+export type AppBaseQueryError = { status?: number; data?: { message: string } };
 export type AppQueryExtraOptions = { ignoreMessage?: boolean };
-export type AppQueryMeta = {
-  userId: string | null;
-  environment: 'server' | 'client';
+export type AppQueryMeta = Omit<AxiosResponse, 'data'> & {
+  userId?: string | null;
+  environment?: 'server' | 'client';
 };
 export interface AppListener extends ListenerMiddlewareInstance {
   startListening: TypedStartListening<AppState, AppDispatch>;

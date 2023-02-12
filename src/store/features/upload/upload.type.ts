@@ -1,12 +1,48 @@
-import { VideoTree } from '../video/video.type';
+import { VideoTree, VideoNode } from '../video/video.type';
 
 export interface UploadSliceState {
-  sourceTree: null;
-  renderTree: null;
+  uploadTree: VideoTree | null;
   activeNodeId: string;
-  isUploadSaved: boolean;
+  progresses: UploadProgress[];
+  errors: UploadError[];
+  saved: boolean;
 }
 
-export interface SourceTree extends VideoTree {}
+export interface UploadError {
+  nodeId: string;
+  message: string;
+}
 
-export interface RenderTree extends VideoTree {}
+export interface UploadProgress {
+  fileName: string;
+  percentage: number;
+  rate: number;
+}
+
+export interface InitiateUploadResponse {
+  videoTree: VideoTree;
+}
+
+export interface AppendNodeRequest {
+  id: string;
+  parentId: string;
+}
+
+export interface AppendNodeResponse {
+  videoNode: VideoNode;
+}
+
+export interface DiscardNodeRequest {
+  id: string;
+  nodeId: string;
+}
+
+export interface DeleteNodeRequest {
+  id: string;
+  nodeId: string;
+}
+
+export interface UploadVideoRequest {
+  nodeId: string;
+  file: File;
+}

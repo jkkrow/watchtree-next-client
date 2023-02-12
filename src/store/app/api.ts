@@ -1,9 +1,10 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
+import { createApi } from '@reduxjs/toolkit/dist/query/react';
 import { Mutex } from 'async-mutex';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import dayjs from 'dayjs';
 
-import type { AppState, AppBaseQuery } from '..';
+import type { AppState, AppBaseQuery, AppBaseQueryConfig } from '..';
 import { setMessage, clearMessage } from '../features/ui/ui.slice';
 import { setCredentials, clearUser } from '../features/user/user.slice';
 import { Credentials } from '../features/user/user.type';
@@ -11,33 +12,49 @@ import { Credentials } from '../features/user/user.type';
 export const appApi = createApi({
   baseQuery: configureBaseQuery(),
   endpoints: () => ({}),
-  tagTypes: ['User', 'Video'],
+  tagTypes: ['User', 'Video', 'History'],
 });
 
 export const { getRunningQueriesThunk } = appApi.util;
 
-function configureBaseQuery() {
-  const isServer = typeof window === 'undefined';
-  const baseUrl = isServer
-    ? process.env.SERVER_URL
-    : process.env.NEXT_PUBLIC_SERVER_URL;
+export function axiosBaseQuery(config?: AppBaseQueryConfig): AppBaseQuery {
+  const { baseURL, headers } = config || {};
+  return async (arg) => {
+    try {
+      const axiosInstance = axios.create({ baseURL, headers });
+      const { data, ...rest } = await axiosInstance(arg);
+      return { data, meta: rest };
+    } catch (axiosError) {
+      const err = axiosError as AxiosError;
+      const status = err.response?.status;
+      const data = err.response?.data as any;
+      return { error: { status, data: data || err.message } };
+    }
+  };
+}
 
-  let baseQuery = fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers, { getState }) => {
-      const { accessToken, refreshTokenExp } = (getState() as AppState).user;
+function configureBaseQuery(): AppBaseQuery {
+  let baseQuery: AppBaseQuery = async (arg, api, extraOptions) => {
+    const { getState } = api;
+    const isServer = typeof window === 'undefined';
+    const baseURL = isServer
+      ? process.env.SERVER_URL
+      : process.env.NEXT_PUBLIC_SERVER_URL;
 
-      if (refreshTokenExp && accessToken) {
-        headers.set('Authorization', `Bearer ${accessToken}`);
-      }
+    const { accessToken, refreshTokenExp } = (getState() as AppState).user;
+    const headers: AxiosRequestConfig['headers'] = {};
 
-      return headers;
-    },
-  }) as AppBaseQuery;
+    if (refreshTokenExp && accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    const baseQuery = axiosBaseQuery({ baseURL, headers });
+    return baseQuery(arg, api, extraOptions);
+  };
 
   baseQuery = configureReauthentication(baseQuery);
   baseQuery = configureUnauthorized(baseQuery);
-  baseQuery = configureResponse(baseQuery);
+  baseQuery = configureMessageResponse(baseQuery);
   baseQuery = configureMetadata(baseQuery);
 
   return baseQuery;
@@ -70,9 +87,11 @@ function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
 
-      const url = 'users/current/credentials';
-      const credentials = 'include';
-      const { data } = await baseQuery({ url, credentials }, api, extraOptions);
+      const customArg = {
+        url: 'users/current/credentials',
+        withCredentials: true,
+      };
+      const { data } = await baseQuery(customArg, api, extraOptions);
 
       dispatch(setCredentials(data as Credentials));
       release();
@@ -92,16 +111,19 @@ function configureUnauthorized(baseQuery: AppBaseQuery): AppBaseQuery {
 
     if (result.error && result.error.status === 401) {
       dispatch(clearUser());
-      const url = 'users/signout';
-      const credentials = 'include';
-      return baseQuery({ url, method: 'POST', credentials }, api, extraOptions);
+      const customArg = {
+        url: 'users/signout',
+        method: 'post',
+        withCredentials: true,
+      };
+      return baseQuery(customArg, api, extraOptions);
     }
 
     return result;
   };
 }
 
-function configureResponse(baseQuery: AppBaseQuery): AppBaseQuery {
+function configureMessageResponse(baseQuery: AppBaseQuery): AppBaseQuery {
   return async (args, api, extraOptions) => {
     const { dispatch, getState, endpoint: action } = api;
     const { messages } = (getState() as AppState).ui;

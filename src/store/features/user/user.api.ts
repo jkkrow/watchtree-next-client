@@ -1,4 +1,5 @@
-import { appApi } from '@/store/app/api';
+import { AppState } from '@/store';
+import { appApi, axiosBaseQuery } from '@/store/app/api';
 import { MessageResponse } from '@/store/common/common.type';
 import { setInfo, setCredentials, clearUser } from './user.slice';
 import {
@@ -14,9 +15,7 @@ import {
 export const userApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query<GetUserRequest, void>({
-      query: () => ({
-        url: 'users/current',
-      }),
+      query: () => ({ url: 'users/current' }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
         dispatch(setInfo(data.user));
@@ -25,11 +24,11 @@ export const userApi = appApi.injectEndpoints({
     }),
 
     signup: builder.mutation<SigninResponse, SignupRequest>({
-      query: (body) => ({
+      query: (data) => ({
         url: 'users/signup',
-        method: 'POST',
-        body,
-        credentials: 'include',
+        method: 'post',
+        data,
+        withCredentials: true,
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
@@ -40,11 +39,11 @@ export const userApi = appApi.injectEndpoints({
     }),
 
     signin: builder.mutation<SigninResponse, SigninRequest>({
-      query: (body) => ({
+      query: (data) => ({
         url: 'users/signin',
-        method: 'POST',
-        body,
-        credentials: 'include',
+        method: 'post',
+        data,
+        withCredentials: true,
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
@@ -57,9 +56,9 @@ export const userApi = appApi.injectEndpoints({
     signinGoogle: builder.mutation<SigninResponse, string>({
       query: (token) => ({
         url: 'users/signin-google',
-        method: 'POST',
-        body: { token },
-        credentials: 'include',
+        method: 'post',
+        data: { token },
+        withCredentials: true,
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
@@ -72,8 +71,8 @@ export const userApi = appApi.injectEndpoints({
     signout: builder.mutation<void, void>({
       query: () => ({
         url: 'users/signout',
-        method: 'POST',
-        credentials: 'include',
+        method: 'post',
+        withCredentials: true,
       }),
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
         dispatch(clearUser());
@@ -86,15 +85,15 @@ export const userApi = appApi.injectEndpoints({
     sendVerification: builder.mutation<MessageResponse, string>({
       query: (email) => ({
         url: 'users/verification',
-        method: 'POST',
-        body: { email },
+        method: 'post',
+        data: { email },
       }),
     }),
 
     checkVerification: builder.mutation<MessageResponse, string>({
       query: (token) => ({
         url: `users/verification/${token}`,
-        method: 'POST',
+        method: 'post',
       }),
       invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
@@ -102,57 +101,99 @@ export const userApi = appApi.injectEndpoints({
     sendRecovery: builder.mutation<MessageResponse, string>({
       query: (email) => ({
         url: 'users/recovery',
-        method: 'POST',
-        body: { email },
+        method: 'post',
+        data: { email },
       }),
     }),
 
     checkRecovery: builder.mutation<MessageResponse, string>({
       query: (token) => ({
         url: `users/recovery/${token}`,
-        method: 'POST',
+        method: 'post',
       }),
     }),
 
     resetPassword: builder.mutation<MessageResponse, ResetPasswordRequest>({
       query: ({ token, password, confirmPassword }) => ({
         url: `users/recovery/${token}/password`,
-        method: 'PATCH',
-        body: { password, confirmPassword },
+        method: 'patch',
+        data: { password, confirmPassword },
       }),
     }),
 
     updateName: builder.mutation<MessageResponse, string>({
       query: (name) => ({
         url: 'users/current/name',
-        method: 'PATCH',
-        body: { name },
+        method: 'patch',
+        data: { name },
       }),
       invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
     updatePassword: builder.mutation<MessageResponse, UpdatePasswordRequest>({
-      query: (body) => ({
+      query: (data) => ({
         url: 'users/current/password',
-        method: 'PATCH',
-        body,
+        method: 'patch',
+        data,
       }),
     }),
 
-    updatePicture: builder.mutation<MessageResponse, string>({
-      query: (picture) => ({
-        url: 'users/current/picture',
-        method: 'PATCH',
-        body: { picture },
-      }),
+    updatePicture: builder.mutation<MessageResponse, File>({
+      queryFn: async (file, api, extraOptions, baseQuery) => {
+        const { info } = (api.getState() as AppState).user;
+        const { data, error } = await baseQuery({
+          url: 'upload/images',
+          data: { fileType: file.type, key: info?.picture },
+          method: 'put',
+        });
+
+        if (error) return { error };
+        const uploadQuery = axiosBaseQuery();
+        const { presignedUrl, key } = data as Record<string, string>;
+        const { error: uploadError } = await uploadQuery(
+          {
+            url: presignedUrl,
+            method: 'put',
+            headers: { 'Content-Type': file.type },
+            data: file,
+          },
+          api,
+          extraOptions
+        );
+
+        if (uploadError) return { error: uploadError };
+        return baseQuery({
+          url: 'users/current/picture',
+          method: 'patch',
+          data: { picture: key },
+        }) as { data: MessageResponse };
+      },
+      invalidatesTags: [{ type: 'User', id: 'INFO' }],
+    }),
+
+    deletePicture: builder.mutation<MessageResponse, void>({
+      queryFn: async (_, api, __, baseQuery) => {
+        const { info } = (api.getState() as AppState).user;
+        const { error } = await baseQuery({
+          url: `upload/images/${info?.picture}`,
+          method: 'delete',
+        });
+
+        if (error) return { error };
+        return baseQuery({
+          url: 'users/current/picture',
+          method: 'patch',
+          data: { picture: '' },
+        }) as { data: MessageResponse };
+      },
       invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
     createMembership: builder.mutation<MessageResponse, string>({
       query: (subscriptionId) => ({
         url: 'users/current/membership',
-        method: 'POST',
-        body: { subscriptionId },
+        method: 'post',
+        data: { subscriptionId },
       }),
       invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
@@ -160,25 +201,25 @@ export const userApi = appApi.injectEndpoints({
     cancelMembership: builder.mutation<MessageResponse, string | void>({
       query: (reason) => ({
         url: 'users/current/membership/cancel',
-        method: 'POST',
-        body: { reason },
+        method: 'post',
+        data: { reason },
       }),
       invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
     deleteAccount: builder.mutation<MessageResponse, DeleteUserRequest>({
-      query: (body) => ({
+      query: (data) => ({
         url: 'users/current/deletion',
-        method: 'POST',
-        body,
+        method: 'post',
+        data,
       }),
     }),
 
     deleteGoogleAccount: builder.mutation<MessageResponse, string>({
       query: (token) => ({
         url: 'users/current/deletion-google',
-        method: 'POST',
-        body: { token },
+        method: 'post',
+        data: { token },
       }),
     }),
   }),
