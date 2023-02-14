@@ -1,4 +1,4 @@
-import { PropsWithChildren, Fragment } from 'react';
+import { PropsWithChildren } from 'react';
 
 import Main from './Main';
 import Header from './Header';
@@ -6,10 +6,10 @@ import Footer from './Footer';
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <Fragment>
+    <div className="min-h-[100vh]">
       <Header />
       <Main>{children}</Main>
       <Footer />
-    </Fragment>
+    </div>
   );
 }
