@@ -1,5 +1,3 @@
-<svg widh="100%" height="100%" viewBox="0 0 24 24" fill="current"
-  xmlns="http://www.w3.org/2000/svg">
-  <path d="M12.2182 12L24 3.71478V20.2853L12.2182 12Z" />
-  <path d="M0 12L11.7818 3.70911V20.2909L0 12Z" />
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+  <path d="M12.218 12 24 3.715v16.57L12.218 12ZM0 12l11.782-8.29v16.58L0 12Z"/>
 </svg>

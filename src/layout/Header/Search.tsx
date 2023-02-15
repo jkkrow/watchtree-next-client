@@ -26,15 +26,12 @@ export default function Search() {
   };
 
   return (
-    <form
-      className="relative flex justify-center items-center"
-      onSubmit={searchHandler}
-    >
+    <form className="flex justify-center items-center" onSubmit={searchHandler}>
       <label className="cursor-pointer mr-2" htmlFor="search-input">
         <SearchIcon className="w-6 h-6" />
       </label>
       <input
-        className="w-0 focus:w-40 border-b-2 border-black outline-none transition-all"
+        className="w-0 focus:w-40 border-b-2 border-current outline-none bg-transparent transition-all"
         id="search-input"
         ref={searchInputRef}
         type="text"

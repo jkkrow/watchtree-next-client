@@ -6,6 +6,7 @@ import { uiSlice } from '../features/ui/ui.slice';
 import { uploadSlice } from '../features/upload/upload.slice';
 import { userSlice } from '../features/user/user.slice';
 import { videoSlice } from '../features/video/video.slice';
+import { settingsSlice } from '../features/settings/settings.slice';
 
 const combinedReducer = combineReducers({
   [appApi.reducerPath]: appApi.reducer,
@@ -13,6 +14,7 @@ const combinedReducer = combineReducers({
   [uploadSlice.name]: uploadSlice.reducer,
   [userSlice.name]: userSlice.reducer,
   [videoSlice.name]: videoSlice.reducer,
+  [settingsSlice.name]: settingsSlice.reducer,
 });
 
 export const appReducer: typeof combinedReducer = (state, action) => {

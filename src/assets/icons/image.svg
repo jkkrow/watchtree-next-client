@@ -1,7 +1,6 @@
-<svg widh="100%" height="100%" viewBox="0 0 24 24" fill="current"
-  xmlns="http://www.w3.org/2000/svg">
-  <path d="M18 12.4393L22 16.4393V18.5H21.9393L18 14.5607L15.5303 17.0303L14.4697 15.9697L18 12.4393Z" />
-  <path d="M9 8.5L2 15.5V17.5607H2.06065L9 10.6213L15.4697 17.091L16.5303 16.0303L9 8.5Z" />
-  <circle cx="16" cy="9.5" r="2" />
-  <path fill-rule="evenodd" clip-rule="evenodd" d="M2 4.5H22V19.5H2V4.5ZM3.39535 5.86364V18.1364H20.6047V5.86364H3.39535Z" />
+<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+  <path d="m18 12.44 4 4v2.06h-.06L18 14.56l-2.47 2.47-1.06-1.06L18 12.44Z"/>
+  <path d="m9 8.5-7 7v2.06h.06L9 10.622l6.47 6.47 1.06-1.06L9 8.5Z"/>
+  <circle cx="16" cy="9.5" r="2"/>
+  <path fill-rule="evenodd" d="M2 4.5h20v15H2v-15Zm1.395 1.364v12.272h17.21V5.864H3.395Z" clip-rule="evenodd"/>
 </svg>

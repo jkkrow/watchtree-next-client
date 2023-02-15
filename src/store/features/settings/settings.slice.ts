@@ -1,14 +1,33 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
-  theme: 'light',
+import { appListener } from '@/store/app/listener';
+import { SettingsSliceState } from './settings.type';
+
+const initialState: SettingsSliceState = {
+  darkMode: false,
   pageSize: 30,
 };
 
 export const settingsSlice = createSlice({
-  name: 'ui',
+  name: 'settings',
   initialState,
-  reducers: { setTheme() {} },
+  reducers: {
+    setDarkMode(state, { payload }: PayloadAction<boolean>) {
+      state.darkMode = payload;
+    },
+  },
 });
 
-export const { setTheme } = settingsSlice.actions;
+export const { setDarkMode } = settingsSlice.actions;
+
+appListener.startListening({
+  actionCreator: setDarkMode,
+  effect: ({ payload }) => {
+    if (typeof window === undefined) return;
+    if (payload) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  },
+});

@@ -41,6 +41,10 @@ export const appMiddleware = (
         subtree: 'user.refreshTokenExp',
         maxAge: week,
       },
+      {
+        subtree: 'settings',
+        maxAge: year,
+      },
     ],
   };
 
