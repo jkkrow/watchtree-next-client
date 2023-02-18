@@ -1,3 +1,25 @@
+:root {
+  --text-primary: #171717;
+  --text-secondary: #525252;
+  --text-tertiary: #d4d4d4;
+  --text-inversed: #f5f5f5;
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #a3a3a3;
+  --bg-tertiary: #404040;
+  --bg-inversed: #171717;
+}
+
+:root.dark {
+  --text-primary: #f5f5f5;
+  --text-secondary: #a3a3a3;
+  --text-tertiary: #404040;
+  --text-inversed: #171717;
+  --bg-primary: #171717;
+  --bg-secondary: #525252;
+  --bg-tertiary: #d4d4d4;
+  --bg-inversed: #f5f5f5;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

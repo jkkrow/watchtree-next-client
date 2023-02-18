@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 import { useMountEffect } from '@react-hookz/web';
 import dayjs from 'dayjs';
 
-import { useAppSelector } from '@/hooks/store.hook';
+import { useAppSelector } from '@/hooks/store';
 import {
   useGetUserQuery,
   useSignoutMutation,
