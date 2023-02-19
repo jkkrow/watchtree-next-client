@@ -42,15 +42,15 @@ export default function MenuToggle({ active, onClick }: MenuButtonProps) {
           initial="inActive"
           animate={active ? 'active' : 'inActive'}
         >
-          <motion.div
+          <motion.span
             className="absolute w-full h-0.5 bg-inversed"
             variants={topVariants}
           />
-          <motion.div
+          <motion.span
             className="absolute w-full h-0.5 bg-inversed"
             variants={centerVariants}
           />
-          <motion.div
+          <motion.span
             className="absolute w-full h-0.5 bg-inversed"
             variants={bottomVariants}
           />

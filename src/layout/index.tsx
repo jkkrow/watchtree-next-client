@@ -1,11 +1,18 @@
 import { PropsWithChildren } from 'react';
 import { useMountEffect } from '@react-hookz/web';
+import { Roboto } from '@next/font/google';
 
 import Main from './Main';
 import Header from './Header';
 import Footer from './Footer';
 import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { setDarkMode } from '@/store/features/settings/settings.slice';
+
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-roboto',
+});
 
 export default function Layout({ children }: PropsWithChildren) {
   const darkMode = useAppSelector((state) => state.settings.darkMode);
@@ -16,7 +23,9 @@ export default function Layout({ children }: PropsWithChildren) {
   });
 
   return (
-    <div className="min-h-screen text-primary bg-primary selection:bg-inversed selection:text-inversed">
+    <div
+      className={`${roboto.className} min-h-screen text-primary bg-primary selection:bg-inversed selection:text-inversed`}
+    >
       <Header />
       <Main>{children}</Main>
       <Footer />

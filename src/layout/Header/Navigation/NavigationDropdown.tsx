@@ -1,6 +1,6 @@
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { AnimatePresence, motion } from 'framer-motion';
-
-import Link from '@/components/common/Element/Link';
 
 const dropdownVariants = {
   visible: { opacity: 1 },
@@ -16,6 +16,8 @@ export default function NavigationDropdown({
   links,
   active,
 }: NavigationDropdownProps) {
+  const router = useRouter();
+
   return (
     <AnimatePresence>
       {active ? (
@@ -28,8 +30,14 @@ export default function NavigationDropdown({
           exit="hidden"
         >
           {links.map(({ href, name }) => (
-            <li key={name} className="[&>*]:block [&>*]:px-10 [&>*]:py-4">
-              <Link href={href}>{name}</Link>
+            <li key={name}>
+              <Link
+                className="block px-10 py-4 hover:bg-hover aria-selected:text-primary text-secondary transition"
+                aria-selected={router.pathname === href}
+                href={href}
+              >
+                {name}
+              </Link>
             </li>
           ))}
         </motion.ul>

@@ -1,7 +1,3 @@
-const colors = require('tailwindcss/colors');
-
-colors.neutral[700];
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -19,6 +15,7 @@ module.exports = {
         secondary: 'var(--bg-secondary)',
         tertiary: 'var(--bg-tertiary)',
         inversed: 'var(--bg-inversed)',
+        hover: 'var(--bg-hover)',
       },
     },
   },

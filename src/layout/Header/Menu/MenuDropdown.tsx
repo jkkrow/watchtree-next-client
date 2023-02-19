@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import Link from '@/components/common/Element/Link';
-const ThemeToggle = dynamic(() => import('./ThemeToggle'), { ssr: false });
+import MenuNavigation from './MenuNavigation';
+const MenuSettings = dynamic(() => import('./MenuSettings'), { ssr: false });
 
 const menuVariants = {
   visible: { opacity: 1 },
@@ -18,15 +18,15 @@ export default function MenuDropdown({ active }: MenuDropdownProps) {
     <AnimatePresence>
       {active ? (
         <motion.div
-          className="absolute top-full flex flex-col right-0 w-60 p-4 gap-4 font-bold ring-1 ring-secondary bg-primary"
+          className="absolute top-full right-0 w-60 bg-primary ring-1 ring-secondary"
           variants={menuVariants}
           transition={{ duration: 0.1 }}
           initial="hidden"
           animate="visible"
           exit="hidden"
         >
-          <Link href="signin">Sign In</Link>
-          <ThemeToggle />
+          <MenuNavigation />
+          <MenuSettings />
         </motion.div>
       ) : null}
     </AnimatePresence>

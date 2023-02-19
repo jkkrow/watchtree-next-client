@@ -22,9 +22,9 @@ export default function Toggle({ name, initialChecked, onClick }: ToggleProps) {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4">
       <span>{name}</span>
-      <label className="peer">
+      <label>
         <input
           type="checkbox"
           hidden
@@ -33,9 +33,9 @@ export default function Toggle({ name, initialChecked, onClick }: ToggleProps) {
         />
         <div className="relative flex justify-center items-center w-12 h-6 cursor-pointer rounded-full bg-secondary">
           <motion.div
-            className="w-4 h-4 rounded-full bg-primary"
+            className="w-4 h-4 rounded-full bg-inversed"
             variants={toggleVariants}
-            initial="inActive"
+            initial={checked ? 'active' : 'inActive'}
             animate={checked ? 'active' : 'inActive'}
           />
         </div>
