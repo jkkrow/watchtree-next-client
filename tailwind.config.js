@@ -9,6 +9,8 @@ module.exports = {
         secondary: 'var(--text-secondary)',
         tertiary: 'var(--text-tertiary)',
         inversed: 'var(--text-inversed)',
+        success: 'var(--text-success)',
+        invalid: 'var(--text-invalid)',
       },
       backgroundColor: {
         primary: 'var(--bg-primary)',
@@ -16,6 +18,8 @@ module.exports = {
         tertiary: 'var(--bg-tertiary)',
         inversed: 'var(--bg-inversed)',
         hover: 'var(--bg-hover)',
+        success: 'var(--bg-success)',
+        invalid: 'var(--bg-invalid)',
       },
     },
   },

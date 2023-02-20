@@ -3,12 +3,16 @@
   --text-secondary: #525252;
   --text-tertiary: #d4d4d4;
   --text-inversed: #f5f5f5;
+  --text-invalid: #ff0000;
+  --text-success: #249900;
 
   --bg-primary: #f5f5f5;
   --bg-secondary: #a3a3a3;
   --bg-tertiary: #404040;
   --bg-inversed: #171717;
   --bg-hover: #d4d4d4;
+  --bg-success: #8aff67;
+  --bg-invalid: #ff6161;
 }
 
 :root.dark {
@@ -16,12 +20,16 @@
   --text-secondary: #a3a3a3;
   --text-tertiary: #404040;
   --text-inversed: #171717;
+  --text-success: #8aff66;
+  --text-invalid: #ff0000;
 
   --bg-primary: #171717;
   --bg-secondary: #525252;
   --bg-tertiary: #d4d4d4;
   --bg-inversed: #f5f5f5;
   --bg-hover: #404040;
+  --bg-success: #1a7000;
+  --bg-invalid: #b10000;
 }
 
 @tailwind base;

@@ -130,7 +130,7 @@ function configureMessageResponse(baseQuery: AppBaseQuery): AppBaseQuery {
     const matchedMessage = messages.find((msg) => msg.action === action);
 
     if (matchedMessage) {
-      dispatch(clearMessage({ id: matchedMessage.id }));
+      dispatch(clearMessage(matchedMessage.id));
     }
 
     const result = await baseQuery(args, api, extraOptions);

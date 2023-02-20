@@ -1,0 +1,18 @@
+import { motion, AnimatePresence } from 'framer-motion';
+
+import MessageItem from './MessagesItem';
+import { useAppSelector } from '@/hooks/store';
+
+export default function MessageList() {
+  const messages = useAppSelector((state) => state.ui.messages);
+
+  return (
+    <motion.ul className="flex flex-col items-center w-full gap-4">
+      <AnimatePresence>
+        {messages.map((message) => (
+          <MessageItem key={message.id} message={message} />
+        ))}
+      </AnimatePresence>
+    </motion.ul>
+  );
+}

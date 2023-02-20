@@ -5,6 +5,7 @@ import { Roboto } from '@next/font/google';
 import Main from './Main';
 import Header from './Header';
 import Footer from './Footer';
+import Message from './Message';
 import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { setDarkMode } from '@/store/features/settings/settings.slice';
 
@@ -29,6 +30,7 @@ export default function Layout({ children }: PropsWithChildren) {
       <Header />
       <Main>{children}</Main>
       <Footer />
+      <Message />
     </div>
   );
 }
