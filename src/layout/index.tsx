@@ -24,7 +24,7 @@ export default function Layout({ children }: PropsWithChildren) {
 
   return (
     <div
-      className={`${roboto.className} min-h-screen text-primary bg-primary selection:bg-inversed selection:text-inversed`}
+      className={`${roboto.className} relative min-h-screen text-primary bg-primary selection:bg-inversed selection:text-inversed`}
     >
       <Header />
       <Main>{children}</Main>
