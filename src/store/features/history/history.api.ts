@@ -51,6 +51,16 @@ const historyApi = appApi.injectEndpoints({
         { type: 'History', id: 'LIST' },
         'User',
       ],
+      merge: (previousResult, { videoTrees, token }) => {
+        previousResult.videoTrees.push(...videoTrees);
+        previousResult.token = token;
+      },
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return !!currentArg?.token && currentArg !== previousArg;
+      },
     }),
 
     saveHistory: builder.mutation<MessageResponse, SaveHistoryRequest>({
@@ -71,8 +81,9 @@ const historyApi = appApi.injectEndpoints({
         return { data: { message: 'History saved successfully' } };
       },
       extraOptions: { ignoreMessage: true },
-      invalidatesTags: (_, __, { videoId }) => [
-        { type: 'History', id: videoId },
+      invalidatesTags: (_, __, { videoId: id }) => [
+        { type: 'History', id },
+        { type: 'History', id: 'LIST' },
       ],
     }),
 

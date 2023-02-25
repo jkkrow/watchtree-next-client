@@ -1,6 +1,6 @@
-import NavigationList from './NavigationList';
-import NavigationToggle from './NavigationToggle';
-import NavigationDropdown from './NavigationDropdown';
+import NavigationList from './_fragments/NavigationList';
+import NavigationToggle from './_fragments/NavigationToggle';
+import NavigationDropdown from './_fragments/NavigationDropdown';
 import { useDropdown } from '@/hooks/ui';
 
 export default function Navigation() {

@@ -23,11 +23,7 @@ const videoApi = appApi.injectEndpoints({
           : data.videoTree;
         return { videoTree };
       },
-      providesTags: (_, __, id) => [
-        { type: 'Video', id },
-        { type: 'History', id },
-        'User',
-      ],
+      forceRefetch: () => true,
     }),
 
     getVideos: builder.query<GetVideosResponse, GetVideosRequest>({
@@ -46,6 +42,16 @@ const videoApi = appApi.injectEndpoints({
         { type: 'Video', id: 'LIST' },
         'User',
       ],
+      merge: (previousResult, { videoTrees, token }) => {
+        previousResult.videoTrees.push(...videoTrees);
+        previousResult.token = token;
+      },
+      serializeQueryArgs: ({ queryArgs, endpointName }) => {
+        return endpointName + queryArgs.max;
+      },
+      forceRefetch: ({ currentArg, previousArg }) => {
+        return !!currentArg?.token && currentArg !== previousArg;
+      },
     }),
 
     searchVideos: builder.query<SearchVideosResponse, SearchVideosRequest>({

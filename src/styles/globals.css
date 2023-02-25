@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --text-primary: #171717;
   --text-secondary: #525252;
@@ -32,6 +36,27 @@
   --bg-invalid: #b10000;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+img {
+  position: relative;
+}
+
+img::before {
+  content: '';
+  position: absolute;
+  display: flex;
+  inset: 0;
+  background-color: var(--bg-primary);
+}
+
+img::after {
+  content: '';
+  mask: url('/logo.svg');
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  min-width: 24px;
+  background-color: var(--bg-inversed);
+  transform: translate(-50%, -50%);
+  aspect-ratio: 1/1;
+}

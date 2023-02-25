@@ -1,5 +1,5 @@
-import MenuToggle from './MenuToggle';
-import MenuDropdown from './MenuDropdown';
+import MenuToggle from './_fragments/MenuToggle';
+import MenuDropdown from './_fragments/MenuDropdown';
 import { useDropdown } from '@/hooks/ui';
 
 export default function Menu() {

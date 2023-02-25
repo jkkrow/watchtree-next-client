@@ -8,7 +8,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="absolute flex flex-col justify-center items-center w-full bottom-0 p-6 gap-2 text-xs">
+    <footer className="flex flex-col justify-center items-center w-full bottom-0 p-6 mt-auto gap-2 text-xs">
       <nav>
         <ul className="flex gap-6">
           {links.map(({ href, name }) => (

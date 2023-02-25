@@ -21,7 +21,10 @@ module.exports = {
         success: 'var(--bg-success)',
         invalid: 'var(--bg-invalid)',
       },
+      gridTemplateColumns: {
+        video: 'repeat(auto-fill, minmax(250px, 1fr))',
+      },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 };

@@ -4,7 +4,7 @@ export interface OffsetPaginationRequest {
 }
 
 export interface KeysetPaginationRequest {
-  token?: string;
+  token?: string | null;
   max: number;
 }
 
