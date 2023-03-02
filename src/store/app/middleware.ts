@@ -7,6 +7,7 @@ import {
 import { appReducer } from './reducer';
 import { appApi } from './api';
 import { appListener } from './listener';
+import { refetchMiddleware } from '../common/api.middleware';
 
 export const appMiddleware = (
   getDefaultMiddleware: CurriedGetDefaultMiddleware<
@@ -51,5 +52,6 @@ export const appMiddleware = (
   return defaultMiddleware
     .prepend(nextReduxCookieMiddleware(cookieMiddlewareConfig))
     .prepend(appListener.middleware)
-    .concat(appApi.middleware);
+    .concat(appApi.middleware)
+    .concat(refetchMiddleware);
 };

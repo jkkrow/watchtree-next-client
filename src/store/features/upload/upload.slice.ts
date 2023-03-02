@@ -9,6 +9,7 @@ import {
   getMinMaxDuration,
 } from '../video/video.util';
 import { VideoTree, VideoNode } from '../video/video.type';
+import { beforeunloadHandler } from './upload.util';
 import { UploadSliceState, UploadError, UploadProgress } from './upload.type';
 
 const initialState: UploadSliceState = {
@@ -158,11 +159,6 @@ appListener.startListening({
   matcher: isAnyOf(setupUpload, clearUpload),
   effect: (action) => {
     if (typeof window === 'undefined') return;
-    const beforeunloadHandler = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = '';
-    };
-
     if (action.type === setupUpload.type) {
       window.addEventListener('beforeunload', beforeunloadHandler);
     } else {

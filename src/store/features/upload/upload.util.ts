@@ -1,9 +1,7 @@
 import { AxiosProgressEvent } from 'axios';
 
-import { AppDispatch } from '@/store';
 import { VideoNode } from '../video/video.type';
 import { traverseNodes } from '../video/video.util';
-import { setProgress } from './upload.slice';
 
 export function findDuplicate(root: VideoNode, name: string) {
   const nodes = traverseNodes(root);
@@ -36,4 +34,9 @@ export function uploadProgressHandler(
 
     cb(percentage, rate);
   };
+}
+
+export function beforeunloadHandler(event: BeforeUnloadEvent) {
+  event.preventDefault();
+  event.returnValue = '';
 }

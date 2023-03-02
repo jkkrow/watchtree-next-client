@@ -1,20 +1,35 @@
 import { useEffect, useRef, useState } from 'react';
+import type { QueryDefinition } from '@reduxjs/toolkit/dist/query';
+import type { QueryHooks } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 
-import { KeysetPaginationResponse } from '@/store/common/common.type';
+import { AppBaseQuery } from '@/store';
+import {
+  KeysetPaginationRequest,
+  KeysetPaginationResponse,
+} from '@/store/common/api.type';
 
-export function useKeysetPagination(
-  getData: () => KeysetPaginationResponse | undefined
+export function useInfiniteQuery<
+  ItemType,
+  RequestType extends KeysetPaginationRequest,
+  ResponseType extends KeysetPaginationResponse<ItemType>
+>(
+  endpoint: QueryHooks<
+    QueryDefinition<RequestType, AppBaseQuery, any, ResponseType>
+  >,
+  options: Omit<RequestType, 'token'>
 ) {
-  const [token, setToken] = useState<string | null | undefined>(undefined);
-  const ref = useRef<HTMLUListElement>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+
+  const queryOptions = { ...options, token } as RequestType;
+  const { data, ...rest } = endpoint.useQuery(queryOptions);
 
   useEffect(() => {
-    if (!ref.current) return;
-    const container = ref.current;
+    if (!listRef.current) return;
+    const container = listRef.current;
     const lastChild = container.lastElementChild;
 
     const observer = new IntersectionObserver(([entry]) => {
-      const data = getData();
       if (entry.isIntersecting && data) {
         setToken(data.token);
       }
@@ -25,7 +40,7 @@ export function useKeysetPagination(
     return () => {
       observer.disconnect();
     };
-  }, [getData]);
+  }, [data]);
 
-  return { token, ref };
+  return { listRef, data, ...rest };
 }

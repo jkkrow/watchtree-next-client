@@ -1,4 +1,5 @@
 import { appApi } from '@/store/app/api';
+import { getInfiniteQueryOptions } from '@/store/common/api.util';
 import {
   applyLocalHistory,
   applyLocalHistories,
@@ -23,49 +24,39 @@ const videoApi = appApi.injectEndpoints({
           : data.videoTree;
         return { videoTree };
       },
-      forceRefetch: () => true,
     }),
 
     getVideos: builder.query<GetVideosResponse, GetVideosRequest>({
       query: (params) => ({ url: 'video-trees', params }),
       transformResponse: async (data: GetVideosResponse, meta) => {
         const isLocal = meta && !meta.userId && meta.environment === 'client';
-        const videoTrees = isLocal
-          ? await applyLocalHistories(data.videoTrees)
-          : data.videoTrees;
-        return { videoTrees, token: data.token };
+        const items = isLocal
+          ? await applyLocalHistories(data.items)
+          : data.items;
+        return { items, token: data.token };
       },
       providesTags: (result) => [
         ...(result
-          ? result.videoTrees.map(({ id }) => ({ type: 'Video' as const, id }))
+          ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
           : []),
         { type: 'Video', id: 'LIST' },
         'User',
       ],
-      merge: (previousResult, { videoTrees, token }) => {
-        previousResult.videoTrees.push(...videoTrees);
-        previousResult.token = token;
-      },
-      serializeQueryArgs: ({ queryArgs, endpointName }) => {
-        return endpointName + queryArgs.max;
-      },
-      forceRefetch: ({ currentArg, previousArg }) => {
-        return !!currentArg?.token && currentArg !== previousArg;
-      },
+      ...getInfiniteQueryOptions(),
     }),
 
     searchVideos: builder.query<SearchVideosResponse, SearchVideosRequest>({
       query: (params) => ({ url: 'video-trees/search', params }),
       transformResponse: async (data: SearchVideosResponse, meta) => {
         const isLocal = meta && !meta.userId && meta.environment === 'client';
-        const videoTrees = isLocal
-          ? await applyLocalHistories(data.videoTrees)
-          : data.videoTrees;
-        return { videoTrees, count: data.count };
+        const items = isLocal
+          ? await applyLocalHistories(data.items)
+          : data.items;
+        return { items, count: data.count };
       },
       providesTags: (result) => [
         ...(result
-          ? result.videoTrees.map(({ id }) => ({ type: 'Video' as const, id }))
+          ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
           : []),
         { type: 'Video', id: 'LIST' },
         'User',
@@ -76,7 +67,7 @@ const videoApi = appApi.injectEndpoints({
       query: () => ({ url: 'channels/current/video-trees' }),
       providesTags: (result) => [
         ...(result
-          ? result.videoTrees.map(({ id }) => ({ type: 'Video' as const, id }))
+          ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
           : []),
         { type: 'Video', id: 'LIST' },
         'User',

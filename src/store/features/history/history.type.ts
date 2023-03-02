@@ -1,7 +1,7 @@
 import {
   KeysetPaginationRequest,
   KeysetPaginationResponse,
-} from '@/store/common/common.type';
+} from '@/store/common/api.type';
 import { VideoTreeEntryWithData } from '../video/video.type';
 
 export interface History {
@@ -28,6 +28,5 @@ export interface SaveHistoryRequest {
   ended: boolean;
 }
 
-export interface GetHistoriesResponse extends KeysetPaginationResponse {
-  videoTrees: (VideoTreeEntryWithData | null)[];
-}
+export interface GetHistoriesResponse
+  extends KeysetPaginationResponse<VideoTreeEntryWithData | null> {}

@@ -1,6 +1,6 @@
 import { AppState } from '@/store';
 import { appApi, axiosBaseQuery } from '@/store/app/api';
-import { MessageResponse } from '@/store/common/common.type';
+import { MessageResponse } from '@/store/common/api.type';
 import { setInfo, setCredentials, clearUser } from './user.slice';
 import {
   GetUserRequest,

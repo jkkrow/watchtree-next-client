@@ -1,9 +1,9 @@
 import {
   OffsetPaginationRequest,
-  KeysetPaginationRequest,
   OffsetPaginationResponse,
+  KeysetPaginationRequest,
   KeysetPaginationResponse,
-} from '@/store/common/common.type';
+} from '@/store/common/api.type';
 import { History } from '../history/history.type';
 
 export interface VideoSliceState {
@@ -83,20 +83,17 @@ export interface GetVideoResponse {
 
 export interface GetVideosRequest extends KeysetPaginationRequest {}
 
-export interface GetVideosResponse extends KeysetPaginationResponse {
-  videoTrees: VideoTreeEntryWithData[];
-}
+export interface GetVideosResponse
+  extends KeysetPaginationResponse<VideoTreeEntryWithData> {}
 
 export interface SearchVideosRequest extends OffsetPaginationRequest {
   keyword: string;
 }
 
-export interface SearchVideosResponse extends OffsetPaginationResponse {
-  videoTrees: VideoTreeEntryWithData[];
-}
+export interface SearchVideosResponse
+  extends OffsetPaginationResponse<VideoTreeEntryWithData> {}
 
-export interface GetCreatedVideosResponse extends OffsetPaginationResponse {
-  videoTrees: VideoTreeEntry[];
-}
+export interface GetCreatedVideosResponse
+  extends OffsetPaginationResponse<VideoTreeEntry> {}
 
 export type VideoTreeStatus = 'public' | 'private';

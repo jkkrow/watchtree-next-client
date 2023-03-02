@@ -1,18 +1,18 @@
-import { Fragment } from 'react';
-
 import VideoGrid from '@/components/Video/Grid';
 import Spinner from '@/components/common/UI/Spinner';
-import { useGetVideosQuery } from '@/store/features/video/video.api';
-import { useKeysetPagination } from '@/hooks/pagination';
+import { useInfiniteQuery } from '@/hooks/pagination';
+import { getVideos } from '@/store/features/video/video.api';
 
 export default function Browse() {
-  const { ref, token } = useKeysetPagination(() => data);
-  const { data, isFetching, isLoading } = useGetVideosQuery({ max: 30, token });
+  const { listRef, data, refetch } = useInfiniteQuery(getVideos, { max: 4 });
 
   return (
-    <Fragment>
-      {data && <VideoGrid videos={data.videoTrees} ref={ref} />}
-      {!isLoading && isFetching && <Spinner />}
-    </Fragment>
+    <>
+      <div>
+        <button onClick={refetch}>Refetch</button>
+      </div>
+      <VideoGrid data={data} ref={listRef} />
+      {/* {!isLoading && isFetching && <Spinner />} */}
+    </>
   );
 }

@@ -17,6 +17,7 @@ export default function VideoThumbnail({ title, url }: VideoThumbnailProps) {
           alt={title}
           sizes="320px"
           fill
+          priority
         />
       ) : (
         <VideoIcon className="w-2/3 h-2/3" />

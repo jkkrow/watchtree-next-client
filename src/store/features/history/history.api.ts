@@ -1,13 +1,13 @@
 import { AppState } from '@/store';
 import { appApi } from '@/store/app/api';
-
+import { getInfiniteQueryOptions } from '@/store/common/api.util';
 import {
   getLocalHistories,
   saveLocalHistory,
   deleteLocalHistory,
   sortByLocalHistory,
 } from '@/services/history.service';
-import { MessageResponse } from '@/store/common/common.type';
+import { MessageResponse } from '@/store/common/api.type';
 import { GetVideosResponse, VideoTreeWithData } from '../video/video.type';
 import {
   GetHistoriesRequest,
@@ -20,7 +20,7 @@ const historyApi = appApi.injectEndpoints({
     getHistories: builder.query<GetHistoriesResponse, GetHistoriesRequest>({
       queryFn: async (arg, api, _, baseQuery) => {
         const { info } = (api.getState() as AppState).user;
-        const emptyResult = { data: { videoTrees: [], token: null } };
+        const emptyResult = { data: { items: [], token: null } };
 
         if (info) {
           const customArg = { url: 'channels/current/histories', params: arg };
@@ -36,31 +36,22 @@ const historyApi = appApi.injectEndpoints({
         const { data, error } = await baseQuery(customArg);
 
         if (error) return { error };
-        const { videoTrees: videos } = data as GetVideosResponse;
-        const videoTrees = await sortByLocalHistory(videos, localHistories);
-        const customData = { videoTrees, token } as GetHistoriesResponse;
+        const { items: videos } = data as GetVideosResponse;
+        const items = await sortByLocalHistory(videos, localHistories);
+        const customData = { items, token } as GetHistoriesResponse;
 
         return { data: customData };
       },
       providesTags: (result) => [
         ...(result
-          ? result.videoTrees
+          ? result.items
               .filter((item): item is VideoTreeWithData => !!item)
               .map(({ id }) => ({ type: 'History' as const, id }))
           : []),
         { type: 'History', id: 'LIST' },
         'User',
       ],
-      merge: (previousResult, { videoTrees, token }) => {
-        previousResult.videoTrees.push(...videoTrees);
-        previousResult.token = token;
-      },
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
-      },
-      forceRefetch: ({ currentArg, previousArg }) => {
-        return !!currentArg?.token && currentArg !== previousArg;
-      },
+      ...getInfiniteQueryOptions(),
     }),
 
     saveHistory: builder.mutation<MessageResponse, SaveHistoryRequest>({
