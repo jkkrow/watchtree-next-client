@@ -1,6 +1,5 @@
 import { AnimatePresence } from 'framer-motion';
 import { forwardRef, PropsWithChildren } from 'react';
-import { useRouter } from 'next/router';
 
 import VideoItem from '../Item';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
@@ -13,18 +12,8 @@ const VideoGrid = forwardRef<
   HTMLUListElement,
   PropsWithChildren<VideoGridProps>
 >(function VideoGrid({ data }, ref) {
-  const router = useRouter();
-
   return (
-    <div
-      onClick={() =>
-        router.replace(
-          { pathname: router.pathname, query: { page: 1 } },
-          undefined,
-          { shallow: true }
-        )
-      }
-    >
+    <div>
       <ul ref={ref} className="grid grid-cols-video gap-6 p-6">
         <AnimatePresence>
           {data

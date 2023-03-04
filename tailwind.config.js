@@ -22,7 +22,7 @@ module.exports = {
         invalid: 'var(--bg-invalid)',
       },
       gridTemplateColumns: {
-        video: 'repeat(auto-fill, minmax(250px, 1fr))',
+        video: 'repeat(auto-fill, minmax(300px, 1fr))',
       },
     },
   },

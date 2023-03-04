@@ -19,10 +19,11 @@ export function useInfiniteQuery<
   options: Omit<RequestType, 'token'>
 ) {
   const [token, setToken] = useState<string | null>(null);
+  const [isIntersecting, setIsIntersecting] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const queryOptions = { ...options, token } as RequestType;
-  const { data, ...rest } = endpoint.useQuery(queryOptions);
+  const queryArg = { ...options, token } as RequestType;
+  const { data, isLoading, isFetching, ...rest } = endpoint.useQuery(queryArg);
 
   useEffect(() => {
     if (!listRef.current) return;
@@ -32,6 +33,10 @@ export function useInfiniteQuery<
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && data) {
         setToken(data.token);
+        setIsIntersecting(true);
+      }
+      if (!entry.isIntersecting) {
+        setIsIntersecting(false);
       }
     });
 
@@ -42,5 +47,12 @@ export function useInfiniteQuery<
     };
   }, [data]);
 
-  return { listRef, data, ...rest };
+  return {
+    listRef,
+    data,
+    isLoading,
+    isFetching,
+    isFetchingMore: isIntersecting && isFetching && !isLoading && !!data?.token,
+    ...rest,
+  };
 }

@@ -1,14 +1,14 @@
 import MenuToggle from './_fragments/MenuToggle';
 import MenuDropdown from './_fragments/MenuDropdown';
-import { useDropdown } from '@/hooks/ui';
+import { useDropdown } from '@/hooks/ui/dropdown';
 
 export default function Menu() {
-  const { active, ref, open, close, toggle } = useDropdown();
+  const { active, containerRef, open, close, toggle } = useDropdown();
 
   return (
     <div
       className="relative flex items-center h-full"
-      ref={ref}
+      ref={containerRef}
       onPointerEnter={open}
       onMouseLeave={close}
     >

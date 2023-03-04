@@ -1,12 +1,12 @@
 import { PointerEventHandler, useState, useRef } from 'react';
 import { useClickOutside } from '@react-hookz/web';
 
-import { useTimeout } from './util';
+import { useTimeout } from '../util/time';
 
 export function useDropdown() {
   const [active, setActive] = useState(false);
   const [setClosingTimeout, clearClosingTimeout] = useTimeout();
-  const ref = useRef(null);
+  const containerRef = useRef(null);
 
   const open: PointerEventHandler = (event) => {
     if (event.pointerType !== 'mouse') return;
@@ -24,9 +24,9 @@ export function useDropdown() {
     setActive((prev) => !prev);
   };
 
-  useClickOutside(ref, () => {
+  useClickOutside(containerRef, () => {
     setActive(false);
   });
 
-  return { active, ref, open, close, toggle };
+  return { active, containerRef, open, close, toggle };
 }

@@ -30,7 +30,7 @@ export const refetchMiddleware: Middleware = (api) => (next) => (action) => {
 
   action.meta.arg.originalArgs = {
     ...originalArgs,
-    max: latestItems.length,
+    max: latestToken ? latestItems.length : latestItems.length + 1,
     token: null,
     refetch: true,
   } as KeysetPaginationRequest;
