@@ -36,8 +36,31 @@
   --bg-invalid: #b10000;
 }
 
+* {
+  scrollbar-color: var(--bg-primary);
+}
+
+*::-webkit-scrollbar {
+  background-color: var(--bg-primary);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--bg-secondary);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #868686;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #727272;
+}
+
 img {
   position: relative;
+  overflow: hidden;
+  color: transparent;
+  background-color: transparent;
 }
 
 img::before {

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
 import VideoThumbnail from './_fragments/VideoThumbnail';
@@ -7,6 +8,7 @@ import VideoCreator from './_fragments/VideoCreator';
 import VideoViews from './_fragments/VideoViews';
 import VideoFavorites from './_fragments/VideoFavorites';
 import { useScaleOnHover } from '@/hooks/ui/scale-on-hover';
+import { useVideoModal } from '@/hooks/ui/video-modal';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
 
 interface VideoItemProps {
@@ -15,9 +17,16 @@ interface VideoItemProps {
 
 export default function VideoItem({ video }: VideoItemProps) {
   const { itemRef, style, start, stop } = useScaleOnHover();
+  const { active, open } = useVideoModal(video.id);
 
   return (
-    <motion.li className="" layout>
+    <motion.li
+      className="relative aria-selected:z-10"
+      aria-selected={active}
+      layoutId={video.id}
+      layout
+      onClick={open}
+    >
       <div
         className="relative flex flex-col h-full overflow-hidden transition shadow-md hover:shadow-lg dark:ring-2 dark:ring-tertiary dark:hover:ring-secondary cursor-pointer bg-primary"
         ref={itemRef}

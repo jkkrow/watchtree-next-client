@@ -65,11 +65,12 @@ export function useScaleOnHover(options?: {
     const itemLeft = left - containerLeft;
     const itemRight = itemLeft + width;
     const viewHeight = window.innerHeight;
+    const headerHeight = 80;
 
     const scaledWidth = width * scaleBy;
     const scaledHeight = height * scaleBy;
 
-    if (scaledWidth > containerWidth) {
+    if (scaledWidth > containerWidth || scaledHeight > viewHeight) {
       return;
     }
     if (scaledWidth + (containerWidth - itemRight) > containerWidth) {
@@ -78,7 +79,7 @@ export function useScaleOnHover(options?: {
     if (itemLeft + scaledWidth > containerWidth) {
       originX = '100%';
     }
-    if (scaledHeight + (viewHeight - bottom) > viewHeight) {
+    if (scaledHeight + (viewHeight - bottom) > viewHeight - headerHeight) {
       originY = '0%';
     }
     if (top + scaledHeight > viewHeight) {
