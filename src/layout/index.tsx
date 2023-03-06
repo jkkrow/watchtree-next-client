@@ -1,5 +1,4 @@
 import { PropsWithChildren } from 'react';
-import { useMountEffect } from '@react-hookz/web';
 import { Roboto } from '@next/font/google';
 
 import Main from './Main';
@@ -7,6 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Message from './Message';
 import Modal from './Modal';
+import { useMountEffect } from '@/hooks/lifecycle/mount-effect';
 import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { setDarkMode } from '@/store/features/settings/settings.slice';
 

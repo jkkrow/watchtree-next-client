@@ -36,9 +36,6 @@ export function useScaleOnHover(options?: {
   scaleBy?: number;
   duration?: number;
 }) {
-  const scaleBy = options?.scaleBy || 1.3;
-  const duration = options?.duration || 200;
-
   const [{ active, origin, zIndex }, dispatch] = useReducer(
     scaleReducer,
     initialState
@@ -48,6 +45,8 @@ export function useScaleOnHover(options?: {
   const [setFinishTimeout, clearFinishTimeout] = useTimeout();
 
   const itemRef = useRef<HTMLDivElement>(null);
+  const scaleByRef = useRef(options?.scaleBy || 1.3);
+  const durationRef = useRef(options?.duration || 200);
 
   const start = useCallback(() => {
     if (active || !itemRef.current) return;
@@ -67,8 +66,8 @@ export function useScaleOnHover(options?: {
     const viewHeight = window.innerHeight;
     const headerHeight = 80;
 
-    const scaledWidth = width * scaleBy;
-    const scaledHeight = height * scaleBy;
+    const scaledWidth = width * scaleByRef.current;
+    const scaledHeight = height * scaleByRef.current;
 
     if (scaledWidth > containerWidth || scaledHeight > viewHeight) {
       return;
@@ -88,13 +87,13 @@ export function useScaleOnHover(options?: {
 
     const origin = `${originX} ${originY}`;
     setStartTimeout(() => dispatch({ type: 'START', origin }), 500);
-  }, [active, scaleBy, clearFinishTimeout, setStartTimeout]);
+  }, [active, clearFinishTimeout, setStartTimeout]);
 
   const stop = useCallback(() => {
     clearStartTimeout();
-    setFinishTimeout(() => dispatch({ type: 'FINISH' }), duration);
+    setFinishTimeout(() => dispatch({ type: 'FINISH' }), durationRef.current);
     active && dispatch({ type: 'STOP' });
-  }, [active, duration, clearStartTimeout, setFinishTimeout]);
+  }, [active, clearStartTimeout, setFinishTimeout]);
 
   return {
     start,
@@ -102,9 +101,9 @@ export function useScaleOnHover(options?: {
     itemRef,
     active,
     style: {
-      transitionDuration: `${duration}ms`,
+      transitionDuration: `${durationRef.current}ms`,
       transformOrigin: origin,
-      transform: `scale(${active ? scaleBy : 1})`,
+      transform: `scale(${active ? scaleByRef.current : 1})`,
       zIndex: zIndex,
     },
   };

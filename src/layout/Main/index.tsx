@@ -1,5 +1,4 @@
-import { PropsWithChildren } from 'react';
-import { useMountEffect } from '@react-hookz/web';
+import { PropsWithChildren, useEffect } from 'react';
 import dayjs from 'dayjs';
 
 import { useAppSelector } from '@/hooks/store';
@@ -16,11 +15,11 @@ export default function Main({ children }: PropsWithChildren) {
     skip: !refreshTokenExp || dayjs().isAfter(refreshTokenExp),
   });
 
-  useMountEffect(() => {
+  useEffect(() => {
     if (refreshTokenExp && dayjs().isAfter(refreshTokenExp)) {
       signout();
     }
-  });
+  }, [refreshTokenExp, signout]);
 
   return <main>{children}</main>;
 }

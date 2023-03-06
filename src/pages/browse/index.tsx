@@ -1,4 +1,4 @@
-import VideoGrid from '@/components/Video/Grid';
+import VideoGrid from '@/components/features/Video/Grid';
 import Spinner from '@/components/common/UI/Spinner';
 import { useInfiniteQuery } from '@/hooks/query';
 import { getVideos } from '@/store/features/video/video.api';

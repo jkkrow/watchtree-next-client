@@ -2,7 +2,6 @@ lockfileVersion: 5.4
 
 specifiers:
   '@next/font': 13.1.2
-  '@react-hookz/web': ^22.0.0
   '@reduxjs/toolkit': ^1.9.1
   '@svgr/webpack': ^6.5.1
   '@tailwindcss/line-clamp': ^0.4.2
@@ -10,8 +9,6 @@ specifiers:
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
   '@types/react-redux': ^7.1.25
-  '@types/react-virtualized-auto-sizer': ^1.0.1
-  '@types/react-window': ^1.8.5
   '@types/uuid': ^9.0.0
   async-mutex: ^0.4.0
   autoprefixer: ^10.4.13
@@ -27,18 +24,15 @@ specifiers:
   next-redux-wrapper: ^8.1.0
   postcss: ^8.4.21
   react: 18.2.0
-  react-device-detect: ^2.2.3
   react-dom: 18.2.0
+  react-hook-form: ^7.43.4
   react-redux: ^8.0.5
-  react-virtualized-auto-sizer: ^1.0.7
-  react-window: ^1.8.8
   tailwindcss: ^3.2.4
   typescript: 4.9.4
   uuid: ^9.0.0
 
 dependencies:
   '@next/font': 13.1.2
-  '@react-hookz/web': 22.0.0_biqbaboplfbrettd7655fr4n2y
   '@reduxjs/toolkit': 1.9.1_k4ae6lp43ej6mezo3ztvx6pykq
   '@svgr/webpack': 6.5.1
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.2.4
@@ -46,8 +40,6 @@ dependencies:
   '@types/react': 18.0.27
   '@types/react-dom': 18.0.10
   '@types/react-redux': 7.1.25
-  '@types/react-virtualized-auto-sizer': 1.0.1
-  '@types/react-window': 1.8.5
   '@types/uuid': 9.0.0
   async-mutex: 0.4.0
   autoprefixer: 10.4.13_postcss@8.4.21
@@ -63,11 +55,9 @@ dependencies:
   next-redux-wrapper: 8.1.0_y34iadpuipqk5cxypqrh4vrr4i
   postcss: 8.4.21
   react: 18.2.0
-  react-device-detect: 2.2.3_biqbaboplfbrettd7655fr4n2y
   react-dom: 18.2.0_react@18.2.0
+  react-hook-form: 7.43.4_react@18.2.0
   react-redux: 8.0.5_fxtgt6bjwd6p4cwoordejim2zi
-  react-virtualized-auto-sizer: 1.0.7_biqbaboplfbrettd7655fr4n2y
-  react-window: 1.8.8_biqbaboplfbrettd7655fr4n2y
   tailwindcss: 3.2.4_postcss@8.4.21
   typescript: 4.9.4
   uuid: 9.0.0
@@ -1644,25 +1634,6 @@ packages:
       tslib: 2.4.1
     dev: false
 
-  /@react-hookz/deep-equal/1.0.4:
-    resolution: {integrity: sha512-N56fTrAPUDz/R423pag+n6TXWbvlBZDtTehaGFjK0InmN+V2OFWLE/WmORhmn6Ce7dlwH5+tQN1LJFw3ngTJVg==}
-    dev: false
-
-  /@react-hookz/web/22.0.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-jl4JgUXaiSvvDVQD2z/rq2/RaykjjLrAZxHOEQj2H38j4UFWIVhv5oKUH8yrKF4wX6tMX9gdrj62f9yGq/nSaQ==}
-    peerDependencies:
-      js-cookie: ^3.0.1
-      react: ^16.8 || ^17 || ^18
-      react-dom: ^16.8 || ^17 || ^18
-    peerDependenciesMeta:
-      js-cookie:
-        optional: true
-    dependencies:
-      '@react-hookz/deep-equal': 1.0.4
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
   /@reduxjs/toolkit/1.9.1_k4ae6lp43ej6mezo3ztvx6pykq:
     resolution: {integrity: sha512-HikrdY+IDgRfRYlCTGUQaiCxxDDgM1mQrRbZ6S1HFZX5ZYuJ4o8EstNmhTwHdPl2rTmLxzwSu0b3AyeyTlR+RA==}
     peerDependencies:
@@ -1898,18 +1869,6 @@ packages:
       '@types/react': 18.0.27
       hoist-non-react-statics: 3.3.2
       redux: 4.2.0
-    dev: false
-
-  /@types/react-virtualized-auto-sizer/1.0.1:
-    resolution: {integrity: sha512-GH8sAnBEM5GV9LTeiz56r4ZhMOUSrP43tAQNSRVxNexDjcNKLCEtnxusAItg1owFUFE6k0NslV26gqVClVvong==}
-    dependencies:
-      '@types/react': 18.0.27
-    dev: false
-
-  /@types/react-window/1.8.5:
-    resolution: {integrity: sha512-V9q3CvhC9Jk9bWBOysPGaWy/Z0lxYcTXLtLipkt2cnRj1JOSFNF7wqGpkScSXMgBwC+fnVRg/7shwgddBG5ICw==}
-    dependencies:
-      '@types/react': 18.0.27
     dev: false
 
   /@types/react/18.0.27:
@@ -3683,10 +3642,6 @@ packages:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==}
     dev: false
 
-  /memoize-one/5.2.1:
-    resolution: {integrity: sha512-zYiwtZUcYyXKo/np96AGZAckk+FWWsUdJ3cHGGmld7+AhvcWmQyGCYUh1hc4Q/pkOhb65dQR/pqCyK0cOaHz4Q==}
-    dev: false
-
   /merge2/1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -4116,17 +4071,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /react-device-detect/2.2.3_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-buYY3qrCnQVlIFHrC5UcUoAj7iANs/+srdkwsnNjI7anr3Tt7UY6MqNxtMLlr0tMBied0O49UZVK8XKs3ZIiPw==}
-    peerDependencies:
-      react: '>= 0.14.0'
-      react-dom: '>= 0.14.0'
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      ua-parser-js: 1.0.33
-    dev: false
-
   /react-dom/18.2.0_react@18.2.0:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
@@ -4135,6 +4079,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-hook-form/7.43.4_react@18.2.0:
+    resolution: {integrity: sha512-JZp05wvmuV8qr3NNDWwyhiQL05sh9E8x/2NoWtkdiyyiezmwOr5pKexlvbCEfBMa7ZYrvzk88G/uhLl47T9b7Q==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:
@@ -4176,30 +4129,6 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       react-is: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false
-
-  /react-virtualized-auto-sizer/1.0.7_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Mxi6lwOmjwIjC1X4gABXMJcKHsOo0xWl3E3ugOgufB8GJU+MqrtY35aBuvCYv/razQ1Vbp7h1gWJjGjoNN5pmA==}
-    engines: {node: '>8.0.0'}
-    peerDependencies:
-      react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0-rc
-      react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0-rc
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
-  /react-window/1.8.8_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-D4IiBeRtGXziZ1n0XklnFGu7h9gU684zepqyKzgPNzrsrk7xOCxni+TCckjg2Nr/DiaEEGVVmnhYSlT2rB47dQ==}
-    engines: {node: '>8.0.0'}
-    peerDependencies:
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      '@babel/runtime': 7.20.7
-      memoize-one: 5.2.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react/18.2.0:
@@ -4639,10 +4568,6 @@ packages:
     resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: false
-
-  /ua-parser-js/1.0.33:
-    resolution: {integrity: sha512-RqshF7TPTE0XLYAqmjlu5cLLuGdKrNu9O1KLA/qp39QtbZwuzwv1dT46DZSopoUMsYgXpB3Cv8a03FI8b74oFQ==}
     dev: false
 
   /unbox-primitive/1.0.2:
