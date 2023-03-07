@@ -12,7 +12,7 @@ import { setDarkMode } from '@/store/features/settings/settings.slice';
 
 const roboto = Roboto({
   subsets: ['latin'],
-  weight: '400',
+  weight: ['100', '300', '400', '500', '700'],
   variable: '--font-roboto',
 });
 

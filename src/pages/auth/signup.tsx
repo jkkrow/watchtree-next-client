@@ -1,16 +1,16 @@
 import Head from 'next/head';
 
 import AuthLayout from '@/components/features/Auth/_layout';
-import SigninForm from '@/components/features/Auth/Form/SigninForm';
+import SignupForm from '@/components/features/Auth/Form/SignupForm';
 
-export default function Signin() {
+export default function Singup() {
   return (
     <>
       <Head>
         <title>Sign In</title>
       </Head>
       <AuthLayout>
-        <SigninForm />
+        <SignupForm />
       </AuthLayout>
     </>
   );

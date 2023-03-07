@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-export function useClickOutside<T extends HTMLElement>(
+export function useClickOutside(
   callback: () => void,
   events: (keyof DocumentEventMap)[] = ['mousedown', 'touchstart']
 ) {
-  const targetRef = useRef<T>(null);
+  const targetRef = useRef<any>(null);
   const callbackRef = useRef(callback);
   const eventsRef = useRef(events);
 
