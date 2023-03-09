@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import MenuNavigation from './MenuNavigation';
-const MenuSettings = dynamic(() => import('./MenuSettings'), { ssr: false });
+import MenuSettings from './MenuSettings';
 
 const menuVariants = {
   visible: { opacity: 1 },

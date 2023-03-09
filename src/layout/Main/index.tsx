@@ -2,10 +2,8 @@ import { PropsWithChildren, useEffect } from 'react';
 import dayjs from 'dayjs';
 
 import { useAppSelector } from '@/hooks/store';
-import {
-  useGetUserQuery,
-  useSignoutMutation,
-} from '@/store/features/user/user.api';
+import { useGetUserQuery } from '@/store/features/user/user.api';
+import { useSignoutMutation } from '@/store/features/auth/auth.api';
 
 export default function Main({ children }: PropsWithChildren) {
   const refreshTokenExp = useAppSelector((state) => state.user.refreshTokenExp);

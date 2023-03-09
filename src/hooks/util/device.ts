@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { isMobile } from 'react-device-detect';
 
 export const useCheckMobile = () => {
   const [isMobile, setIsMobile] = useState(false);

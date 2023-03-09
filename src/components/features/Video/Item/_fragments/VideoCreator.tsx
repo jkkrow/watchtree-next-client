@@ -20,12 +20,7 @@ export default function VideoCreator({ creator, brief }: VideoCreatorProps) {
       onClick={(event) => event.stopPropagation()}
     >
       <div className="group relative flex items-center pr-2">
-        <Avatar
-          src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${creator.picture}`}
-          name={creator.name}
-          width={24}
-          height={24}
-        />
+        <Avatar src={creator.picture} name={creator.name} size={24} />
         {brief && (
           <div className="absolute px-2 py-1 ml-6 rounded-md pointer-events-none opacity-0 group-hover:pointer-events-auto group-hover:opacity-100 group-hover:translate-x-2 transition bg-inversed text-inversed">
             {creatorName}

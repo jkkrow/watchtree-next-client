@@ -4,17 +4,19 @@ import UserIcon from '@/assets/icons/user.svg';
 interface AvatarProps {
   src: string;
   name?: string;
-  width: number;
-  height: number;
+  size: number;
 }
 
-export default function Avatar({ src, name, width, height }: AvatarProps) {
+export default function Avatar({ src, name, size }: AvatarProps) {
+  const assetDomain = process.env.NEXT_PUBLIC_ASSET_DOMAIN;
+  const imgUrl = src.startsWith('http') ? src : `${assetDomain}/${src}`;
+
   return (
     <div>
       {src ? (
-        <Image src={src} alt={name || ''} width={width} height={height} />
+        <Image src={imgUrl} alt={name || ''} width={size} height={size} />
       ) : (
-        <UserIcon width={width} height={height} />
+        <UserIcon width={size} height={size} />
       )}
     </div>
   );

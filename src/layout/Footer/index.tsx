@@ -13,7 +13,7 @@ export default function Footer() {
         <ul className="flex gap-6">
           {links.map(({ href, name }) => (
             <li key={name}>
-              <Link className="hover:text-secondary transition" href={href}>
+              <Link className="hover:text-hover transition" href={href}>
                 {name}
               </Link>
             </li>

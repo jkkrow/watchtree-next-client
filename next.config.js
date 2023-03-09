@@ -1,5 +1,3 @@
-const url = new URL(process.env.ASSET_URL);
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -14,9 +12,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: url.host,
-        port: url.port,
-        pathname: '/**',
+        hostname: new URL(process.env.ASSET_DOMAIN).hostname,
+      },
+      {
+        protocol: 'https',
+        hostname: '**.googleusercontent.com',
       },
     ],
   },

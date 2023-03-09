@@ -1,18 +1,24 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import Input from '@/components/common/Element/Input';
 import Button from '@/components/common/Element/Button';
-import { SignupRequest } from '@/store/features/user/user.type';
+import { useSignupMutation } from '@/store/features/auth/auth.api';
+import { SignupRequest } from '@/store/features/auth/auth.type';
 import { isEmail, isPassword } from '@/utils/validate';
 
 export default function SignupForm() {
+  const router = useRouter();
+  const [signup, { isLoading }] = useSignupMutation();
+
   const { register, handleSubmit, formState } = useForm({
     defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   });
 
-  const signupHandler = (data: SignupRequest) => {
-    console.log(data);
+  const signupHandler = async (data: SignupRequest) => {
+    const result: any = await signup(data);
+    if (!result.error) router.replace('/browse');
   };
 
   return (
@@ -54,17 +60,21 @@ export default function SignupForm() {
             validate: (value, { password }) => value === password,
           })}
         />
-        <Button loading={false}>SIGN UP</Button>
+        <Button inversed loading={isLoading}>
+          SIGN UP
+        </Button>
       </form>
 
       <p className="text-xs text-center my-4 pl-2">
-        <span>{'By clicking "SIGN UP", you agree to our '}</span>
+        <span>By clicking </span>
+        <span className="font-medium">SIGN UP</span>
+        <span>, you agree to our </span>
         <Link href="/private-policy">private policy</Link>
         <span>{' and '}</span>
         <Link href="/terms-and-conditions">terms and conditions</Link>
       </p>
 
-      <p className="flex justify-center mt-2 gap-2">
+      <p className="flex justify-center mt-4 gap-2">
         <span>{'Already have an Account?'}</span>
         <Link href="/auth/signin">Sign in</Link>
       </p>

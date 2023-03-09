@@ -8,12 +8,15 @@ interface VideoThumbnailProps {
 }
 
 export default function VideoThumbnail({ title, url }: VideoThumbnailProps) {
+  const assetDomain = process.env.NEXT_PUBLIC_ASSET_DOMAIN;
+  const imgUrl = url.startsWith('http') ? url : `${assetDomain}/${url}`;
+
   return (
     <div className="relative flex justify-center items-center cursor-pointer aspect-video">
       {url ? (
         <Image
           className="object-cover"
-          src={`${process.env.NEXT_PUBLIC_ASSET_URL}/${url}`}
+          src={imgUrl}
           alt={title}
           sizes="320px"
           fill

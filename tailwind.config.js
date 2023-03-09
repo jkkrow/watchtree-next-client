@@ -11,6 +11,10 @@ module.exports = {
         inversed: 'var(--text-inversed)',
         success: 'var(--text-success)',
         invalid: 'var(--text-invalid)',
+        hover: 'var(--text-hover)',
+        active: 'var(--text-active)',
+        'hover-inversed': 'var(--text-hover-inversed)',
+        'active-inversed': 'var(--text-active-inversed)',
       },
       backgroundColor: {
         primary: 'var(--bg-primary)',
@@ -20,6 +24,10 @@ module.exports = {
         hover: 'var(--bg-hover)',
         success: 'var(--bg-success)',
         invalid: 'var(--bg-invalid)',
+        hover: 'var(--bg-hover)',
+        active: 'var(--bg-active)',
+        'hover-inversed': 'var(--bg-hover-inversed)',
+        'active-inversed': 'var(--bg-active-inversed)',
       },
       gridTemplateColumns: {
         video: 'repeat(auto-fill, minmax(300px, 1fr))',

@@ -18,7 +18,7 @@ specifiers:
   eslint: 8.32.0
   eslint-config-next: 13.1.2
   framer-motion: ^9.0.2
-  jwt-decode: ^3.1.2
+  jose: ^4.13.1
   next: 13.1.2
   next-redux-cookie-wrapper: ^2.2.1
   next-redux-wrapper: ^8.1.0
@@ -49,7 +49,7 @@ dependencies:
   eslint: 8.32.0
   eslint-config-next: 13.1.2_7uibuqfxkfaozanbtbziikiqje
   framer-motion: 9.0.2_biqbaboplfbrettd7655fr4n2y
-  jwt-decode: 3.1.2
+  jose: 4.13.1
   next: 13.1.2_biqbaboplfbrettd7655fr4n2y
   next-redux-cookie-wrapper: 2.2.1_next-redux-wrapper@8.1.0
   next-redux-wrapper: 8.1.0_y34iadpuipqk5cxypqrh4vrr4i
@@ -3500,6 +3500,10 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: false
 
+  /jose/4.13.1:
+    resolution: {integrity: sha512-MSJQC5vXco5Br38mzaQKiq9mwt7lwj2eXpgpRyQYNHYt2lq1PjkWa7DLXX0WVcQLE9HhMh3jPiufS7fhJf+CLQ==}
+    dev: false
+
   /js-sdsl/4.2.0:
     resolution: {integrity: sha512-dyBIzQBDkCqCu+0upx25Y2jGdbTGxE9fshMsCdK0ViOongpV+n5tXRcZY9v7CaVQ79AGS9KA1KHtojxiM7aXSQ==}
     dev: false
@@ -3557,10 +3561,6 @@ packages:
     dependencies:
       array-includes: 3.1.6
       object.assign: 4.1.4
-    dev: false
-
-  /jwt-decode/3.1.2:
-    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: false
 
   /language-subtag-registry/0.3.22:

@@ -18,7 +18,7 @@ export default function Spinner({ on, size, overlay }: SpinnerProps) {
     <AnimatePresence>
       {on ? (
         <motion.div
-          className="flex justify-center items-center data-[overlay=true]:absolute data-[overlay=true]:inset-0 data-[overlay=true]:bg-primary data-[overlay=true]:text-primary"
+          className="flex justify-center items-center data-[overlay=true]:absolute data-[overlay=true]:inset-0 data-[overlay=true]:bg-inherit data-[overlay=true]:text-inherit"
           data-overlay={overlay}
           variants={loaderVariants}
           transition={{ duration: 0.15 }}

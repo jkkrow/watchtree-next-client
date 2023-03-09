@@ -1,7 +1,9 @@
+import dynamic from 'next/dynamic';
+
 import Logo from './Logo';
 import Navigation from './Navigation';
 import Search from './Search';
-import Menu from './Menu';
+const Menu = dynamic(() => import('./Menu'), { ssr: false });
 
 export default function Header() {
   return (

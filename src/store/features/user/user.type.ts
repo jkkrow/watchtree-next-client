@@ -27,26 +27,8 @@ export interface Credentials {
   refreshTokenExp: DateString;
 }
 
-export interface SignupRequest {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
 export interface GetUserRequest {
   user: User;
-}
-
-export interface SigninRequest {
-  email: string;
-  password: string;
-}
-
-export interface ResetPasswordRequest {
-  token: string;
-  password: string;
-  confirmPassword: string;
 }
 
 export interface UpdatePasswordRequest {
@@ -58,15 +40,6 @@ export interface UpdatePasswordRequest {
 export interface DeleteUserRequest {
   email: string;
   password: string;
-}
-
-export interface GetCredentialsResponse {
-  accessToken: string;
-  refreshTokenExp: DateString;
-}
-
-export interface SigninResponse extends GetCredentialsResponse {
-  user: User;
 }
 
 export type UserType = 'native' | 'google';

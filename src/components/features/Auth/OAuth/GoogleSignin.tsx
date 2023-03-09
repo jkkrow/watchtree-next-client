@@ -7,12 +7,18 @@ import { setMessage } from '@/store/features/ui/ui.slice';
 interface GoogleSigninProps {
   label: string;
   loading?: boolean;
+  disabled?: boolean;
+  invalid?: boolean;
+  inversed?: boolean;
   onVerify: (credential: string) => void;
 }
 
 export default function GoogleSignin({
   label,
   loading,
+  disabled,
+  invalid,
+  inversed,
   onVerify,
 }: GoogleSigninProps) {
   const dispatch = useAppDispatch();
@@ -27,10 +33,18 @@ export default function GoogleSignin({
   });
 
   return (
-    <Button loading={loading || !loaded}>
-      <div className="group flex justify-center items-center w-full h-full">
+    <Button
+      loading={loading || !loaded}
+      disabled={disabled}
+      invalid={invalid}
+      inversed={inversed}
+    >
+      <div
+        className="group flex bg-inherit text-inherit justify-center items-center w-full h-full aria-disabled:pointer-events-none"
+        aria-disabled={disabled}
+      >
         <div ref={buttonRef} />
-        <div className="absolute inset-0 flex justify-center items-center gap-4 bg-inversed pointer-events-none transition-opacity group-hover:opacity-0">
+        <div className="absolute inset-0 flex justify-center items-center gap-4 bg-inherit text-inherit pointer-events-none transition-opacity group-hover:opacity-0">
           <GoogleIcon className="w-4 h-4" />
           <span>{label}</span>
         </div>

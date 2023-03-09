@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/dist/query/react';
 import { Mutex } from 'async-mutex';
-import jwtDecode, { JwtPayload } from 'jwt-decode';
+import { decodeJwt } from 'jose';
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import dayjs from 'dayjs';
 
@@ -38,8 +38,8 @@ function configureBaseQuery(): AppBaseQuery {
     const { getState } = api;
     const isServer = typeof window === 'undefined';
     const baseURL = isServer
-      ? process.env.SERVER_URL
-      : process.env.NEXT_PUBLIC_SERVER_URL;
+      ? process.env.SERVER_DOMAIN
+      : process.env.NEXT_PUBLIC_SERVER_DOMAIN;
 
     const { accessToken, refreshTokenExp } = (getState() as AppState).user;
     const headers: AxiosRequestConfig['headers'] = {};
@@ -72,7 +72,7 @@ function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
     }
 
     if (refreshTokenExp && accessToken) {
-      const { exp } = jwtDecode<JwtPayload>(accessToken);
+      const { exp } = decodeJwt(accessToken);
       tokenExpired = dayjs.unix(exp as number).isBefore(dayjs());
     }
 
@@ -87,11 +87,12 @@ function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
 
-      const customArg = {
-        url: 'users/current/credentials',
-        withCredentials: true,
-      };
-      const { data } = await baseQuery(customArg, api, extraOptions);
+      const url = 'users/current/credentials';
+      const customArg = { url, withCredentials: true };
+
+      const { data, error } = await baseQuery(customArg, api, extraOptions);
+      if (error) release();
+      if (error) return { error };
 
       dispatch(setCredentials(data as Credentials));
       release();
@@ -111,11 +112,8 @@ function configureUnauthorized(baseQuery: AppBaseQuery): AppBaseQuery {
 
     if (result.error && result.error.status === 401) {
       dispatch(clearUser());
-      const customArg = {
-        url: 'users/signout',
-        method: 'post',
-        withCredentials: true,
-      };
+      const url = 'users/signout';
+      const customArg = { url, method: 'post', withCredentials: true };
       return baseQuery(customArg, api, extraOptions);
     }
 

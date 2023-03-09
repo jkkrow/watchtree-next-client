@@ -34,7 +34,7 @@ export default function MenuToggle({ active, onClick }: MenuButtonProps) {
   return (
     <div className="flex items-center h-full cursor-pointer" onClick={onClick}>
       {userInfo ? (
-        <Avatar src={userInfo.picture} name={userInfo.name} />
+        <Avatar src={userInfo.picture} name={userInfo.name} size={32} />
       ) : (
         <motion.div
           className="relative flex flex-col justify-center w-6 h-6"
