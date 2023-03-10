@@ -82,6 +82,7 @@ export const authApi = appApi.injectEndpoints({
         url: `users/verification/${token}`,
         method: 'post',
       }),
+      extraOptions: { ignoreMessage: true },
       invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
@@ -98,6 +99,7 @@ export const authApi = appApi.injectEndpoints({
         url: `users/recovery/${token}`,
         method: 'post',
       }),
+      extraOptions: { ignoreMessage: true },
     }),
 
     resetPassword: builder.mutation<MessageResponse, ResetPasswordRequest>({

@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import type { AppState, AppBaseQuery, AppBaseQueryConfig } from '..';
 import { setMessage, clearMessage } from '../features/ui/ui.slice';
 import { setCredentials, clearUser } from '../features/user/user.slice';
+import { MessageResponse } from '../common/api.type';
 import { Credentials } from '../features/user/user.type';
 
 export const appApi = createApi({
@@ -53,7 +54,6 @@ function configureBaseQuery(): AppBaseQuery {
   };
 
   baseQuery = configureReauthentication(baseQuery);
-  baseQuery = configureUnauthorized(baseQuery);
   baseQuery = configureMessageResponse(baseQuery);
   baseQuery = configureMetadata(baseQuery);
 
@@ -87,37 +87,31 @@ function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
 
-      const url = 'users/current/credentials';
-      const customArg = { url, withCredentials: true };
+      const { data: credentials, error } = await baseQuery(
+        { url: 'users/current/credentials', withCredentials: true },
+        api,
+        extraOptions
+      );
 
-      const { data, error } = await baseQuery(customArg, api, extraOptions);
-      if (error) release();
-      if (error) return { error };
+      if (error) {
+        dispatch(clearUser());
+        const signoutResult = await baseQuery(
+          { url: 'users/signout', method: 'post', withCredentials: true },
+          api,
+          { ignoreMessage: true }
+        );
 
-      dispatch(setCredentials(data as Credentials));
+        release();
+        return signoutResult;
+      }
+
+      dispatch(setCredentials(credentials as Credentials));
       release();
     } else {
       await mutex.waitForUnlock();
     }
 
     return baseQuery(args, api, extraOptions);
-  };
-}
-
-function configureUnauthorized(baseQuery: AppBaseQuery): AppBaseQuery {
-  return async (args, api, extraOptions) => {
-    const { dispatch } = api;
-
-    const result = await baseQuery(args, api, extraOptions);
-
-    if (result.error && result.error.status === 401) {
-      dispatch(clearUser());
-      const url = 'users/signout';
-      const customArg = { url, method: 'post', withCredentials: true };
-      return baseQuery(customArg, api, extraOptions);
-    }
-
-    return result;
   };
 }
 
@@ -133,19 +127,23 @@ function configureMessageResponse(baseQuery: AppBaseQuery): AppBaseQuery {
 
     const result = await baseQuery(args, api, extraOptions);
 
-    if (extraOptions && extraOptions.ignoreMessage) {
+    if (extraOptions?.ignoreMessage) {
       return result;
     }
 
     if (result.error) {
-      const data: any = result.error.data;
-      const subject = data?.error || 'Unknown Error';
-      const content = data?.message || 'Something went wrong';
+      const data = result.error.data;
+      let subject = 'Unknown Error';
+      let content = 'Please try again later';
+
+      subject = typeof data === 'string' ? data : data?.error || subject;
+      content = typeof data === 'string' ? content : data?.message || content;
+
       dispatch(setMessage({ type: 'error', action, subject, content }));
     }
 
-    if (result.data && (result.data as any).message) {
-      const content = (result.data as any).message;
+    if (result.data && (result.data as MessageResponse).message) {
+      const content = (result.data as MessageResponse).message;
       dispatch(setMessage({ type: 'message', action, content }));
     }
 

@@ -18,6 +18,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.googleusercontent.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'loremflickr.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cloudflare-ipfs.com',
+      },
     ],
   },
   experimental: {

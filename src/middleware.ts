@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
 
 export const config = {
   matcher: [
@@ -10,24 +9,19 @@ export const config = {
 };
 
 export default async function middleware(req: NextRequest) {
-  const refreshToken = req.cookies.get('refreshToken');
-  const secret = new TextEncoder().encode(process.env.TOKEN_SECRET_KEY!);
+  const user = req.cookies.get('user.info');
   const { url } = req;
   const { pathname } = new URL(url);
 
-  if (refreshToken && pathname.startsWith('/auth')) {
-    const redirectUrl = new URL('/', url);
-    return NextResponse.redirect(redirectUrl);
+  const isUser = !!JSON.parse(user?.value || 'null');
+  const onlyGuests = pathname.startsWith('/auth');
+  const onlyUsers = ['user', 'upload'].includes(pathname.split('/')[1]);
+
+  if (isUser && onlyGuests) {
+    return NextResponse.redirect(new URL('/', url));
   }
 
-  if (pathname.startsWith('/user') || pathname.startsWith('/upload')) {
-    const redirectUrl = new URL('/auth', url);
-    if (!refreshToken) return NextResponse.redirect(redirectUrl);
-
-    try {
-      await jwtVerify(refreshToken.value, secret);
-    } catch (error) {
-      return NextResponse.redirect(redirectUrl);
-    }
+  if (!isUser && onlyUsers) {
+    return NextResponse.redirect(new URL('/auth', url));
   }
 }

@@ -1,14 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import Input from '@/components/common/Element/Input';
 import Button from '@/components/common/Element/Button';
 import GoogleSignin from '../OAuth/GoogleSignin';
 import { useSigninMutation } from '@/store/features/auth/auth.api';
 import { useSigninGoogleMutation } from '@/store/features/auth/auth.api';
-import { SigninRequest } from '@/store/features/auth/auth.type';
 import { isEmail } from '@/utils/validate';
+
+interface SigninInputs {
+  email: string;
+  password: string;
+}
 
 export default function SigninForm() {
   const router = useRouter();
@@ -20,7 +24,7 @@ export default function SigninForm() {
     defaultValues: { email: '', password: '' },
   });
 
-  const signinHandler = async (data: SigninRequest) => {
+  const signinHandler: SubmitHandler<SigninInputs> = async (data) => {
     const result: any = await signin(data);
     if (!result.error) router.replace('/browse');
   };

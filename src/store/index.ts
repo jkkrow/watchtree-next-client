@@ -34,14 +34,17 @@ export type AppBaseQuery = BaseQueryFn<
   AxiosRequestConfig,
   unknown,
   AppBaseQueryError,
-  AppQueryExtraOptions,
+  AppQueryExtraOptions | undefined,
   AppQueryMeta
 >;
 export type AppBaseQueryConfig = {
   baseURL?: string;
   headers?: AxiosRequestConfig['headers'];
 };
-export type AppBaseQueryError = { status?: number; data?: { message: string } };
+export type AppBaseQueryError = {
+  status?: number;
+  data?: { error: string; message: string } | string;
+};
 export type AppQueryExtraOptions = { ignoreMessage?: boolean };
 export type AppQueryMeta = Omit<AxiosResponse, 'data'> & {
   userId?: string | null;

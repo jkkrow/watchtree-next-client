@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
 
-import MessageItem from './MessagesItem';
+import MessageItem from './MessageItem';
 import { useAppSelector } from '@/hooks/store';
 
 export default function MessageList() {

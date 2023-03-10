@@ -12,7 +12,7 @@ export default function Avatar({ src, name, size }: AvatarProps) {
   const imgUrl = src.startsWith('http') ? src : `${assetDomain}/${src}`;
 
   return (
-    <div>
+    <div className="rounded-full overflow-hidden">
       {src ? (
         <Image src={imgUrl} alt={name || ''} width={size} height={size} />
       ) : (

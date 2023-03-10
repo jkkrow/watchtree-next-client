@@ -1,11 +1,15 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import Input from '@/components/common/Element/Input';
 import Button from '@/components/common/Element/Button';
 import { useSendRecoveryMutation } from '@/store/features/auth/auth.api';
 import { isEmail } from '@/utils/validate';
+
+interface RecoveryInputs {
+  email: string;
+}
 
 export default function RecoveryForm() {
   const router = useRouter();
@@ -15,7 +19,9 @@ export default function RecoveryForm() {
     defaultValues: { email: '' },
   });
 
-  const sendRecoveryHandler = async ({ email }: { email: string }) => {
+  const sendRecoveryHandler: SubmitHandler<RecoveryInputs> = async ({
+    email,
+  }) => {
     const result: any = await sendRecovery(email);
     if (!result.error) router.push('/auth/signin');
   };

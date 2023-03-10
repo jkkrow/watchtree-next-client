@@ -1,12 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import Input from '@/components/common/Element/Input';
 import Button from '@/components/common/Element/Button';
 import { useSignupMutation } from '@/store/features/auth/auth.api';
-import { SignupRequest } from '@/store/features/auth/auth.type';
 import { isEmail, isPassword } from '@/utils/validate';
+
+interface SignupInputs {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export default function SignupForm() {
   const router = useRouter();
@@ -16,7 +22,7 @@ export default function SignupForm() {
     defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   });
 
-  const signupHandler = async (data: SignupRequest) => {
+  const signupHandler: SubmitHandler<SignupInputs> = async (data) => {
     const result: any = await signup(data);
     if (!result.error) router.replace('/browse');
   };
