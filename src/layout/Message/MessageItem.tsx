@@ -30,6 +30,7 @@ export default function MessageItem({ message }: MessageItemProps) {
       animate="visible"
       exit="hidden"
       transition={{ duration: 0.2 }}
+      whileHover={{ opacity: 0.8 }}
       onClick={deleteMessageHandler}
     >
       {message.subject && <div className="font-bold">{message.subject}</div>}

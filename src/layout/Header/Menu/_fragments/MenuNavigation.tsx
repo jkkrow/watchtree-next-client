@@ -22,13 +22,13 @@ const userRoutes = (signout: () => void): NavLink[] => [
   { href: '/user/videos', name: 'Your Videos', icon: <VideoIcon /> },
   { href: '/user/favorites', name: 'Favorites', icon: <FavoriteIcon /> },
   { href: '/user/subscribes', name: 'Subscriptions', icon: <SubscribeIcon /> },
-  { href: '/histories', name: 'Watch History', icon: <TimeIcon /> },
+  { href: '/history', name: 'Watch History', icon: <TimeIcon /> },
   { href: '/', name: 'Sign Out', icon: <SignoutIcon />, onClick: signout },
 ];
 
 const guestRoutes = (): NavLink[] => [
   { href: '/auth/signin', name: 'Sign In', icon: <SigninIcon /> },
-  { href: '/histories', name: 'Watch History', icon: <TimeIcon /> },
+  { href: '/history', name: 'Watch History', icon: <TimeIcon /> },
 ];
 
 export default function MenuNavigation() {

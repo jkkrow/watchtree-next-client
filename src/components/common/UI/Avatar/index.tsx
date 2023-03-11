@@ -9,7 +9,10 @@ interface AvatarProps {
 
 export default function Avatar({ src, name, size }: AvatarProps) {
   const assetDomain = process.env.NEXT_PUBLIC_ASSET_DOMAIN;
-  const imgUrl = src.startsWith('http') ? src : `${assetDomain}/${src}`;
+  const imgUrl =
+    src.startsWith('http') || src.startsWith('blob')
+      ? src
+      : `${assetDomain}/${src}`;
 
   return (
     <div className="rounded-full overflow-hidden">

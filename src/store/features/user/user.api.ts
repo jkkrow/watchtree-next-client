@@ -73,8 +73,9 @@ export const userApi = appApi.injectEndpoints({
       queryFn: async (_, api, __, baseQuery) => {
         const { info } = (api.getState() as AppState).user;
         const { error } = await baseQuery({
-          url: `upload/images/${info?.picture}`,
+          url: `upload/images`,
           method: 'delete',
+          params: { key: info?.picture },
         });
 
         if (error) return { error };
@@ -128,6 +129,7 @@ export const {
   updateName,
   updatePassword,
   updatePicture,
+  deletePicture,
   createMembership,
   cancelMembership,
   deleteAccount,
@@ -139,6 +141,7 @@ export const {
   useUpdateNameMutation,
   useUpdatePasswordMutation,
   useUpdatePictureMutation,
+  useDeletePictureMutation,
   useCreateMembershipMutation,
   useCancelMembershipMutation,
   useDeleteAccountMutation,
