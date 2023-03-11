@@ -15,7 +15,7 @@ export default function NavigationToggle({
   onClick,
 }: NavigationToggleProps) {
   return (
-    <motion.div
+    <motion.button
       className="flex justify-center items-center w-full h-full after:border-t-8 after:border-t-current after:border-x-8 after:border-x-transparent"
       variants={toggleVariants}
       initial="inActive"

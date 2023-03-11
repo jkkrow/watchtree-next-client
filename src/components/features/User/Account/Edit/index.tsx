@@ -15,7 +15,7 @@ export default function Edit({ type }: EditProps) {
       <Link className="absolute top-0 left-0 w-6 h-6" href="/user/account">
         <ArrowLeftIcon />
       </Link>
-      <div className="w-64">
+      <div className="w-64 mx-12">
         {type === 'name' ? <EditName /> : null}
         {type === 'password' ? <EditPassword /> : null}
         {type === 'picture' ? <EditPicture /> : null}

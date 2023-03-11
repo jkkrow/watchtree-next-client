@@ -21,9 +21,9 @@ export default function MessageItem({ message }: MessageItemProps) {
   };
 
   return (
-    <motion.div
+    <motion.button
       layout
-      className="w-full max-w-6xl p-4 bg-success aria-[invalid=true]:bg-invalid shadow-md cursor-pointer rounded-md"
+      className="flex flex-col w-full max-w-6xl p-4 bg-success aria-[invalid=true]:bg-invalid shadow-md cursor-pointer rounded-md"
       aria-invalid={message.type === 'error'}
       variants={itemVariants}
       initial="hidden"
@@ -35,6 +35,6 @@ export default function MessageItem({ message }: MessageItemProps) {
     >
       {message.subject && <div className="font-bold">{message.subject}</div>}
       <div>{message.content}</div>
-    </motion.div>
+    </motion.button>
   );
 }
