@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
 import { appListener } from '@/store/app/listener';
-import { UiSliceState, Message } from './ui.type';
+import { UiSliceState, Message, Modal } from './ui.type';
 
 const initialState: UiSliceState = {
   messages: [],
@@ -19,10 +19,17 @@ export const uiSlice = createSlice({
     clearMessage(state, { payload }: PayloadAction<string>) {
       state.messages = state.messages.filter((msg) => msg.id !== payload);
     },
+    setModal(state, { payload }: PayloadAction<Modal>) {
+      state.modal = payload;
+    },
+    clearModal(state) {
+      state.modal = null;
+    },
   },
 });
 
-export const { setMessage, clearMessage } = uiSlice.actions;
+export const { setMessage, clearMessage, setModal, clearModal } =
+  uiSlice.actions;
 
 appListener.startListening({
   actionCreator: setMessage,

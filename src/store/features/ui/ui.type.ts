@@ -1,6 +1,6 @@
 export interface UiSliceState {
   messages: Message[];
-  modal: null;
+  modal: Modal | null;
 }
 
 export interface Message {
@@ -9,6 +9,10 @@ export interface Message {
   content: string;
   action?: string;
   subject?: string;
+}
+
+export interface Modal extends Record<string, unknown> {
+  id: string;
 }
 
 export type MessageType = 'message' | 'error';

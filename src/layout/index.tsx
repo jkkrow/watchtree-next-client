@@ -6,6 +6,7 @@ import Header from './Header';
 import Footer from './Footer';
 import Message from './Message';
 import Modal from './Modal';
+import VideoModal from './VideoModal';
 import { useMountEffect } from '@/hooks/lifecycle/mount-effect';
 import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { setDarkMode } from '@/store/features/settings/settings.slice';
@@ -31,8 +32,9 @@ export default function Layout({ children }: PropsWithChildren) {
       <Header />
       <Main>{children}</Main>
       <Footer />
-      <Message />
       <Modal />
+      <Message />
+      <VideoModal />
     </div>
   );
 }
