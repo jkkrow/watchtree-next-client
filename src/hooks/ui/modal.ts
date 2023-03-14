@@ -2,15 +2,17 @@ import { useCallback } from 'react';
 
 import { useAppSelector, useAppDispatch } from '../store';
 import { setModal, clearModal } from '@/store/features/ui/ui.slice';
-import { Modal } from '@/store/features/ui/ui.type';
+import { Modal, ModalPayload, ModalRoutes } from '@/store/features/ui/ui.type';
 
-export function useModal() {
+export function useModal<Payload extends ModalPayload = {}>() {
   const dispatch = useAppDispatch();
-  const modal = useAppSelector((state) => state.ui.modal);
+  const modal = useAppSelector(
+    (state) => state.ui.modal
+  ) as Modal<Payload> | null;
 
   const open = useCallback(
-    (modal: Modal) => {
-      dispatch(setModal(modal));
+    (id: ModalRoutes, payload?: Payload) => {
+      dispatch(setModal({ id, ...payload }));
     },
     [dispatch]
   );

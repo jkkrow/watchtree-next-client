@@ -11,8 +11,17 @@ export interface Message {
   subject?: string;
 }
 
-export interface Modal extends Record<string, unknown> {
-  id: string;
+export type Modal<Payload extends ModalPayload = {}> = {
+  id: ModalRoutes;
+} & Payload;
+
+export interface ModalPayload extends Record<string, any> {}
+
+export interface ImageModal {
+  src: string;
+  alt?: string;
 }
+
+export type ModalRoutes = 'signout' | 'image' | 'delete-account';
 
 export type MessageType = 'message' | 'error';

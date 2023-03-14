@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 import Input from '@/components/common/Element/Input';
 import Button from '@/components/common/Element/Button';
-import GoogleSignin from '../OAuth/GoogleSignin';
+import GoogleOAuth from '../OAuth/GoogleOAuth';
 import { useSigninMutation } from '@/store/features/auth/auth.api';
 import { useSigninGoogleMutation } from '@/store/features/auth/auth.api';
 import { isEmail } from '@/utils/validate';
@@ -60,7 +60,7 @@ export default function SigninForm() {
         </Button>
       </form>
 
-      <GoogleSignin
+      <GoogleOAuth
         label="GOOGLE SIGN IN"
         loading={signinGoogleLoading}
         disabled={signinLoading}

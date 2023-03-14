@@ -13,7 +13,7 @@ interface GoogleSigninProps {
   onVerify: (credential: string) => void;
 }
 
-export default function GoogleSignin({
+export default function GoogleOAuth({
   label,
   loading,
   disabled,
@@ -34,6 +34,7 @@ export default function GoogleSignin({
 
   return (
     <Button
+      type="button"
       loading={loading || !loaded}
       disabled={disabled}
       invalid={invalid}

@@ -2,11 +2,7 @@ import { AppState } from '@/store';
 import { appApi, axiosBaseQuery } from '@/store/app/api';
 import { MessageResponse } from '@/store/common/api.type';
 import { setInfo } from './user.slice';
-import {
-  GetUserRequest,
-  UpdatePasswordRequest,
-  DeleteUserRequest,
-} from './user.type';
+import { GetUserRequest, UpdatePasswordRequest } from './user.type';
 
 export const userApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -106,11 +102,11 @@ export const userApi = appApi.injectEndpoints({
       invalidatesTags: [{ type: 'User', id: 'INFO' }],
     }),
 
-    deleteAccount: builder.mutation<MessageResponse, DeleteUserRequest>({
-      query: (data) => ({
+    deleteAccount: builder.mutation<MessageResponse, string>({
+      query: (password) => ({
         url: 'users/current/deletion',
         method: 'post',
-        data,
+        data: { password },
       }),
     }),
 

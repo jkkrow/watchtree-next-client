@@ -37,11 +37,6 @@ export interface UpdatePasswordRequest {
   confirmPassword: string;
 }
 
-export interface DeleteUserRequest {
-  email: string;
-  password: string;
-}
-
 export type UserType = 'native' | 'google';
 
 export type MembershipName = 'standard' | 'business' | 'enterprise';

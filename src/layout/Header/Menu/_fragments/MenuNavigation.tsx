@@ -36,7 +36,7 @@ export default function MenuNavigation() {
 
   const links = info ? userRoutes : guestRoutes;
   const signoutHandler = () => {
-    open({ id: 'signout' });
+    open('signout');
   };
 
   return (

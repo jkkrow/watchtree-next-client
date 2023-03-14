@@ -14,10 +14,10 @@ const modalVariants: Variants = {
 
 interface ModalItemProps {
   id: string;
-  element: JSX.Element;
+  element: React.FC<any>;
 }
 
-export default function ModalRoute({ id, element }: ModalItemProps) {
+export default function ModalRoute({ id, element: Element }: ModalItemProps) {
   const { modal, close } = useModal();
 
   return (
@@ -32,10 +32,10 @@ export default function ModalRoute({ id, element }: ModalItemProps) {
         >
           <div className="absolute inset-0 -z-10" onClick={close} />
           <motion.div
-            className="relative max-w-screen-md mx-4 bg-primary rounded-md overflow-hidden"
+            className="relative mx-8 mb-16 bg-primary rounded-md overflow-hidden shadow-md dark:ring-1 dark:ring-secondary"
             variants={modalVariants}
           >
-            {element}
+            <Element {...modal} />
           </motion.div>
         </motion.div>
       ) : null}
