@@ -37,7 +37,9 @@ export function ListContextProvider({
   }, [initialItems]);
 
   return (
-    <ListContext.Provider value={{ items, filterItems }}>
+    <ListContext.Provider
+      value={{ items: !items.length ? initialItems : items, filterItems }}
+    >
       {children}
     </ListContext.Provider>
   );

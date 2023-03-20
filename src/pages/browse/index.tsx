@@ -4,9 +4,11 @@ import Spinner from '@/components/common/UI/Spinner';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getVideos } from '@/store/features/video/video.api';
 
+const MAX = 30;
+
 export default function Browse() {
   const { data, isFetchingMore, listRef } = useInfiniteQuery(getVideos, {
-    max: 30,
+    max: MAX,
   });
 
   return (

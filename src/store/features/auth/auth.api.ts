@@ -66,6 +66,7 @@ export const authApi = appApi.injectEndpoints({
         await queryFulfilled;
       },
       extraOptions: { ignoreMessage: true },
+      invalidatesTags: ['User'],
     }),
 
     sendVerification: builder.mutation<MessageResponse, string>({

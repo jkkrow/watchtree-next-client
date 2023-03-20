@@ -12,15 +12,13 @@ const CreatedVideoGrid = forwardRef<HTMLUListElement>(function CreatedVideoGrid(
   const { items } = useContext<Ctx<VideoTreeEntryWithData>>(ListContext);
 
   return (
-    <div className="w-full">
-      <ul className="grid grid-cols-video gap-6" ref={ref}>
-        <AnimatePresence>
-          {items.map((item) => (
-            <CreatedVideoItem key={item.id} item={item} />
-          ))}
-        </AnimatePresence>
-      </ul>
-    </div>
+    <ul className="w-full grid grid-cols-video gap-6" ref={ref}>
+      <AnimatePresence>
+        {items.map((item) => (
+          <CreatedVideoItem key={item.id} item={item} />
+        ))}
+      </AnimatePresence>
+    </ul>
   );
 });
 

@@ -13,7 +13,7 @@ import { Credentials } from '../features/user/user.type';
 export const appApi = createApi({
   baseQuery: configureBaseQuery(),
   endpoints: () => ({}),
-  tagTypes: ['User', 'Video', 'History'],
+  tagTypes: ['User', 'Video', 'History', 'Subscription'],
 });
 
 export const { getRunningQueriesThunk } = appApi.util;

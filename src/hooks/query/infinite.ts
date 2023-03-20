@@ -16,14 +16,18 @@ export function useInfiniteQuery<
   endpoint: QueryHooks<
     QueryDefinition<RequestType, AppBaseQuery, any, ResponseType>
   >,
-  options: Omit<RequestType, 'token'>
+  params: Omit<RequestType, 'token'>,
+  options?: { skip?: boolean }
 ) {
   const [token, setToken] = useState<string | null>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
 
-  const queryArg = { ...options, token } as RequestType;
-  const { data, isLoading, isFetching, ...rest } = endpoint.useQuery(queryArg);
+  const queryArg = { ...params, token } as RequestType;
+  const { data, isLoading, isFetching, ...rest } = endpoint.useQuery(
+    queryArg,
+    options
+  );
 
   useEffect(() => {
     if (!listRef.current) return;

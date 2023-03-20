@@ -1,17 +1,24 @@
 import Head from 'next/head';
+import { ReactElement } from 'react';
 
 import AuthLayout from '@/components/features/Auth/_layout';
 import SignupForm from '@/components/features/Auth/Form/SignupForm';
+import { NextPageWithLayout } from '../_app';
 
-export default function Singup() {
+const Signup: NextPageWithLayout = () => {
   return (
     <>
       <Head>
         <title>Sign In</title>
       </Head>
-      <AuthLayout>
-        <SignupForm />
-      </AuthLayout>
+
+      <SignupForm />
     </>
   );
-}
+};
+
+Signup.getLayout = function getLayout(page: ReactElement) {
+  return <AuthLayout>{page}</AuthLayout>;
+};
+
+export default Signup;

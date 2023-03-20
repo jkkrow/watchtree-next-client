@@ -17,7 +17,8 @@ export function usePaginationQuery<
   endpoint: QueryHooks<
     QueryDefinition<RequestType, AppBaseQuery, any, ResponseType>
   >,
-  options: Omit<RequestType, 'page'>
+  params: Omit<RequestType, 'page'>,
+  options?: { skip?: boolean }
 ) {
   const router = useRouter();
   const page = useMemo(() => {
@@ -25,8 +26,16 @@ export function usePaginationQuery<
     return page instanceof Array ? +page[0] : +(page || 1);
   }, [router.query]);
 
-  const queryArg = { ...options, page } as RequestType;
-  const result = endpoint.useQuery(queryArg, { skip: !router.isReady });
+  const queryArg = { ...params, page } as RequestType;
+  const queryOptions = {
+    ...options,
+    skip:
+      options?.skip !== undefined
+        ? options.skip || !router.isReady
+        : !router.isReady,
+  };
+
+  const result = endpoint.useQuery(queryArg, queryOptions);
 
   return { ...result, page };
 }

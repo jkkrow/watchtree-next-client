@@ -1,17 +1,24 @@
 import Head from 'next/head';
+import { ReactElement } from 'react';
 
 import AuthLayout from '@/components/features/Auth/_layout';
 import RecoveryForm from '@/components/features/Auth/Form/RecoveryForm';
+import { NextPageWithLayout } from '../_app';
 
-export default function Recovery() {
+const Recovery: NextPageWithLayout = () => {
   return (
     <>
       <Head>
         <title>Recovery</title>
       </Head>
-      <AuthLayout>
-        <RecoveryForm />
-      </AuthLayout>
+
+      <RecoveryForm />
     </>
   );
-}
+};
+
+Recovery.getLayout = function getLayout(page: ReactElement) {
+  return <AuthLayout>{page}</AuthLayout>;
+};
+
+export default Recovery;
