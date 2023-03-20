@@ -56,12 +56,12 @@ export default function SigninForm() {
           Forgot Password
         </Link>
         <Button inversed loading={signinLoading} disabled={signinGoogleLoading}>
-          SIGN IN
+          Sign in
         </Button>
       </form>
 
       <GoogleOAuth
-        label="GOOGLE SIGN IN"
+        label="Google Sign in"
         loading={signinGoogleLoading}
         disabled={signinLoading}
         inversed

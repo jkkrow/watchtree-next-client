@@ -18,15 +18,15 @@ interface NavLink {
 
 const userRoutes: NavLink[] = [
   { href: '/user/account', name: 'Account', icon: <UserIcon /> },
-  { href: '/user/videos', name: 'Your Videos', icon: <VideoIcon /> },
+  { href: '/user/videos', name: 'My Videos', icon: <VideoIcon /> },
   { href: '/user/favorites', name: 'Favorites', icon: <FavoriteIcon /> },
   { href: '/user/subscribes', name: 'Subscriptions', icon: <SubscribeIcon /> },
   { href: '/history', name: 'Watch History', icon: <TimeIcon /> },
-  { href: '/', name: 'Sign Out', icon: <SignoutIcon /> },
+  { href: '/', name: 'Sign out', icon: <SignoutIcon /> },
 ];
 
 const guestRoutes: NavLink[] = [
-  { href: '/auth/signin', name: 'Sign In', icon: <SigninIcon /> },
+  { href: '/auth/signin', name: 'Sign in', icon: <SigninIcon /> },
   { href: '/history', name: 'Watch History', icon: <TimeIcon /> },
 ];
 
@@ -43,7 +43,7 @@ export default function MenuNavigation() {
     <ul>
       {links.map(({ href, name, icon }) => (
         <li key={name}>
-          {name === 'Sign Out' ? (
+          {name === 'Sign out' ? (
             <button
               className="flex w-full p-4 gap-4 hover:bg-hover transition-colors"
               onClick={signoutHandler}

@@ -31,6 +31,9 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  async rewrites() {
+    return { fallback: [{ source: '/:path*', destination: '/_404/:path*' }] };
+  },
 };
 
 module.exports = nextConfig;

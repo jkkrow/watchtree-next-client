@@ -20,7 +20,7 @@ export default function VideoDuration({ min, max, brief }: VideoDurationProps) {
       <div className="w-6 h-6">
         <TimeIcon />
       </div>
-      {brief && <div>Duration:</div>}
+      {!brief && <div>Duration:</div>}
       <div>
         {min === max ? formattedMax : `${formattedMin} - ${formattedMax}`}
       </div>

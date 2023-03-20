@@ -29,7 +29,7 @@ export interface VideoTreeWithData extends VideoTreeEntryWithData {
 export interface VideoTreeEntry {
   id: string;
   title: string;
-  categories: VideoTreeCategory[];
+  categories: string[];
   thumbnail: string;
   size: number;
   maxDuration: number;
@@ -62,10 +62,6 @@ export interface VideoNode {
   children: VideoNode[];
 }
 
-export interface VideoTreeCategory {
-  name: string;
-}
-
 export interface VideoTreeCreator {
   id: string;
   name: string;
@@ -77,23 +73,25 @@ export interface DeletedVideoTree {
   data: null;
 }
 
-export interface GetVideoResponse {
-  videoTree: VideoTreeWithData;
-}
-
 export interface GetVideosRequest extends KeysetPaginationRequest {}
-
-export interface GetVideosResponse
-  extends KeysetPaginationResponse<VideoTreeEntryWithData> {}
 
 export interface SearchVideosRequest extends OffsetPaginationRequest {
   keyword: string;
 }
 
+export interface GetCreatedVideosRequest extends OffsetPaginationRequest {}
+
+export interface GetVideoResponse {
+  videoTree: VideoTreeWithData;
+}
+
+export interface GetVideosResponse
+  extends KeysetPaginationResponse<VideoTreeEntryWithData> {}
+
 export interface SearchVideosResponse
   extends OffsetPaginationResponse<VideoTreeEntryWithData> {}
 
 export interface GetCreatedVideosResponse
-  extends OffsetPaginationResponse<VideoTreeEntry> {}
+  extends OffsetPaginationResponse<VideoTreeEntryWithData> {}
 
 export type VideoTreeStatus = 'public' | 'private';

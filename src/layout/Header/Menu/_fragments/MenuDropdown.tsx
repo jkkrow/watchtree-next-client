@@ -17,7 +17,7 @@ export default function MenuDropdown({ active }: MenuDropdownProps) {
     <AnimatePresence>
       {active ? (
         <motion.div
-          className="absolute top-full right-0 w-60 bg-primary ring-1 ring-secondary"
+          className="absolute top-full right-0 w-60 bg-primary border-[1px] border-secondary shadow-lg"
           variants={menuVariants}
           transition={{ duration: 0.1 }}
           initial="hidden"

@@ -1,6 +1,7 @@
+import BrowseLayout from '@/components/features/Browse/_layout';
 import VideoGrid from '@/components/features/Video/Grid';
 import Spinner from '@/components/common/UI/Spinner';
-import { useInfiniteQuery } from '@/hooks/query';
+import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getVideos } from '@/store/features/video/video.api';
 
 export default function Browse() {
@@ -10,8 +11,10 @@ export default function Browse() {
 
   return (
     <>
-      <VideoGrid data={data} ref={listRef} />
-      <Spinner on={isFetchingMore} size={64} />
+      <BrowseLayout>
+        <VideoGrid items={data?.items || []} ref={listRef} />
+        <Spinner on={isFetchingMore} size={64} />
+      </BrowseLayout>
     </>
   );
 }

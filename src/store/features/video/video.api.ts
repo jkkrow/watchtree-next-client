@@ -10,10 +10,12 @@ import {
   GetVideosResponse,
   SearchVideosRequest,
   SearchVideosResponse,
+  GetCeratedVideosRequest,
   GetCreatedVideosResponse,
 } from './video.type';
 
 const videoApi = appApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getVideo: builder.query<GetVideoResponse, string>({
       query: (id) => ({ url: `video-tree/${id}` }),
@@ -63,8 +65,11 @@ const videoApi = appApi.injectEndpoints({
       ],
     }),
 
-    getCreatedVideos: builder.query<GetCreatedVideosResponse, void>({
-      query: () => ({ url: 'channels/current/video-trees' }),
+    getCreatedVideos: builder.query<
+      GetCreatedVideosResponse,
+      GetCeratedVideosRequest
+    >({
+      query: (params) => ({ url: 'channels/current/video-trees', params }),
       providesTags: (result) => [
         ...(result
           ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))

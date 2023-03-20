@@ -67,13 +67,13 @@ export default function SignupForm() {
           })}
         />
         <Button inversed loading={isLoading}>
-          SIGN UP
+          Sign up
         </Button>
       </form>
 
       <p className="text-xs text-center my-4 pl-2">
         <span>By clicking </span>
-        <span className="font-medium">SIGN UP</span>
+        <span className="font-medium">Sign up</span>
         <span>, you agree to our </span>
         <Link href="/private-policy">private policy</Link>
         <span>{' and '}</span>

@@ -1,6 +1,7 @@
 export interface OffsetPaginationRequest {
   page: number;
   max: number;
+  withCount?: boolean;
   refetch?: boolean;
 }
 

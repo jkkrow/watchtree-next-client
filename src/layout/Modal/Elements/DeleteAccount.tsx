@@ -120,13 +120,14 @@ export default function DeleteAccount() {
             </p>
           </>
         ) : null}
-        <div className="flex mt-4 ml-auto gap-2 [&_button]:w-fit">
-          <Button type="button" onClick={close}>
+        <div className="flex mt-4 ml-auto gap-2">
+          <Button type="button" small onClick={close}>
             Cancel
           </Button>
           <Button
             inversed
             invalid
+            small
             loading={deleteLoading || deleteGoogleLoading}
             disabled={!formState.isValid}
           >

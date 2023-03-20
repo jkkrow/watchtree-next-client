@@ -40,7 +40,7 @@ export default function RecoveryForm() {
           })}
         />
         <Button inversed loading={isLoading}>
-          SEND EMAIL
+          Send Email
         </Button>
       </form>
       <p className="flex justify-center mt-4 gap-2">

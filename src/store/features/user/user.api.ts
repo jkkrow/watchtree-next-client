@@ -13,6 +13,7 @@ export const userApi = appApi.injectEndpoints({
         dispatch(setInfo(data.user));
       },
       providesTags: ['User', { type: 'User', id: 'INFO' }],
+      extraOptions: { ignoreMessage: true },
     }),
 
     updateName: builder.mutation<MessageResponse, string>({

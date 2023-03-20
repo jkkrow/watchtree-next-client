@@ -32,6 +32,13 @@ module.exports = {
       gridTemplateColumns: {
         video: 'repeat(auto-fill, minmax(300px, 1fr))',
       },
+      maxWidth: {
+        '8xl': 1408,
+        '9xl': 1536,
+        '10xl': 1664,
+        '11xl': 1792,
+        '12xl': 1920,
+      },
     },
   },
   plugins: [require('@tailwindcss/line-clamp')],
