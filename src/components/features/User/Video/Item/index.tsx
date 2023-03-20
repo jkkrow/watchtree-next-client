@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { motion, Variants } from 'framer-motion';
 
 import VideoTitle from '@/components/features/Video/Item/_fragments/VideoTitle';
@@ -10,6 +11,7 @@ import VideoTimestamps from '@/components/features/Video/Item/_fragments/VideoTi
 import Button from '@/components/common/Element/Button';
 import EditIcon from '@/assets/icons/edit.svg';
 import DeleteIcon from '@/assets/icons/delete.svg';
+import { ListContext } from '@/context/List';
 import { useModal } from '@/hooks/ui/modal';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
 import { DeleteVideoModal } from '@/store/features/ui/ui.type';
@@ -24,10 +26,18 @@ interface CreatedVideoItemProps {
 }
 
 export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
+  const { filterItems } = useContext(ListContext);
   const { open } = useModal<DeleteVideoModal>();
 
-  const deleteHandler = () => {
-    open('delete-video', { videoId: item.id, title: item.title });
+  const deleteHandler = async () => {
+    const result = await open('delete-video', {
+      videoId: item.id,
+      title: item.title,
+    });
+
+    if (result === 'completed') {
+      filterItems(item.id);
+    }
   };
 
   return (

@@ -13,6 +13,7 @@ export interface Message {
 
 export type Modal<Payload extends ModalPayload = {}> = {
   id: ModalRoutes;
+  status: ModalStatus;
 } & Payload;
 
 export interface ModalPayload extends Record<string, any> {}
@@ -32,5 +33,7 @@ export type ModalRoutes =
   | 'image'
   | 'delete-video'
   | 'delete-account';
+
+export type ModalStatus = 'pending' | 'cancelled' | 'completed';
 
 export type MessageType = 'message' | 'error';

@@ -20,7 +20,7 @@ interface DeleteAccountInputs {
 export default function DeleteAccount() {
   const router = useRouter();
   const user = useAppSelector((state) => state.user.info);
-  const { close } = useModal();
+  const { cancel, complete } = useModal();
 
   const [signout] = useSignoutMutation();
   const [deleteAccount, { isLoading: deleteLoading }] =
@@ -50,7 +50,7 @@ export default function DeleteAccount() {
 
     if (!result.error) {
       await signout();
-      close();
+      complete();
       router.push('/');
     }
   };
@@ -121,7 +121,7 @@ export default function DeleteAccount() {
           </>
         ) : null}
         <div className="flex mt-4 ml-auto gap-2">
-          <Button type="button" small onClick={close}>
+          <Button type="button" small onClick={cancel}>
             Cancel
           </Button>
           <Button

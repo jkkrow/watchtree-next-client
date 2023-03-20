@@ -4,6 +4,7 @@ import UserLayout from '@/components/features/User/_layout';
 import CreatedVideoHeader from '@/components/features/User/Video/Header/index.';
 import CreatedVideoGrid from '@/components/features/User/Video/Grid';
 import Pagination from '@/components/common/UI/Pagination';
+import { ListContextProvider } from '@/context/List';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { getCreatedVideos } from '@/store/features/video/video.api';
 
@@ -21,7 +22,9 @@ export default function CreatedVideos() {
       </Head>
       <UserLayout>
         <CreatedVideoHeader params={originalArgs} />
-        <CreatedVideoGrid items={data?.items || []} />
+        <ListContextProvider items={data?.items || []}>
+          <CreatedVideoGrid />
+        </ListContextProvider>
         <Pagination count={data?.count || 0} size={params.max} page={page} />
       </UserLayout>
     </>

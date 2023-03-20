@@ -1,8 +1,16 @@
 import { useCallback } from 'react';
+import EventEmitter from 'events';
 
 import { useAppSelector, useAppDispatch } from '../store';
 import { setModal, clearModal } from '@/store/features/ui/ui.slice';
-import { Modal, ModalPayload, ModalRoutes } from '@/store/features/ui/ui.type';
+import {
+  Modal,
+  ModalPayload,
+  ModalRoutes,
+  ModalStatus,
+} from '@/store/features/ui/ui.type';
+
+const eventBus = new EventEmitter();
 
 export function useModal<Payload extends ModalPayload = {}>() {
   const dispatch = useAppDispatch();
@@ -11,15 +19,30 @@ export function useModal<Payload extends ModalPayload = {}>() {
   ) as Modal<Payload> | null;
 
   const open = useCallback(
-    (id: ModalRoutes, payload?: Payload) => {
-      dispatch(setModal({ id, ...payload }));
+    (id: ModalRoutes, payload?: Payload): Promise<ModalStatus> => {
+      dispatch(setModal({ id, status: 'pending', ...payload }));
+      return new Promise((resolve) =>
+        eventBus.once('status', (event) => resolve(event))
+      );
     },
     [dispatch]
   );
 
-  const close = useCallback(() => {
+  const cancel = useCallback(() => {
+    if (!modal) return;
+    dispatch(setModal({ ...modal, status: 'cancelled' }));
+    eventBus.emit('status', 'cancelled');
+  }, [modal, dispatch]);
+
+  const complete = useCallback(() => {
+    if (!modal) return;
+    dispatch(setModal({ ...modal, status: 'completed' }));
+    eventBus.emit('status', 'completed');
+  }, [modal, dispatch]);
+
+  const clear = useCallback(() => {
     dispatch(clearModal());
   }, [dispatch]);
 
-  return { modal, open, close };
+  return { modal, open, cancel, complete, clear };
 }

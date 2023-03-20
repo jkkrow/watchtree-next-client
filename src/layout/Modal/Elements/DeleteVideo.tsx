@@ -8,14 +8,14 @@ import { useDeleteUploadMutation } from '@/store/features/upload/upload.api';
 
 export default function DeleteVideo() {
   const [deleteVideo, { isLoading }] = useDeleteUploadMutation();
-  const { modal, close } = useModal<DeleteVideoModal>();
+  const { modal, cancel, complete } = useModal<DeleteVideoModal>();
   const { register, handleSubmit, formState } = useForm({
     defaultValues: { title: '' },
   });
 
   const submitHandler = async () => {
     modal && (await deleteVideo(modal.videoId));
-    close();
+    complete();
   };
 
   return (
@@ -34,7 +34,7 @@ export default function DeleteVideo() {
       <form className="flex flex-col" onSubmit={handleSubmit(submitHandler)}>
         <Input type="text" {...register('title', { required: true })} />
         <div className="flex mt-4 ml-auto gap-2">
-          <Button type="button" small onClick={close}>
+          <Button type="button" small onClick={cancel}>
             Cancel
           </Button>
           <Button
