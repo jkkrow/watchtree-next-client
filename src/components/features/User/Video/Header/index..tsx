@@ -11,7 +11,7 @@ interface CreatedVideoHeaderProps {
 export default function CreatedVideoHeader({
   params,
 }: CreatedVideoHeaderProps) {
-  const { refetch, isFetching, isLoading } = useGetCreatedVideosQuery(params, {
+  const { refetch, isFetching, isLoading } = useGetCreatedVideosQuery(params!, {
     skip: !params,
   });
 

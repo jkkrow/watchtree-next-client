@@ -6,7 +6,7 @@ import { getVideos } from '@/store/features/video/video.api';
 
 export default function Browse() {
   const { data, isFetchingMore, listRef } = useInfiniteQuery(getVideos, {
-    max: 10,
+    max: 30,
   });
 
   return (

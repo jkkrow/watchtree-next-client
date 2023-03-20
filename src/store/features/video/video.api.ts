@@ -10,7 +10,7 @@ import {
   GetVideosResponse,
   SearchVideosRequest,
   SearchVideosResponse,
-  GetCeratedVideosRequest,
+  GetCreatedVideosRequest,
   GetCreatedVideosResponse,
 } from './video.type';
 
@@ -67,7 +67,7 @@ const videoApi = appApi.injectEndpoints({
 
     getCreatedVideos: builder.query<
       GetCreatedVideosResponse,
-      GetCeratedVideosRequest
+      GetCreatedVideosRequest
     >({
       query: (params) => ({ url: 'channels/current/video-trees', params }),
       providesTags: (result) => [

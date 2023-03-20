@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 import VideoThumbnail from './_fragments/VideoThumbnail';
 import VideoTitle from './_fragments/VideoTitle';
@@ -9,6 +9,11 @@ import VideoFavorites from './_fragments/VideoFavorites';
 import { useScaleOnHover } from '@/hooks/ui/scale-on-hover';
 import { useVideoModal } from '@/hooks/ui/video-modal';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
 
 interface VideoItemProps {
   item: VideoTreeEntryWithData;
@@ -22,8 +27,12 @@ export default function VideoItem({ item }: VideoItemProps) {
     <motion.li
       className="relative aria-selected:z-10"
       aria-selected={active}
+      variants={itemVariants}
       layoutId={item.id}
       layout
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
       onClick={open}
     >
       <div

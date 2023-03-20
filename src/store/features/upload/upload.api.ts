@@ -1,4 +1,4 @@
-import { AppState } from '@/store';
+import { AppBaseQueryError, AppState } from '@/store';
 import { appApi, axiosBaseQuery } from '@/store/app/api';
 import { MessageResponse } from '@/store/common/api.type';
 import {
@@ -75,7 +75,7 @@ export const uploadApi = appApi.injectEndpoints({
 
         if (!uploadTree || typeof window === 'undefined') {
           const error = { status: 400, data: { message: 'Invalid request' } };
-          return { error };
+          return { error } as { error: AppBaseQueryError };
         }
 
         const id = uploadTree.id;

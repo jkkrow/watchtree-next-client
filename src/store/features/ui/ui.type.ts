@@ -22,6 +22,15 @@ export interface ImageModal {
   alt?: string;
 }
 
-export type ModalRoutes = 'signout' | 'image' | 'delete-account';
+export interface DeleteVideoModal {
+  videoId: string;
+  title: string;
+}
+
+export type ModalRoutes =
+  | 'signout'
+  | 'image'
+  | 'delete-video'
+  | 'delete-account';
 
 export type MessageType = 'message' | 'error';

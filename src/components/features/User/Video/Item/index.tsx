@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 
 import VideoTitle from '@/components/features/Video/Item/_fragments/VideoTitle';
 import VideoThumbnail from '@/components/features/Video/Item/_fragments/VideoThumbnail';
@@ -10,15 +10,35 @@ import VideoTimestamps from '@/components/features/Video/Item/_fragments/VideoTi
 import Button from '@/components/common/Element/Button';
 import EditIcon from '@/assets/icons/edit.svg';
 import DeleteIcon from '@/assets/icons/delete.svg';
+import { useModal } from '@/hooks/ui/modal';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
+import { DeleteVideoModal } from '@/store/features/ui/ui.type';
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
 
 interface CreatedVideoItemProps {
   item: VideoTreeEntryWithData;
 }
 
 export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
+  const { open } = useModal<DeleteVideoModal>();
+
+  const deleteHandler = () => {
+    open('delete-video', { videoId: item.id, title: item.title });
+  };
+
   return (
-    <motion.li className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md dark:ring-2 dark:ring-tertiary">
+    <motion.li
+      className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md dark:ring-2 dark:ring-tertiary"
+      variants={itemVariants}
+      layout
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+    >
       <div>
         <VideoThumbnail title={item.title} url={item.thumbnail} />
       </div>
@@ -43,7 +63,7 @@ export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
               <Button small inversed>
                 <EditIcon width={20} height={20} />
               </Button>
-              <Button small>
+              <Button small onClick={deleteHandler}>
                 <DeleteIcon width={20} height={20} />
               </Button>
             </div>

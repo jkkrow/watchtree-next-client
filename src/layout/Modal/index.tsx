@@ -1,5 +1,6 @@
 import ModalRoute from './Route';
 import Signout from './Elements/Signout';
+import DeleteVideo from './Elements/DeleteVideo';
 import DeleteAccount from './Elements/DeleteAccount';
 import ImagePreview from './Elements/ImagePreview';
 import { useAppSelector } from '@/hooks/store';
@@ -13,6 +14,7 @@ export default function Modal() {
   return (
     <>
       <ModalRoute id="signout" element={Signout} />
+      <ModalRoute id="delete-video" element={DeleteVideo} />
       <ModalRoute id="delete-account" element={DeleteAccount} />
       <ModalRoute id="image" element={ImagePreview} />
     </>
