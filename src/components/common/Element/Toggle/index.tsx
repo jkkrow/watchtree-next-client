@@ -1,10 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState, useMemo } from 'react';
 
-const toggleVariants = {
-  active: { x: '50%' },
-  inActive: { x: '-50%' },
-};
+import { toggleVariants } from '@/constants/variants';
 
 interface ToggleProps {
   name?: string;

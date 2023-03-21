@@ -12,8 +12,11 @@ const SubscriptionList = forwardRef<HTMLUListElement>(function SubscriptionList(
   const { items } = useContext<Ctx<Channel>>(ListContext);
 
   return (
-    <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4" ref={ref}>
-      <AnimatePresence>
+    <ul
+      className="grid grid-cols-1 max-w-md lg:grid-cols-2 lg:max-w-5xl w-full gap-x-8 gap-y-4"
+      ref={ref}
+    >
+      <AnimatePresence initial={false}>
         {items.map((item) => (
           <SubscriptionItem key={item.id} item={item} />
         ))}

@@ -13,13 +13,9 @@ import EditIcon from '@/assets/icons/edit.svg';
 import DeleteIcon from '@/assets/icons/delete.svg';
 import { ListContext } from '@/context/List';
 import { useModal } from '@/hooks/ui/modal';
+import { opacityVariants } from '@/constants/variants';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
 import { DeleteVideoModal } from '@/store/features/ui/ui.type';
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
 
 interface CreatedVideoItemProps {
   item: VideoTreeEntryWithData;
@@ -43,11 +39,11 @@ export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
   return (
     <motion.li
       className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md dark:ring-2 dark:ring-tertiary"
-      variants={itemVariants}
+      variants={opacityVariants}
       layout
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
+      initial="inActive"
+      animate="active"
+      exit="inActive"
     >
       <div>
         <VideoThumbnail title={item.title} url={item.thumbnail} />

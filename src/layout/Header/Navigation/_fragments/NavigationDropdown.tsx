@@ -2,10 +2,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AnimatePresence, motion } from 'framer-motion';
 
-const dropdownVariants = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-};
+import { opacityVariants } from '@/constants/variants';
 
 interface NavigationDropdownProps {
   links: { href: string; name: string }[];
@@ -23,11 +20,11 @@ export default function NavigationDropdown({
       {active ? (
         <motion.ul
           className="absolute text-center top-full bg-primary border-[1px] border-secondary shadow-lg"
-          variants={dropdownVariants}
+          variants={opacityVariants}
           transition={{ duration: 0.1 }}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
+          initial="inActive"
+          animate="active"
+          exit="inActive"
         >
           {links.map(({ href, name }) => (
             <li key={name}>

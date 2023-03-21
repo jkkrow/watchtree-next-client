@@ -13,7 +13,7 @@ const CreatedVideoGrid = forwardRef<HTMLUListElement>(function CreatedVideoGrid(
 
   return (
     <ul className="w-full grid grid-cols-video gap-6" ref={ref}>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {items.map((item) => (
           <CreatedVideoItem key={item.id} item={item} />
         ))}

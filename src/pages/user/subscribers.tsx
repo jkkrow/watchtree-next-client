@@ -27,9 +27,11 @@ const Subscribers: NextPageWithLayout = () => {
         <title>Subscribers</title>
       </Head>
 
-      <ListContextProvider items={data?.items || []}>
-        <SubscriptionList />
-      </ListContextProvider>
+      {data ? (
+        <ListContextProvider label="subscribers" items={data.items}>
+          <SubscriptionList />
+        </ListContextProvider>
+      ) : null}
       <Pagination count={data?.count || 0} size={MAX} page={page} />
     </>
   );

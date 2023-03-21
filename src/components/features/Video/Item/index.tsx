@@ -8,12 +8,8 @@ import VideoViews from './_fragments/VideoViews';
 import VideoFavorites from './_fragments/VideoFavorites';
 import { useScaleOnHover } from '@/hooks/ui/scale-on-hover';
 import { useVideoModal } from '@/hooks/ui/video-modal';
+import { opacityVariants } from '@/constants/variants';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-};
 
 interface VideoItemProps {
   item: VideoTreeEntryWithData;
@@ -27,12 +23,12 @@ export default function VideoItem({ item }: VideoItemProps) {
     <motion.li
       className="relative aria-selected:z-10"
       aria-selected={active}
-      variants={itemVariants}
+      variants={opacityVariants}
       layoutId={item.id}
       layout
-      initial="hidden"
-      animate="visible"
-      exit="hidden"
+      initial="inActive"
+      animate="active"
+      exit="inActive"
       onClick={open}
     >
       <div

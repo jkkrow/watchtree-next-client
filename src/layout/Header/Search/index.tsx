@@ -3,16 +3,7 @@ import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 import SearchIcon from '@/assets/icons/search.svg';
-
-const buttonVariants = {
-  active: { x: 0 },
-  inActive: { x: 160, transition: { type: 'tween' } },
-};
-
-const inputVariants = {
-  active: { scaleX: 1, opacity: 1 },
-  inActive: { scaleX: 0, opacity: 0, transition: { type: 'tween' } },
-};
+import { searchVariants } from '@/constants/variants';
 
 export default function Search() {
   const [keyword, setKeyword] = useState('');
@@ -47,7 +38,7 @@ export default function Search() {
       <motion.label
         className="cursor-pointer w-6 h-6 mr-2"
         htmlFor="search-input"
-        variants={buttonVariants}
+        variants={searchVariants.button}
         initial="inActive"
         animate={focused ? 'active' : 'inActive'}
       >
@@ -60,7 +51,7 @@ export default function Search() {
         type="text"
         placeholder="Search Videos"
         autoComplete="off"
-        variants={inputVariants}
+        variants={searchVariants.input}
         initial="inActive"
         animate={focused ? 'active' : 'inActive'}
         style={{ originX: 1 }}

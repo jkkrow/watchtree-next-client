@@ -6,12 +6,14 @@ import {
   useCallback,
 } from 'react';
 
-export interface ListContextState<T = any> {
+export interface ListContextState<T = any, K = string> {
+  label?: K;
   items: T[];
   filterItems: (id: string) => void;
 }
 
 const initialState: ListContextState = {
+  label: '',
   items: [],
   filterItems: () => {},
 };
@@ -19,10 +21,12 @@ const initialState: ListContextState = {
 export const ListContext = createContext(initialState);
 
 interface ListContextProps {
+  label?: string;
   items: any[];
 }
 
 export function ListContextProvider({
+  label,
   items: initialItems,
   children,
 }: PropsWithChildren<ListContextProps>) {
@@ -38,7 +42,11 @@ export function ListContextProvider({
 
   return (
     <ListContext.Provider
-      value={{ items: !items.length ? initialItems : items, filterItems }}
+      value={{
+        label,
+        items: !items.length ? initialItems : items,
+        filterItems,
+      }}
     >
       {children}
     </ListContext.Provider>

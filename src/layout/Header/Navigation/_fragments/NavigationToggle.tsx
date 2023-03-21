@@ -1,9 +1,6 @@
 import { motion } from 'framer-motion';
 
-const toggleVariants = {
-  active: { rotate: 180 },
-  inActive: { rotate: 0 },
-};
+import { rotate180Variants } from '@/constants/variants';
 
 interface NavigationToggleProps {
   active: boolean;
@@ -17,7 +14,7 @@ export default function NavigationToggle({
   return (
     <motion.button
       className="flex justify-center items-center w-full h-full after:border-t-8 after:border-t-current after:border-x-8 after:border-x-transparent"
-      variants={toggleVariants}
+      variants={rotate180Variants}
       initial="inActive"
       animate={active ? 'active' : 'inActive'}
       onClick={onClick}

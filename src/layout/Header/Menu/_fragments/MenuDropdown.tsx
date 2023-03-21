@@ -2,11 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import MenuNavigation from './MenuNavigation';
 import MenuSettings from './MenuSettings';
-
-const menuVariants = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-};
+import { opacityVariants } from '@/constants/variants';
 
 interface MenuDropdownProps {
   active: boolean;
@@ -18,11 +14,11 @@ export default function MenuDropdown({ active }: MenuDropdownProps) {
       {active ? (
         <motion.div
           className="absolute top-full right-0 w-60 bg-primary border-[1px] border-secondary shadow-lg"
-          variants={menuVariants}
+          variants={opacityVariants}
           transition={{ duration: 0.1 }}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
+          initial="inActive"
+          animate="active"
+          exit="inActive"
         >
           <MenuNavigation />
           <MenuSettings />

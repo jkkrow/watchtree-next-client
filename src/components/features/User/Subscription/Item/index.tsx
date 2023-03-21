@@ -9,6 +9,7 @@ import {
   useUnsubscribeMutation,
 } from '@/store/features/channel/channel.api';
 import { ListContext } from '@/context/List';
+import { opacityVariants } from '@/constants/variants';
 import { Channel } from '@/store/features/channel/channel.type';
 
 interface SubscriptionItemProps {
@@ -16,7 +17,7 @@ interface SubscriptionItemProps {
 }
 
 export default function SubscriptionItem({ item }: SubscriptionItemProps) {
-  // const { filterItems } = useContext(ListContext);
+  const { label, filterItems } = useContext(ListContext);
   const [subscribed, setSubscribed] = useState(item.subscribed);
 
   const [subscribe, { isLoading: subLoading }] = useSubscribeMutation();
@@ -27,14 +28,26 @@ export default function SubscriptionItem({ item }: SubscriptionItemProps) {
       ? await unsubscribe(item.id)
       : await subscribe(item.id);
 
-    if (!result.error) {
+    if (result.error) {
+      return;
+    }
+
+    if (label === 'subscribers') {
       setSubscribed((prev) => !prev);
+    }
+
+    if (label === 'subscribes') {
+      filterItems(item.id);
     }
   };
 
   return (
     <motion.li
-      className="flex max-w-md justify-between p-4 gap-8 hover:text-hover transition-colors"
+      className="flex justify-between w-full p-4 gap-8 hover:text-hover transition-colors"
+      variants={opacityVariants}
+      initial="inActive"
+      animate="active"
+      exit="inActive"
       layout
     >
       <Link
@@ -46,14 +59,15 @@ export default function SubscriptionItem({ item }: SubscriptionItemProps) {
           {item.name}
         </div>
       </Link>
-      <Button
-        small
-        inversed
-        loading={subLoading || unsubLoading}
-        onClick={subscribeHandler}
-      >
-        {subscribed ? 'Unsubscribe' : 'Subscribe'}
-      </Button>
+      <div className="w-36 flex-grow-0 flex-shrink-0">
+        <Button
+          inversed
+          loading={subLoading || unsubLoading}
+          onClick={subscribeHandler}
+        >
+          {subscribed ? 'Unsubscribe' : 'Subscribe'}
+        </Button>
+      </div>
     </motion.li>
   );
 }

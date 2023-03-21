@@ -1,11 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 
 import LoaderIcon from '@/assets/icons/loader.svg';
-
-const loaderVariants = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-};
+import { opacityVariants } from '@/constants/variants';
 
 interface SpinnerProps {
   on?: boolean;
@@ -22,11 +18,11 @@ export default function Spinner({ on, size, overlay, position }: SpinnerProps) {
           className="flex justify-center items-center data-[overlay=true]:absolute data-[overlay=true]:inset-0 data-[overlay=true]:bg-inherit data-[overlay=true]:text-inherit data-[position=top]:items-start data-[position=bottom]:items-end"
           data-overlay={overlay}
           data-position={position || 'center'}
-          variants={loaderVariants}
+          variants={opacityVariants}
           transition={{ duration: 0.15 }}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
+          initial="inActive"
+          animate="active"
+          exit="inActive"
         >
           <LoaderIcon className="animate-spin" width={size} height={size} />
         </motion.div>

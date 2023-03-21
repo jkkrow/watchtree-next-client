@@ -27,9 +27,12 @@ const Subscribes: NextPageWithLayout = () => {
         <title>Subscribes</title>
       </Head>
 
-      <ListContextProvider items={data?.items || []}>
-        <SubscriptionList ref={listRef} />
-      </ListContextProvider>
+      {data ? (
+        <ListContextProvider label="subscribes" items={data.items}>
+          <SubscriptionList ref={listRef} />
+        </ListContextProvider>
+      ) : null}
+
       <Spinner on={isFetchingMore} size={64} />
     </>
   );

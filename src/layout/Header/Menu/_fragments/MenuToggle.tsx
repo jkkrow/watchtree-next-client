@@ -2,21 +2,7 @@ import { motion } from 'framer-motion';
 
 import Avatar from '@/components/common/UI/Avatar';
 import { useAppSelector } from '@/hooks/store';
-
-const topVariants = {
-  active: { y: 0, rotate: 135 },
-  inActive: { y: -6 },
-};
-
-const centerVariants = {
-  active: { rotate: 135 },
-  inActive: { rotate: 0 },
-};
-
-const bottomVariants = {
-  active: { y: 0, rotate: 45 },
-  inActive: { y: 6 },
-};
+import { menuVariants } from '@/constants/variants';
 
 interface MenuButtonProps {
   active: boolean;
@@ -41,15 +27,15 @@ export default function MenuToggle({ active, onClick }: MenuButtonProps) {
         >
           <motion.span
             className="absolute w-full h-0.5 bg-inversed"
-            variants={topVariants}
+            variants={menuVariants.top}
           />
           <motion.span
             className="absolute w-full h-0.5 bg-inversed"
-            variants={centerVariants}
+            variants={menuVariants.center}
           />
           <motion.span
             className="absolute w-full h-0.5 bg-inversed"
-            variants={bottomVariants}
+            variants={menuVariants.bottom}
           />
         </motion.div>
       )}
