@@ -39,6 +39,13 @@ module.exports = {
         '11xl': 1792,
         '12xl': 1920,
       },
+      keyframes: {
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)',
+          },
+        },
+      },
     },
   },
   plugins: [require('@tailwindcss/line-clamp')],

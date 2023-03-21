@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import { forwardRef, useContext } from 'react';
 
 import CreatedVideoItem from '../Item';
@@ -12,12 +11,10 @@ const CreatedVideoGrid = forwardRef<HTMLUListElement>(function CreatedVideoGrid(
   const { items } = useContext<Ctx<VideoTreeEntryWithData>>(ListContext);
 
   return (
-    <ul className="w-full grid grid-cols-video gap-6" ref={ref}>
-      <AnimatePresence initial={false}>
-        {items.map((item) => (
-          <CreatedVideoItem key={item.id} item={item} />
-        ))}
-      </AnimatePresence>
+    <ul className="grid grid-cols-video w-full gap-6" ref={ref}>
+      {items.map((item) => (
+        <CreatedVideoItem key={item.id} item={item} />
+      ))}
     </ul>
   );
 });

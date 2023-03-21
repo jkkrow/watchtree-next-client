@@ -1,4 +1,3 @@
-import { AnimatePresence } from 'framer-motion';
 import { forwardRef } from 'react';
 
 import VideoItem from '../Item';
@@ -14,12 +13,10 @@ const VideoGrid = forwardRef<HTMLUListElement, VideoGridProps>(
     return (
       <div className="w-full">
         {label ? <h3 className="text-xl font-bold mb-4">{label}</h3> : null}
-        <ul className="grid grid-cols-video gap-6" ref={ref}>
-          <AnimatePresence initial={false}>
-            {items.map((item) => (
-              <VideoItem key={item.id} item={item} />
-            ))}
-          </AnimatePresence>
+        <ul className="grid grid-cols-video w-full gap-6" ref={ref}>
+          {items.map((item) => (
+            <VideoItem key={item.id} item={item} />
+          ))}
         </ul>
       </div>
     );

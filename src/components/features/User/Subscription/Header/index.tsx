@@ -10,11 +10,11 @@ export default function SubscriptionHeader() {
   const { name: currentTab } = parse(router.pathname);
 
   return (
-    <header className="flex mb-8 w-auto text-lg font-bold">
+    <header className="flex w-full max-w-md lg:max-w-5xl px-4 mb-8 text-lg font-bold">
       {tabs.map((tab) => (
-        <div className="relative flex" key={tab}>
+        <div className="relative flex w-full" key={tab}>
           <Link
-            className="px-10 py-4 capitalize hover:bg-hover transition-colors"
+            className="flex justify-center w-full p-4 capitalize hover:bg-hover transition-colors"
             href={`/user/${tab}`}
           >
             {tab}

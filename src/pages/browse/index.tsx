@@ -1,5 +1,6 @@
 import BrowseLayout from '@/components/features/Browse/_layout';
 import VideoGrid from '@/components/features/Video/Grid';
+import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Spinner from '@/components/common/UI/Spinner';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getVideos } from '@/store/features/video/video.api';
@@ -14,7 +15,12 @@ export default function Browse() {
   return (
     <>
       <BrowseLayout>
-        <VideoGrid items={data?.items || []} ref={listRef} />
+        <VideoGrid
+          label="Recent Videos"
+          items={data?.items || []}
+          ref={listRef}
+        />
+        <SkeletonGrid on={!data} count={MAX} type="video" />
         <Spinner on={isFetchingMore} size={64} />
       </BrowseLayout>
     </>

@@ -3,7 +3,8 @@ import { ReactElement } from 'react';
 
 import UserLayout from '@/components/features/User/_layout';
 import SubscriptionHeader from '@/components/features/User/Subscription/Header';
-import SubscriptionList from '@/components/features/User/Subscription/List';
+import SubscriptionGrid from '@/components/features/User/Subscription/grid';
+import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Spinner from '@/components/common/UI/Spinner';
 import { ListContextProvider } from '@/context/List';
 import { useAppSelector } from '@/hooks/store';
@@ -27,12 +28,10 @@ const Subscribes: NextPageWithLayout = () => {
         <title>Subscribes</title>
       </Head>
 
-      {data ? (
-        <ListContextProvider label="subscribes" items={data.items}>
-          <SubscriptionList ref={listRef} />
-        </ListContextProvider>
-      ) : null}
-
+      <ListContextProvider label="subscribes" items={data?.items || []}>
+        <SubscriptionGrid ref={listRef} />
+      </ListContextProvider>
+      <SkeletonGrid on={!data} count={MAX} type="subscription" />
       <Spinner on={isFetchingMore} size={64} />
     </>
   );

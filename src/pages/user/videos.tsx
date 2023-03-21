@@ -4,6 +4,7 @@ import { ReactElement } from 'react';
 import UserLayout from '@/components/features/User/_layout';
 import CreatedVideoHeader from '@/components/features/User/Video/Header/index.';
 import CreatedVideoGrid from '@/components/features/User/Video/Grid';
+import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
 import { ListContextProvider } from '@/context/List';
 import { useAppSelector } from '@/hooks/store';
@@ -31,6 +32,7 @@ const CreatedVideos: NextPageWithLayout = () => {
       <ListContextProvider items={data?.items || []}>
         <CreatedVideoGrid />
       </ListContextProvider>
+      <SkeletonGrid on={!data} count={MAX} type="video" />
       <Pagination count={data?.count || 0} size={MAX} page={page} />
     </>
   );

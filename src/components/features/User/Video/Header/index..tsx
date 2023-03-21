@@ -16,14 +16,19 @@ export default function CreatedVideoHeader({
   });
 
   return (
-    <div className="flex justify-end ml-auto mb-6 gap-4">
-      <Button small loading={!isLoading && isFetching} onClick={refetch}>
-        <ReloadIcon width={24} height={24} />
-      </Button>
-      <Button small inversed>
-        <UploadIcon width={20} height={20} />
-        <span>Upload Video</span>
-      </Button>
+    <div className="flex flex-col justify-between sm:flex-row items-center w-full mb-6 gap-8">
+      <div className="text-xl font-bold">
+        <h2>My Videos</h2>
+      </div>
+      <div className="flex ml-auto gap-4">
+        <Button small loading={!isLoading && isFetching} onClick={refetch}>
+          <ReloadIcon width={24} height={24} />
+        </Button>
+        <Button small inversed>
+          <UploadIcon width={20} height={20} />
+          <span>Upload Video</span>
+        </Button>
+      </div>
     </div>
   );
 }
