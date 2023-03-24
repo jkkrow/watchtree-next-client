@@ -12,6 +12,7 @@ import {
 } from './channel.type';
 
 export const channelApi = appApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getChannel: builder.query<GetChannelResponse, string>({
       query: (id) => ({ url: `channels/${id}` }),

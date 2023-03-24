@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import type { QueryDefinition } from '@reduxjs/toolkit/dist/query';
 import type { QueryHooks } from '@reduxjs/toolkit/dist/query/react/buildHooks';
@@ -19,14 +20,24 @@ export function useInfiniteQuery<
   params: Omit<RequestType, 'token'>,
   options?: { skip?: boolean }
 ) {
+  const router = useRouter();
+
   const [token, setToken] = useState<string | null>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
 
   const queryArg = { ...params, token } as RequestType;
+  const queryOptions = {
+    ...options,
+    skip:
+      options?.skip !== undefined
+        ? options.skip || !router.isReady
+        : !router.isReady,
+  };
+
   const { data, isLoading, isFetching, ...rest } = endpoint.useQuery(
     queryArg,
-    options
+    queryOptions
   );
 
   useEffect(() => {

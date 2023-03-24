@@ -1,9 +1,11 @@
+import { Variants, Transition } from 'framer-motion';
 import { useReducer, useRef, useCallback } from 'react';
 
 import { useTimeout } from '../util/time';
 
 type State = {
   active: boolean;
+  position: string;
   origin: string;
   zIndex: number;
 };
@@ -16,11 +18,17 @@ type Action =
 const scaleReducer = (state: State, { type, origin }: Action): State => {
   switch (type) {
     case 'START':
-      return { ...state, active: true, origin, zIndex: 1 };
+      return {
+        ...state,
+        active: true,
+        position: 'absolute',
+        origin,
+        zIndex: 1,
+      };
     case 'STOP':
       return { ...state, active: false };
     case 'FINISH':
-      return { ...state, zIndex: 0 };
+      return { ...state, position: 'relative', zIndex: 0 };
     default:
       return { ...state };
   }
@@ -28,6 +36,7 @@ const scaleReducer = (state: State, { type, origin }: Action): State => {
 
 const initialState: State = {
   active: false,
+  position: 'relative',
   origin: 'intial',
   zIndex: 0,
 };
@@ -36,7 +45,7 @@ export function useScaleOnHover(options?: {
   scaleBy?: number;
   duration?: number;
 }) {
-  const [{ active, origin, zIndex }, dispatch] = useReducer(
+  const [{ active, position, origin, zIndex }, dispatch] = useReducer(
     scaleReducer,
     initialState
   );
@@ -81,7 +90,7 @@ export function useScaleOnHover(options?: {
     if (scaledHeight + (viewHeight - bottom) > viewHeight - headerHeight) {
       originY = '0%';
     }
-    if (top + scaledHeight > viewHeight) {
+    if (top + scaledHeight + 150 > viewHeight) {
       originY = '100%';
     }
 
@@ -105,6 +114,6 @@ export function useScaleOnHover(options?: {
       transformOrigin: origin,
       transform: `scale(${active ? scaleByRef.current : 1})`,
       zIndex: zIndex,
-    },
+    } as React.CSSProperties,
   };
 }

@@ -4,6 +4,7 @@ import {
   applyLocalHistory,
   applyLocalHistories,
 } from '@/services/history.service';
+import { MessageResponse } from '@/store/common/api.type';
 import {
   GetVideoResponse,
   GetVideosRequest,
@@ -12,6 +13,8 @@ import {
   SearchVideosResponse,
   GetCreatedVideosRequest,
   GetCreatedVideosResponse,
+  GetFavoritesRequest,
+  GetFavoritesResponse,
 } from './video.type';
 
 const videoApi = appApi.injectEndpoints({
@@ -78,6 +81,33 @@ const videoApi = appApi.injectEndpoints({
         'User',
       ],
     }),
+
+    getFavorites: builder.query<GetFavoritesResponse, GetFavoritesRequest>({
+      query: (params) => ({ url: 'channels/current/favorites', params }),
+      providesTags: (result) => [
+        ...(result
+          ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
+          : []),
+        { type: 'Video', id: 'LIST' },
+        'User',
+      ],
+    }),
+
+    addToFavorites: builder.mutation<MessageResponse, string>({
+      query: (id) => ({ url: `video-trees/${id}/favorites`, method: 'post' }),
+      invalidatesTags: (_, __, id) => [
+        { type: 'Video', id },
+        { type: 'Video', id: 'LIST' },
+      ],
+    }),
+
+    removeFromFavorites: builder.mutation<MessageResponse, string>({
+      query: (id) => ({ url: `video-trees/${id}/favorites`, method: 'delete' }),
+      invalidatesTags: (_, __, id) => [
+        { type: 'Video', id },
+        { type: 'Video', id: 'LIST' },
+      ],
+    }),
   }),
 });
 
@@ -86,7 +116,16 @@ export const {
   useGetVideosQuery,
   useSearchVideosQuery,
   useGetCreatedVideosQuery,
+  useGetFavoritesQuery,
+  useAddToFavoritesMutation,
+  useRemoveFromFavoritesMutation,
 } = videoApi;
-
-export const { getVideo, getVideos, searchVideos, getCreatedVideos } =
-  videoApi.endpoints;
+export const {
+  getVideo,
+  getVideos,
+  searchVideos,
+  getCreatedVideos,
+  getFavorites,
+  addToFavorites,
+  removeFromFavorites,
+} = videoApi.endpoints;

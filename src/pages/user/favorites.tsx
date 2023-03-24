@@ -2,8 +2,6 @@ import Head from 'next/head';
 import { ReactElement } from 'react';
 
 import UserLayout from '@/components/features/User/_layout';
-import CreatedVideoHeader from '@/components/features/User/Video/Header/index.';
-import CreatedVideoGrid from '@/components/features/User/Video/Grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
 import NotFound from '@/components/common/UI/NotFound';
@@ -11,15 +9,16 @@ import VideoIcon from '@/assets/icons/video.svg';
 import { ListContextProvider } from '@/context/List';
 import { useAppSelector } from '@/hooks/store';
 import { usePaginationQuery } from '@/hooks/query/pagination';
-import { getCreatedVideos } from '@/store/features/video/video.api';
+import { getFavorites } from '@/store/features/video/video.api';
 import { NextPageWithLayout } from '../_app';
+import VideoGrid from '@/components/features/Video/Grid';
 
 const MAX = 24;
 
-const CreatedVideos: NextPageWithLayout = () => {
+const Favorites: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user.info);
-  const { data, originalArgs, page, isLoading } = usePaginationQuery(
-    getCreatedVideos,
+  const { data, page, isLoading } = usePaginationQuery(
+    getFavorites,
     { max: MAX, withCount: true },
     { skip: !user }
   );
@@ -27,12 +26,11 @@ const CreatedVideos: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>My Videos</title>
+        <title>Favorites</title>
       </Head>
 
-      <CreatedVideoHeader params={originalArgs} />
       <ListContextProvider items={data?.items || []}>
-        <CreatedVideoGrid />
+        <VideoGrid label="Favorite Videos" />
       </ListContextProvider>
       <SkeletonGrid on={isLoading} count={MAX} type="video" />
       <NotFound items={data?.items} label="Video" icon={VideoIcon} />
@@ -41,8 +39,8 @@ const CreatedVideos: NextPageWithLayout = () => {
   );
 };
 
-CreatedVideos.getLayout = function getLayout(page: ReactElement) {
+Favorites.getLayout = function getLayout(page: ReactElement) {
   return <UserLayout>{page}</UserLayout>;
 };
 
-export default CreatedVideos;
+export default Favorites;

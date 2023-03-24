@@ -29,6 +29,7 @@ export interface DeleteVideoModal {
 }
 
 export type ModalRoutes =
+  | 'signin'
   | 'signout'
   | 'image'
   | 'delete-video'

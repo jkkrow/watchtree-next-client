@@ -1,4 +1,4 @@
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import { useModal } from '@/hooks/ui/modal';
 import { modalVariants } from '@/constants/variants';

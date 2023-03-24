@@ -26,12 +26,22 @@ export default function SigninForm() {
 
   const signinHandler: SubmitHandler<SigninInputs> = async (data) => {
     const result: any = await signin(data);
-    if (!result.error) router.replace('/browse');
+    if (result.error) return;
+    redirectHandler();
   };
 
   const googleSigninhandler = async (credential: string) => {
     const result: any = await signinGoogle(credential);
-    if (!result.error) router.replace('/browse');
+    if (result.error) return;
+    redirectHandler();
+  };
+
+  const redirectHandler = () => {
+    if (router.query && router.query.redirect) {
+      router.replace(router.query.redirect as string);
+    } else {
+      router.replace('/browse');
+    }
   };
 
   return (
@@ -69,7 +79,9 @@ export default function SigninForm() {
       />
       <p className="flex justify-center mt-4 gap-2">
         <span>{"Don't have an Account?"}</span>
-        <Link href="/auth/signup">Sign up</Link>
+        <Link href={{ pathname: '/auth/signup', query: router.query }}>
+          Sign up
+        </Link>
       </p>
     </div>
   );

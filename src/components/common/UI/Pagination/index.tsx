@@ -37,7 +37,7 @@ export default function Pagination({
 
   return (
     <div
-      className="flex justify-center mt-10 gap-2 [&_button]:p-2 [&_button]:min-w-[36px] [&_svg]:w-4 [&_svg]:h-4 aria-disabled:invisible aria-disabled:pointer-events-none"
+      className="flex justify-center w-fit mx-auto mt-10 gap-2 [&_button]:p-2 [&_button]:min-w-[36px] [&_svg]:w-4 [&_svg]:h-4 aria-disabled:invisible aria-disabled:pointer-events-none"
       aria-disabled={totalPage <= 1}
     >
       <div onClick={() => pageHandler(1)}>

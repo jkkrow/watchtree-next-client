@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { motion } from 'framer-motion';
 
 import VideoTitle from '@/components/features/Video/Item/_fragments/VideoTitle';
 import VideoThumbnail from '@/components/features/Video/Item/_fragments/VideoThumbnail';
@@ -35,7 +36,10 @@ export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
   };
 
   return (
-    <li className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md dark:ring-2 dark:ring-tertiary">
+    <motion.li
+      className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md dark:ring-2 dark:ring-tertiary"
+      layoutId={item.id}
+    >
       <div>
         <VideoThumbnail title={item.title} url={item.thumbnail} />
       </div>
@@ -51,7 +55,11 @@ export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
             />
             <div className="flex gap-2">
               <VideoViews count={item.views} />
-              <VideoFavorites count={item.favorites} active={false} />
+              <VideoFavorites
+                id={item.id}
+                count={item.favorites}
+                active={false}
+              />
             </div>
           </div>
           <div className="flex flex-col items-end gap-2">
@@ -67,6 +75,6 @@ export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
           </div>
         </div>
       </div>
-    </li>
+    </motion.li>
   );
 }

@@ -24,7 +24,16 @@ export default function SignupForm() {
 
   const signupHandler: SubmitHandler<SignupInputs> = async (data) => {
     const result: any = await signup(data);
-    if (!result.error) router.replace('/browse');
+    if (!result.error) return;
+    redirectHandler();
+  };
+
+  const redirectHandler = () => {
+    if (router.query && router.query.redirect) {
+      router.replace(router.query.redirect as string);
+    } else {
+      router.replace('/browse');
+    }
   };
 
   return (
@@ -82,7 +91,9 @@ export default function SignupForm() {
 
       <p className="flex justify-center mt-4 gap-2">
         <span>{'Already have an Account?'}</span>
-        <Link href="/auth/signin">Sign in</Link>
+        <Link href={{ pathname: '/auth/signin', query: router.query }}>
+          Sign in
+        </Link>
       </p>
     </div>
   );

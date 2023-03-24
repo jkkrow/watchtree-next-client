@@ -11,10 +11,7 @@ const SubscriptionGrid = forwardRef<HTMLUListElement>(function SubscriptionGrid(
   const { items } = useContext<Ctx<Channel>>(ListContext);
 
   return (
-    <ul
-      className="grid grid-cols-1 max-w-md lg:grid-cols-2 lg:max-w-5xl w-full gap-6"
-      ref={ref}
-    >
+    <ul className="grid grid-cols-1 lg:grid-cols-2 w-full gap-6" ref={ref}>
       {items.map((item) => (
         <SubscriptionItem key={item.id} item={item} />
       ))}

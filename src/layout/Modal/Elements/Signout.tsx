@@ -12,7 +12,6 @@ export default function Signout() {
 
   const signoutHandler = async () => {
     await signout();
-    router.push('/');
     complete();
   };
 

@@ -5,6 +5,7 @@ import { setInfo } from './user.slice';
 import { GetUserRequest, UpdatePasswordRequest } from './user.type';
 
 export const userApi = appApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getUser: builder.query<GetUserRequest, void>({
       query: () => ({ url: 'users/current' }),

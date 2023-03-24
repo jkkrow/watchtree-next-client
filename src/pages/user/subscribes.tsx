@@ -2,10 +2,12 @@ import Head from 'next/head';
 import { ReactElement } from 'react';
 
 import UserLayout from '@/components/features/User/_layout';
-import SubscriptionHeader from '@/components/features/User/Subscription/Header';
+import SubscriptionContainer from '@/components/features/User/Subscription/Container';
 import SubscriptionGrid from '@/components/features/User/Subscription/grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Spinner from '@/components/common/UI/Spinner';
+import NotFound from '@/components/common/UI/NotFound';
+import SubscribeUsersIcon from '@/assets/icons/subscribe-users.svg';
 import { ListContextProvider } from '@/context/List';
 import { useAppSelector } from '@/hooks/store';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
@@ -16,7 +18,7 @@ const MAX = 30;
 
 const Subscribes: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user.info);
-  const { data, isFetchingMore, listRef } = useInfiniteQuery(
+  const { data, isFetchingMore, listRef, isLoading } = useInfiniteQuery(
     getSubscribes,
     { max: MAX },
     { skip: !user }
@@ -31,7 +33,12 @@ const Subscribes: NextPageWithLayout = () => {
       <ListContextProvider label="subscribes" items={data?.items || []}>
         <SubscriptionGrid ref={listRef} />
       </ListContextProvider>
-      <SkeletonGrid on={!data} count={MAX} type="subscription" />
+      <SkeletonGrid on={isLoading} count={MAX} type="subscription" />
+      <NotFound
+        items={data?.items}
+        label="Subscribe"
+        icon={SubscribeUsersIcon}
+      />
       <Spinner on={isFetchingMore} size={64} />
     </>
   );
@@ -40,8 +47,7 @@ const Subscribes: NextPageWithLayout = () => {
 Subscribes.getLayout = function getLayout(page: ReactElement) {
   return (
     <UserLayout>
-      <SubscriptionHeader />
-      {page}
+      <SubscriptionContainer>{page}</SubscriptionContainer>
     </UserLayout>
   );
 };

@@ -1,4 +1,5 @@
 import ModalRoute from './Route';
+import Signin from './Elements/Signin';
 import Signout from './Elements/Signout';
 import DeleteVideo from './Elements/DeleteVideo';
 import DeleteAccount from './Elements/DeleteAccount';
@@ -13,6 +14,7 @@ export default function Modal() {
 
   return (
     <>
+      <ModalRoute id="signin" element={Signin} />
       <ModalRoute id="signout" element={Signout} />
       <ModalRoute id="delete-video" element={DeleteVideo} />
       <ModalRoute id="delete-account" element={DeleteAccount} />

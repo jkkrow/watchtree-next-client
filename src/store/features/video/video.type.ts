@@ -73,6 +73,8 @@ export interface DeletedVideoTree {
   data: null;
 }
 
+export type VideoTreeStatus = 'public' | 'private';
+
 export interface GetVideosRequest extends KeysetPaginationRequest {}
 
 export interface SearchVideosRequest extends OffsetPaginationRequest {
@@ -80,6 +82,8 @@ export interface SearchVideosRequest extends OffsetPaginationRequest {
 }
 
 export interface GetCreatedVideosRequest extends OffsetPaginationRequest {}
+
+export interface GetFavoritesRequest extends OffsetPaginationRequest {}
 
 export interface GetVideoResponse {
   videoTree: VideoTreeWithData;
@@ -94,4 +98,5 @@ export interface SearchVideosResponse
 export interface GetCreatedVideosResponse
   extends OffsetPaginationResponse<VideoTreeEntryWithData> {}
 
-export type VideoTreeStatus = 'public' | 'private';
+export interface GetFavoritesResponse
+  extends OffsetPaginationResponse<VideoTreeEntryWithData> {}

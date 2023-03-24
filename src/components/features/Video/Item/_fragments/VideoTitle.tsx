@@ -3,5 +3,5 @@ interface VideoTitleProps {
 }
 
 export default function VideoTitle({ title }: VideoTitleProps) {
-  return <h2 className="w-full font-semibold">{title}</h2>;
+  return <h2 className="w-full text-base font-medium  ">{title}</h2>;
 }

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useContext, useState } from 'react';
+import { motion } from 'framer-motion';
 
 import Avatar from '@/components/common/UI/Avatar';
 import Button from '@/components/common/Element/Button';
@@ -42,7 +43,10 @@ export default function SubscriptionItem({ item }: SubscriptionItemProps) {
   };
 
   return (
-    <li className="flex justify-between w-full p-4 gap-8">
+    <motion.li
+      className="flex justify-between w-full p-4 gap-8"
+      layoutId={item.id}
+    >
       <Link
         className="flex items-center gap-4 overflow-hidden hover:text-hover transition-colors"
         href={`channel/${item.id}`}
@@ -73,6 +77,6 @@ export default function SubscriptionItem({ item }: SubscriptionItemProps) {
           {subscribed ? 'Unsubscribe' : 'Subscribe'}
         </Button>
       </div>
-    </li>
+    </motion.li>
   );
 }

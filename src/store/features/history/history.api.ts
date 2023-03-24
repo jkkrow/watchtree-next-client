@@ -16,6 +16,7 @@ import {
 } from './history.type';
 
 const historyApi = appApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     getHistories: builder.query<GetHistoriesResponse, GetHistoriesRequest>({
       queryFn: async (arg, api, _, baseQuery) => {

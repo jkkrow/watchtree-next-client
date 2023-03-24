@@ -26,6 +26,7 @@ import {
 } from './upload.util';
 
 export const uploadApi = appApi.injectEndpoints({
+  overrideExisting: true,
   endpoints: (builder) => ({
     initiateUpload: builder.mutation<InitiateUploadResponse, void>({
       query: () => ({ url: 'video-trees', method: 'post' }),
