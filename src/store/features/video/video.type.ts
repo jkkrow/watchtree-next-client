@@ -68,11 +68,6 @@ export interface VideoTreeCreator {
   picture: string;
 }
 
-export interface DeletedVideoTree {
-  id: string;
-  data: null;
-}
-
 export type VideoTreeStatus = 'public' | 'private';
 
 export interface GetVideosRequest extends KeysetPaginationRequest {}

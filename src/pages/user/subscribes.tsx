@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { ReactElement } from 'react';
 
 import UserLayout from '@/components/features/User/_layout';
 import SubscriptionContainer from '@/components/features/User/Subscription/Container';
@@ -8,7 +7,6 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Spinner from '@/components/common/UI/Spinner';
 import NotFound from '@/components/common/UI/NotFound';
 import SubscribeUsersIcon from '@/assets/icons/subscribe-users.svg';
-import { ListContextProvider } from '@/context/List';
 import { useAppSelector } from '@/hooks/store';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getSubscribes } from '@/store/features/channel/channel.api';
@@ -30,9 +28,7 @@ const Subscribes: NextPageWithLayout = () => {
         <title>Subscribes</title>
       </Head>
 
-      <ListContextProvider label="subscribes" items={data?.items || []}>
-        <SubscriptionGrid ref={listRef} />
-      </ListContextProvider>
+      <SubscriptionGrid items={data?.items || []} ref={listRef} />
       <SkeletonGrid on={isLoading} count={MAX} type="subscription" />
       <NotFound
         items={data?.items}
@@ -44,7 +40,7 @@ const Subscribes: NextPageWithLayout = () => {
   );
 };
 
-Subscribes.getLayout = function getLayout(page: ReactElement) {
+Subscribes.getLayout = function getLayout(page) {
   return (
     <UserLayout>
       <SubscriptionContainer>{page}</SubscriptionContainer>

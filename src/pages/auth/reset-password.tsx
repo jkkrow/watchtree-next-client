@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { ReactElement } from 'react';
 
 import AuthLayout from '@/components/features/Auth/_layout';
 import ResetPasswordForm from '@/components/features/Auth/Form/ResetPasswordForm';
@@ -17,7 +16,7 @@ const ResetPassword: NextPageWithLayout = () => {
   );
 };
 
-ResetPassword.getLayout = function getLayout(page: ReactElement) {
+ResetPassword.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 

@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { ReactElement } from 'react';
 
 import AuthLayout from '@/components/features/Auth/_layout';
 import SignupForm from '@/components/features/Auth/Form/SignupForm';
@@ -17,7 +16,7 @@ const Signup: NextPageWithLayout = () => {
   );
 };
 
-Signup.getLayout = function getLayout(page: ReactElement) {
+Signup.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 

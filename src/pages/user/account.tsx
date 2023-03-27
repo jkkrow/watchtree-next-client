@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-import { ReactElement } from 'react';
 
 import UserLayout from '@/components/features/User/_layout';
 import { NextPageWithLayout } from '../_app';
@@ -22,7 +21,7 @@ const Account: NextPageWithLayout = () => {
   );
 };
 
-Account.getLayout = function getLayout(page: ReactElement) {
+Account.getLayout = function getLayout(page) {
   return <UserLayout>{page}</UserLayout>;
 };
 

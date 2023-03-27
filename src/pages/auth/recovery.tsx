@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { ReactElement } from 'react';
 
 import AuthLayout from '@/components/features/Auth/_layout';
 import RecoveryForm from '@/components/features/Auth/Form/RecoveryForm';
@@ -17,7 +16,7 @@ const Recovery: NextPageWithLayout = () => {
   );
 };
 
-Recovery.getLayout = function getLayout(page: ReactElement) {
+Recovery.getLayout = function getLayout(page) {
   return <AuthLayout>{page}</AuthLayout>;
 };
 

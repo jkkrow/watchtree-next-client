@@ -9,7 +9,7 @@ interface VideoStatusProps {
 
 export default function VideoStatus({ status }: VideoStatusProps) {
   return (
-    <div className="flex items-center gap-1 font-medium">
+    <div className="flex items-center gap-2 font-medium">
       <span className="w-6 h-6">
         {status === 'public' ? <PublicIcon /> : <PrivateIcon />}
       </span>

@@ -46,7 +46,10 @@ function configureBaseQuery(): AppBaseQuery {
     const headers: AxiosRequestConfig['headers'] = {};
 
     if (refreshTokenExp && accessToken) {
-      headers.Authorization = `Bearer ${accessToken}`;
+      const { exp } = decodeJwt(accessToken);
+      const tokenExpired = dayjs.unix(exp as number).isBefore(dayjs());
+
+      !tokenExpired && (headers.Authorization = `Bearer ${accessToken}`);
     }
 
     const baseQuery = axiosBaseQuery({ baseURL, headers });

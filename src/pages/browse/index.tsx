@@ -4,7 +4,6 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import NotFound from '@/components/common/UI/NotFound';
 import Spinner from '@/components/common/UI/Spinner';
 import VideoIcon from '@/assets/icons/video.svg';
-import { ListContextProvider } from '@/context/List';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getVideos } from '@/store/features/video/video.api';
 
@@ -19,9 +18,11 @@ export default function Browse() {
   return (
     <>
       <BrowseLayout>
-        <ListContextProvider items={data?.items || []}>
-          <VideoGrid label="Recent Videos" ref={listRef} />
-        </ListContextProvider>
+        <VideoGrid
+          label="Recent Videos"
+          items={data?.items || []}
+          ref={listRef}
+        />
         <SkeletonGrid on={isLoading} count={MAX} type="video" />
         <NotFound items={data?.items} label="Video" icon={VideoIcon} />
         <Spinner on={isFetchingMore} size={64} />

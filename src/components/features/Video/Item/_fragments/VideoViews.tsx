@@ -7,7 +7,7 @@ interface VideoViewsProps {
 
 export default function VideoViews({ count }: VideoViewsProps) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-2">
       <span className="w-6 h-6">
         <ViewIcon />
       </span>

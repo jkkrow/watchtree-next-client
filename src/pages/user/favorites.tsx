@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { ReactElement } from 'react';
 
 import UserLayout from '@/components/features/User/_layout';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
@@ -39,7 +38,7 @@ const Favorites: NextPageWithLayout = () => {
   );
 };
 
-Favorites.getLayout = function getLayout(page: ReactElement) {
+Favorites.getLayout = function getLayout(page) {
   return <UserLayout>{page}</UserLayout>;
 };
 

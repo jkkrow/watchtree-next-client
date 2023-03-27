@@ -1,11 +1,8 @@
-import { useRouter } from 'next/router';
-
 import Button from '@/components/common/Element/Button';
 import { useModal } from '@/hooks/ui/modal';
 import { useSignoutMutation } from '@/store/features/auth/auth.api';
 
 export default function Signout() {
-  const router = useRouter();
   const { complete, cancel } = useModal();
   const [signout, { isLoading }] = useSignoutMutation();
   // TODO: Add statement if there is unfinished upload

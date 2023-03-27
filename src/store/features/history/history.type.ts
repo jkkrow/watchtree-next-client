@@ -9,11 +9,11 @@ export interface History {
   progress: number;
   totalProgress: number;
   ended: boolean;
+  watchedAt: string;
 }
 
 export interface LocalHistory extends History {
   videoId: string;
-  updatedAt: string;
 }
 
 export interface GetHistoriesRequest extends KeysetPaginationRequest {
@@ -29,4 +29,4 @@ export interface SaveHistoryRequest {
 }
 
 export interface GetHistoriesResponse
-  extends KeysetPaginationResponse<VideoTreeEntryWithData | null> {}
+  extends KeysetPaginationResponse<VideoTreeEntryWithData> {}

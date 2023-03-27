@@ -16,8 +16,8 @@ export default function VideoDuration({ min, max, brief }: VideoDurationProps) {
   );
 
   return (
-    <div className="flex items-center gap-1">
-      <div className="w-6 h-6">
+    <div className="flex items-center gap-2">
+      <div className="flex-shrink-0 w-6 h-6">
         <TimeIcon />
       </div>
       {!brief && <div>Duration:</div>}

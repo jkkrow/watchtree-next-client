@@ -4,7 +4,6 @@ import { fastForward, generateToken } from './db.utils';
 import {
   VideoTreeEntryWithData,
   VideoTreeWithData,
-  DeletedVideoTree,
 } from '@/store/features/video/video.type';
 import {
   GetHistoriesRequest,
@@ -12,14 +11,18 @@ import {
 } from '@/store/features/history/history.type';
 
 export async function saveLocalHistory(
-  params: Omit<LocalHistory, 'updatedAt'>
+  params: Omit<LocalHistory, 'watchedAt'>
 ) {
-  const history: LocalHistory = { ...params, updatedAt: new Date().toString() };
+  const history: LocalHistory = { ...params, watchedAt: new Date().toString() };
   await db.histories.put(history);
 }
 
 export async function deleteLocalHistory(videoId: string) {
   await db.histories.delete(videoId);
+}
+
+export async function clearLocalHistoy() {
+  await db.histories.clear();
 }
 
 export async function getLocalHistories(params: GetHistoriesRequest) {
@@ -34,7 +37,7 @@ export async function getLocalHistories(params: GetHistoriesRequest) {
     .filter(fastForward(token, 'videoId', filterFn))
     .limit(max)
     .reverse()
-    .sortBy('updatedAt');
+    .sortBy('watchedAt');
 
   const lastEntry = localHistories[localHistories.length - 1];
   const newToken = lastEntry ? generateToken(lastEntry) : null;
@@ -68,12 +71,16 @@ export async function sortByLocalHistory(
   videos: VideoTreeEntryWithData[],
   localHistories: LocalHistory[]
 ) {
+  const deletedIds: string[] = [];
   const videosWithHistory = localHistories.map((localHistory) => {
     const video = videos.find((video) => video.id === localHistory.videoId);
-    return video
-      ? { ...video, history: localHistory }
-      : { id: localHistory.videoId, data: null };
+    if (!video) deletedIds.push(localHistory.videoId);
+    return video ? { ...video, history: localHistory } : null;
   });
 
-  return videosWithHistory as (VideoTreeEntryWithData | DeletedVideoTree)[];
+  if (deletedIds.length) {
+    deletedIds.forEach((id) => deleteLocalHistory(id));
+  }
+
+  return videosWithHistory.filter((video) => video) as VideoTreeEntryWithData[];
 }

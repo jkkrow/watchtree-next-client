@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 import Avatar from '@/components/common/UI/Avatar';
@@ -10,7 +10,6 @@ import {
   useSubscribeMutation,
   useUnsubscribeMutation,
 } from '@/store/features/channel/channel.api';
-import { ListContext } from '@/context/List';
 import { Channel } from '@/store/features/channel/channel.type';
 
 interface SubscriptionItemProps {
@@ -18,7 +17,6 @@ interface SubscriptionItemProps {
 }
 
 export default function SubscriptionItem({ item }: SubscriptionItemProps) {
-  const { label, filterItems } = useContext(ListContext);
   const [subscribed, setSubscribed] = useState(item.subscribed);
 
   const [subscribe, { isLoading: subLoading }] = useSubscribeMutation();
@@ -33,13 +31,7 @@ export default function SubscriptionItem({ item }: SubscriptionItemProps) {
       return;
     }
 
-    if (label === 'subscribers') {
-      setSubscribed((prev) => !prev);
-    }
-
-    if (label === 'subscribes') {
-      filterItems(item.id);
-    }
+    setSubscribed((prev) => !prev);
   };
 
   return (

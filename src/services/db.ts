@@ -8,7 +8,7 @@ export class DB extends Dexie {
   constructor() {
     super('watchtree');
     this.version(1).stores({
-      histories: 'videoId, ended, updatedAt',
+      histories: 'videoId, ended, watchtedAt',
     });
   }
 }

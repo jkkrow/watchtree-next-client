@@ -6,6 +6,7 @@ import {
   saveLocalHistory,
   deleteLocalHistory,
   sortByLocalHistory,
+  clearLocalHistoy,
 } from '@/services/history.service';
 import { MessageResponse } from '@/store/common/api.type';
 import { GetVideosResponse, VideoTreeWithData } from '../video/video.type';
@@ -96,6 +97,24 @@ const historyApi = appApi.injectEndpoints({
         { type: 'History', id: 'LIST' },
       ],
     }),
+
+    clearHistory: builder.mutation<MessageResponse, void>({
+      queryFn: async (_, api, __, baseQuery) => {
+        const { info } = (api.getState() as AppState).user;
+
+        if (info) {
+          const customArg = {
+            url: `channels/current/histories`,
+            method: 'delete',
+          };
+          return baseQuery(customArg) as { data: MessageResponse };
+        }
+
+        await clearLocalHistoy();
+        return { data: { message: 'Histories deleted successfully' } };
+      },
+      invalidatesTags: () => [{ type: 'History', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -103,7 +122,7 @@ export const {
   useGetHistoriesQuery,
   useSaveHistoryMutation,
   useDeleteHistoryMutation,
+  useClearHistoryMutation,
 } = historyApi;
-
-export const { getHistories, saveHistory, deleteHistory } =
+export const { getHistories, saveHistory, deleteHistory, clearHistory } =
   historyApi.endpoints;

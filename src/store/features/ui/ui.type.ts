@@ -33,7 +33,8 @@ export type ModalRoutes =
   | 'signout'
   | 'image'
   | 'delete-video'
-  | 'delete-account';
+  | 'delete-account'
+  | 'clear-history';
 
 export type ModalStatus = 'pending' | 'cancelled' | 'completed';
 

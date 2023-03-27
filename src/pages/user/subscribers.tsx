@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { ReactElement } from 'react';
 
 import UserLayout from '@/components/features/User/_layout';
 import SubscriptionContainer from '@/components/features/User/Subscription/Container';
@@ -8,7 +7,6 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
 import NotFound from '@/components/common/UI/NotFound';
 import SubscribeUsersIcon from '@/assets/icons/subscribe-users.svg';
-import { ListContextProvider } from '@/context/List';
 import { useAppSelector } from '@/hooks/store';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { getSubscribers } from '@/store/features/channel/channel.api';
@@ -30,9 +28,7 @@ const Subscribers: NextPageWithLayout = () => {
         <title>Subscribers</title>
       </Head>
 
-      <ListContextProvider label="subscribers" items={data?.items || []}>
-        <SubscriptionGrid />
-      </ListContextProvider>
+      <SubscriptionGrid items={data?.items || []} />
       <SkeletonGrid on={isLoading} count={MAX} type="subscription" />
       <NotFound
         items={data?.items}
@@ -44,7 +40,7 @@ const Subscribers: NextPageWithLayout = () => {
   );
 };
 
-Subscribers.getLayout = function getLayout(page: ReactElement) {
+Subscribers.getLayout = function getLayout(page) {
   return (
     <UserLayout>
       <SubscriptionContainer>{page}</SubscriptionContainer>

@@ -51,7 +51,7 @@ export default function VideoFavorites({
   };
 
   const icon = (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-2">
       <span className="w-6 h-6">
         {favorited ? <FavoriteActiveIcon /> : <FavoriteIcon />}
       </span>

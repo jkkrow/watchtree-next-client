@@ -3,26 +3,26 @@ import { useMemo, useState } from 'react';
 import { formatDate } from '@/utils/format';
 
 interface VideoTimestampsProps {
-  createdAt: string;
+  timestamp: string;
 }
 
-export default function VideoTimestamps({ createdAt }: VideoTimestampsProps) {
+export default function VideoTimestamps({ timestamp }: VideoTimestampsProps) {
   const [isTimeSince, setIsTimeSince] = useState(false);
   const [timeSince, dateString] = useMemo(
     () => [
-      formatDate(createdAt),
-      new Date(createdAt).toLocaleDateString('en-US', {
+      formatDate(timestamp),
+      new Date(timestamp).toLocaleDateString('en-US', {
         day: 'numeric',
         month: 'long',
         year: 'numeric',
       }),
     ],
-    [createdAt]
+    [timestamp]
   );
 
   return (
     <div
-      className="cursor-pointer transition-colors hover:text-hover"
+      className="cursor-pointer text-sm transition-colors hover:text-hover"
       onClick={() => setIsTimeSince((prev) => !prev)}
     >
       <span>{isTimeSince ? timeSince : dateString}</span>

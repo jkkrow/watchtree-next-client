@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { ReactElement } from 'react';
 
 import UserLayout from '@/components/features/User/_layout';
 import CreatedVideoHeader from '@/components/features/User/Video/Header/index.';
@@ -8,7 +7,6 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
 import NotFound from '@/components/common/UI/NotFound';
 import VideoIcon from '@/assets/icons/video.svg';
-import { ListContextProvider } from '@/context/List';
 import { useAppSelector } from '@/hooks/store';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { getCreatedVideos } from '@/store/features/video/video.api';
@@ -31,9 +29,7 @@ const CreatedVideos: NextPageWithLayout = () => {
       </Head>
 
       <CreatedVideoHeader params={originalArgs} />
-      <ListContextProvider items={data?.items || []}>
-        <CreatedVideoGrid />
-      </ListContextProvider>
+      <CreatedVideoGrid items={data?.items || []} />
       <SkeletonGrid on={isLoading} count={MAX} type="video" />
       <NotFound items={data?.items} label="Video" icon={VideoIcon} />
       <Pagination count={data?.count || 0} size={MAX} page={page} />
@@ -41,7 +37,7 @@ const CreatedVideos: NextPageWithLayout = () => {
   );
 };
 
-CreatedVideos.getLayout = function getLayout(page: ReactElement) {
+CreatedVideos.getLayout = function getLayout(page) {
   return <UserLayout>{page}</UserLayout>;
 };
 

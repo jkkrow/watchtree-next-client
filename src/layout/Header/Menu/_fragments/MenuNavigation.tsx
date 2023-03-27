@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import SigninIcon from '@/assets/icons/signin.svg';
 import SignoutIcon from '@/assets/icons/signout.svg';
-import TimeIcon from '@/assets/icons/time.svg';
+import HistoryIcon from '@/assets/icons/history.svg';
 import UserIcon from '@/assets/icons/user.svg';
 import VideoIcon from '@/assets/icons/video.svg';
 import FavoriteIcon from '@/assets/icons/favorite.svg';
@@ -21,13 +21,13 @@ const userRoutes: NavLink[] = [
   { href: '/user/videos', name: 'My Videos', icon: <VideoIcon /> },
   { href: '/user/favorites', name: 'Favorites', icon: <FavoriteIcon /> },
   { href: '/user/subscribes', name: 'Subscriptions', icon: <SubscribeIcon /> },
-  { href: '/history', name: 'Watch History', icon: <TimeIcon /> },
+  { href: '/history', name: 'Watch History', icon: <HistoryIcon /> },
   { href: '/', name: 'Sign out', icon: <SignoutIcon /> },
 ];
 
 const guestRoutes: NavLink[] = [
   { href: '/auth/signin', name: 'Sign in', icon: <SigninIcon /> },
-  { href: '/history', name: 'Watch History', icon: <TimeIcon /> },
+  { href: '/history', name: 'Watch History', icon: <HistoryIcon /> },
 ];
 
 export default function MenuNavigation() {
