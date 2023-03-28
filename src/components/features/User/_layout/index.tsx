@@ -8,7 +8,8 @@ export default function UserLayout({ children }: PropsWithChildren) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) router.push('/');
+    if (!router.isReady || user) return;
+    router.push('/');
   }, [user, router]);
 
   return (

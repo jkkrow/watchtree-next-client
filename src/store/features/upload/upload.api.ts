@@ -188,9 +188,9 @@ export const uploadApi = appApi.injectEndpoints({
 
         if (!uploadTree) return { error: { status: 400 } };
         const { data: urlData, error: urlError } = await baseQuery({
-          url: 'upload/image',
+          url: 'upload/images',
           method: 'put',
-          data: { key: uploadTree?.thumbnail, fileType: arg.type },
+          data: { key: uploadTree.thumbnail, fileType: arg.type },
         });
 
         if (urlError) return { error: urlError };
@@ -203,8 +203,9 @@ export const uploadApi = appApi.injectEndpoints({
         const { error: uploadError } = await uploadQuery(
           {
             url: presignedUrl,
-            data: arg,
+            method: 'put',
             headers: { 'Content-Type': arg.type },
+            data: arg,
           },
           api,
           extraOptions
@@ -216,9 +217,43 @@ export const uploadApi = appApi.injectEndpoints({
 
         return baseQuery({
           url: `video-trees/${uploadTree.id}`,
-          method: 'post',
+          method: 'patch',
           data: updatedTree,
         }) as { data: MessageResponse };
+      },
+      invalidatesTags: ['Video'],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(setSaved(true));
+      },
+    }),
+
+    deleteThumbnail: builder.mutation<MessageResponse, void>({
+      queryFn: async (_, api, __, baseQuery) => {
+        const { dispatch, getState } = api;
+        const { uploadTree } = (getState() as AppState).upload;
+
+        if (!uploadTree) return { error: { status: 400 } };
+        const { error: deleteError } = await baseQuery({
+          url: 'upload/images',
+          method: 'delete',
+          params: { key: uploadTree.thumbnail },
+        });
+
+        if (deleteError) return { error: deleteError };
+        dispatch(updateTree({ thumbnail: '' }));
+        const updatedTree = (getState() as AppState).upload.uploadTree!;
+
+        return baseQuery({
+          url: `video-trees/${uploadTree.id}`,
+          method: 'patch',
+          data: updatedTree,
+        }) as { data: MessageResponse };
+      },
+      invalidatesTags: ['Video'],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        dispatch(setSaved(true));
       },
     }),
 
@@ -243,15 +278,14 @@ export const uploadApi = appApi.injectEndpoints({
 
     completeUpload: builder.mutation<MessageResponse, void>({
       queryFn: (_, api, __, baseQuery) => {
-        const { dispatch, getState } = api;
-        dispatch(updateTree({ editing: false }));
+        const { getState } = api;
         const { uploadTree } = (getState() as AppState).upload;
 
         if (!uploadTree) return { error: { status: 400 } };
         return baseQuery({
           url: `video-trees/${uploadTree.id}`,
           method: 'patch',
-          data: uploadTree,
+          data: { ...uploadTree, editing: false },
         }) as { data: MessageResponse };
       },
       invalidatesTags: ['Video'],
@@ -284,6 +318,7 @@ export const {
   useDiscardNodeMutation,
   useUploadVideoMutation,
   useUploadThumbnailMutation,
+  useDeleteThumbnailMutation,
   useSaveUploadMutation,
   useCompleteUploadMutation,
   useDeleteUploadMutation,
@@ -296,6 +331,7 @@ export const {
   discardNode,
   uploadVideo,
   uploadThumbnail,
+  deleteThumbnail,
   saveUpload,
   completeUpload,
   deleteUpload,

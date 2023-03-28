@@ -18,9 +18,19 @@ export type Modal<Payload extends ModalPayload = {}> = {
 
 export interface ModalPayload extends Record<string, any> {}
 
+export interface PromptModal {
+  name: string;
+  header: string;
+  message: string;
+}
+
 export interface ImageModal {
   src: string;
   alt?: string;
+}
+
+export interface EditVideoModal {
+  videoId: string;
 }
 
 export interface DeleteVideoModal {
@@ -32,9 +42,11 @@ export type ModalRoutes =
   | 'signin'
   | 'signout'
   | 'image'
+  | 'edit-video'
   | 'delete-video'
   | 'delete-account'
-  | 'clear-history';
+  | 'clear-history'
+  | 'undo-upload';
 
 export type ModalStatus = 'pending' | 'cancelled' | 'completed';
 

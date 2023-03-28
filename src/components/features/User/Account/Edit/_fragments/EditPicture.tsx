@@ -39,11 +39,9 @@ export default function EditPicture() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="w-fit m-auto">
-        <FileInput type="image" onFile={fileHandler}>
-          <Avatar src={picture} size={96} />
-        </FileInput>
-      </div>
+      <FileInput type="image" onFile={fileHandler}>
+        <Avatar src={picture} size={96} />
+      </FileInput>
       <div className="flex flex-col gap-2">
         <Button disabled={!picture} onClick={clearPictureHandler}>
           Remove Picture

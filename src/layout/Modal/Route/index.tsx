@@ -2,9 +2,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { useModal } from '@/hooks/ui/modal';
 import { modalVariants } from '@/constants/variants';
+import { ModalRoutes } from '@/store/features/ui/ui.type';
 
 interface ModalItemProps {
-  id: string;
+  id: ModalRoutes;
   element: React.FC<any>;
 }
 

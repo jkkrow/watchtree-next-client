@@ -20,7 +20,7 @@ export default function Dashboard() {
   }, [router.query]);
 
   return user ? (
-    <div className="w-2/3 min-w-[350px] max-w-2xl p-6 ring-secondary ring-1 rounded-md">
+    <div className="w-2/3 min-w-[350px] max-w-2xl p-6 ring-secondary ring-2 rounded-md">
       {editMode ? <Edit type={editMode} /> : <Profile user={user} />}
     </div>
   ) : null;

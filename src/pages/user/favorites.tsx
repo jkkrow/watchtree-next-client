@@ -5,7 +5,6 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
 import NotFound from '@/components/common/UI/NotFound';
 import VideoIcon from '@/assets/icons/video.svg';
-import { ListContextProvider } from '@/context/List';
 import { useAppSelector } from '@/hooks/store';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { getFavorites } from '@/store/features/video/video.api';
@@ -28,9 +27,7 @@ const Favorites: NextPageWithLayout = () => {
         <title>Favorites</title>
       </Head>
 
-      <ListContextProvider items={data?.items || []}>
-        <VideoGrid label="Favorite Videos" />
-      </ListContextProvider>
+      <VideoGrid label="Favorite Videos" items={data?.items || []} />
       <SkeletonGrid on={isLoading} count={MAX} type="video" />
       <NotFound items={data?.items} label="Video" icon={VideoIcon} />
       <Pagination count={data?.count || 0} size={MAX} page={page} />

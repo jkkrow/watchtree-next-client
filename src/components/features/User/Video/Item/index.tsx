@@ -1,8 +1,8 @@
+import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
 import VideoTitle from '@/components/features/Video/Item/_fragments/VideoTitle';
 import VideoThumbnail from '@/components/features/Video/Item/_fragments/VideoThumbnail';
-import VideoStatus from '@/components/features/Video/Item/_fragments/VideoStatus';
 import VideoDuration from '@/components/features/Video/Item/_fragments/VideoDuration';
 import VideoViews from '@/components/features/Video/Item/_fragments/VideoViews';
 import VideoFavorites from '@/components/features/Video/Item/_fragments/VideoFavorites';
@@ -11,18 +11,37 @@ import Button from '@/components/common/Element/Button';
 import EditIcon from '@/assets/icons/edit.svg';
 import DeleteIcon from '@/assets/icons/delete.svg';
 import { useModal } from '@/hooks/ui/modal';
+import { useAppSelector } from '@/hooks/store';
+import { useContinueUploadMutation } from '@/store/features/upload/upload.api';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
-import { DeleteVideoModal } from '@/store/features/ui/ui.type';
+import { DeleteVideoModal, EditVideoModal } from '@/store/features/ui/ui.type';
 
-interface CreatedVideoItemProps {
+interface UserVideoItemProps {
   item: VideoTreeEntryWithData;
 }
 
-export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
-  const { open } = useModal<DeleteVideoModal>();
+export default function UserVideoItem({ item }: UserVideoItemProps) {
+  const router = useRouter();
+  const tree = useAppSelector((state) => state.upload.uploadTree);
+  const { open: openEdit } = useModal<EditVideoModal>();
+  const { open: openDelete } = useModal<DeleteVideoModal>();
+  const [continueUpload, { isLoading }] = useContinueUploadMutation();
+
+  const editHandler = async () => {
+    if (tree && tree.id === item.id) {
+      return router.push('/upload');
+    }
+
+    if (tree && tree.id !== item.id) {
+      return openEdit('edit-video', { videoId: item.id });
+    }
+
+    const result: any = await continueUpload(item.id);
+    if (!result.error) router.push('/upload');
+  };
 
   const deleteHandler = () => {
-    open('delete-video', { videoId: item.id, title: item.title });
+    openDelete('delete-video', { videoId: item.id, title: item.title });
   };
 
   return (
@@ -61,7 +80,7 @@ export default function CreatedVideoItem({ item }: CreatedVideoItemProps) {
           </div>
         </div>
         <div className="flex gap-2">
-          <Button inversed>
+          <Button inversed loading={isLoading} onClick={editHandler}>
             <EditIcon width={20} height={20} />
           </Button>
           <Button onClick={deleteHandler}>

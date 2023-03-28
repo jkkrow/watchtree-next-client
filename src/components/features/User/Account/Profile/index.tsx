@@ -30,7 +30,7 @@ export default function Profile({ user }: AccountProfileProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative px-8 mx-auto mb-4">
+      <div className="relative px-8 py-4 mx-auto mb-4 border-[1.5px] border-transparent">
         <Avatar src={user.picture} size={96} />
         <button
           className="absolute top-0 right-0 w-5 h-5"

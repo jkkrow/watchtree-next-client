@@ -6,7 +6,7 @@ export default function ClearHistory() {
   const { complete, cancel } = useModal();
   const [clearHistory, { isLoading }] = useClearHistoryMutation();
 
-  const signoutHandler = async () => {
+  const clearHistoryHandler = async () => {
     await clearHistory();
     complete();
   };
@@ -19,7 +19,7 @@ export default function ClearHistory() {
       </div>
       <div className="flex w-80 ml-auto gap-2">
         <Button onClick={cancel}>Cancel</Button>
-        <Button inversed loading={isLoading} onClick={signoutHandler}>
+        <Button inversed loading={isLoading} onClick={clearHistoryHandler}>
           Delete
         </Button>
       </div>

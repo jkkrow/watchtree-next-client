@@ -1,8 +1,8 @@
 import Head from 'next/head';
 
 import UserLayout from '@/components/features/User/_layout';
-import CreatedVideoHeader from '@/components/features/User/Video/Header/index.';
-import CreatedVideoGrid from '@/components/features/User/Video/Grid';
+import UserVideoHeader from '@/components/features/User/Video/Header';
+import UserVideoGrid from '@/components/features/User/Video/Grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
 import NotFound from '@/components/common/UI/NotFound';
@@ -14,7 +14,7 @@ import { NextPageWithLayout } from '../_app';
 
 const MAX = 24;
 
-const CreatedVideos: NextPageWithLayout = () => {
+const UserVideos: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user.info);
   const { data, originalArgs, page, isLoading } = usePaginationQuery(
     getCreatedVideos,
@@ -28,8 +28,8 @@ const CreatedVideos: NextPageWithLayout = () => {
         <title>My Videos</title>
       </Head>
 
-      <CreatedVideoHeader params={originalArgs} />
-      <CreatedVideoGrid items={data?.items || []} />
+      <UserVideoHeader params={originalArgs} />
+      <UserVideoGrid items={data?.items || []} />
       <SkeletonGrid on={isLoading} count={MAX} type="video" />
       <NotFound items={data?.items} label="Video" icon={VideoIcon} />
       <Pagination count={data?.count || 0} size={MAX} page={page} />
@@ -37,8 +37,8 @@ const CreatedVideos: NextPageWithLayout = () => {
   );
 };
 
-CreatedVideos.getLayout = function getLayout(page) {
+UserVideos.getLayout = function getLayout(page) {
   return <UserLayout>{page}</UserLayout>;
 };
 
-export default CreatedVideos;
+export default UserVideos;

@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
       aria-invalid={invalid}
     >
       <input
-        className="peer w-full py-2 outline-none bg-transparent text-current border-current border-b-2 placeholder:invisible"
+        className="peer w-full py-2 outline-none bg-transparent text-current border-current border-b-[1.5px] placeholder:invisible"
         ref={ref}
         id={id || name}
         name={name}

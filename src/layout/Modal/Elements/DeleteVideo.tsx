@@ -44,7 +44,7 @@ export default function DeleteVideo() {
             loading={isLoading}
             disabled={!formState.isValid}
           >
-            Delete Account
+            Delete Video
           </Button>
         </div>
       </form>

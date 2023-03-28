@@ -1,22 +1,22 @@
 import { forwardRef } from 'react';
 
-import CreatedVideoItem from '../Item';
+import UserVideoItem from '../Item';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
 
-interface CreatedVideoGridProps {
+interface UserVideoGridProps {
   items: VideoTreeEntryWithData[];
 }
 
-const CreatedVideoGrid = forwardRef<HTMLUListElement, CreatedVideoGridProps>(
-  function CreatedVideoGrid({ items }, ref) {
+const UserVideoGrid = forwardRef<HTMLUListElement, UserVideoGridProps>(
+  function UserVideoGrid({ items }, ref) {
     return (
       <ul className="grid grid-cols-video w-full gap-6" ref={ref}>
         {items.map((item) => (
-          <CreatedVideoItem key={item.id} item={item} />
+          <UserVideoItem key={item.id} item={item} />
         ))}
       </ul>
     );
   }
 );
 
-export default CreatedVideoGrid;
+export default UserVideoGrid;
