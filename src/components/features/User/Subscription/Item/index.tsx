@@ -41,7 +41,7 @@ export default function SubscriptionItem({ item }: SubscriptionItemProps) {
     >
       <Link
         className="flex items-center gap-4 overflow-hidden hover:text-hover transition-colors"
-        href={`channel/${item.id}`}
+        href={`/channel/${item.id}`}
       >
         <Avatar src={item.picture} size={40} />
         <div className="flex flex-col flex-1 gap-1 overflow-hidden">

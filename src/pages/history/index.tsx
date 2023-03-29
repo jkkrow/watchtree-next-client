@@ -6,7 +6,7 @@ import HistoryGrid from '@/components/features/History/Grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import NotFound from '@/components/common/UI/NotFound';
 import Spinner from '@/components/common/UI/Spinner';
-import VideoIcon from '@/assets/icons/video.svg';
+import HistoryIcon from '@/assets/icons/history.svg';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getHistories } from '@/store/features/history/history.api';
 import { NextPageWithLayout } from '../_app';
@@ -14,10 +14,9 @@ import { NextPageWithLayout } from '../_app';
 const MAX = 30;
 
 const History: NextPageWithLayout = () => {
-  const { data, isFetchingMore, listRef, isLoading } = useInfiniteQuery(
-    getHistories,
-    { max: MAX }
-  );
+  const { data, isFetchingMore, listRef } = useInfiniteQuery(getHistories, {
+    max: MAX,
+  });
 
   return (
     <>
@@ -27,8 +26,8 @@ const History: NextPageWithLayout = () => {
 
       <HistoryHeader />
       <HistoryGrid items={data?.items || []} ref={listRef} />
-      <SkeletonGrid on={isLoading} count={MAX} type="video" />
-      <NotFound items={data?.items} label="History" icon={VideoIcon} />
+      <SkeletonGrid on={!data} count={MAX} type="video" />
+      <NotFound items={data?.items} label="History" icon={HistoryIcon} />
       <Spinner on={isFetchingMore} size={64} />
     </>
   );

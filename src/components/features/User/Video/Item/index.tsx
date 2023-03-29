@@ -10,6 +10,7 @@ import VideoTimestamps from '@/components/features/Video/Item/_fragments/VideoTi
 import Button from '@/components/common/Element/Button';
 import EditIcon from '@/assets/icons/edit.svg';
 import DeleteIcon from '@/assets/icons/delete.svg';
+import CircleLoadingIcon from '@/assets/icons/circle-loading.svg';
 import { useModal } from '@/hooks/ui/modal';
 import { useAppSelector } from '@/hooks/store';
 import { useContinueUploadMutation } from '@/store/features/upload/upload.api';
@@ -80,8 +81,17 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
           </div>
         </div>
         <div className="flex gap-2">
-          <Button inversed loading={isLoading} onClick={editHandler}>
-            <EditIcon width={20} height={20} />
+          <Button
+            inversed={!tree ? true : tree.id === item.id ? true : false}
+            disabled={!tree ? false : tree.id === item.id ? false : true}
+            loading={isLoading}
+            onClick={editHandler}
+          >
+            {tree && tree.id === item.id ? (
+              <CircleLoadingIcon width={24} height={24} />
+            ) : (
+              <EditIcon width={20} height={20} />
+            )}
           </Button>
           <Button onClick={deleteHandler}>
             <DeleteIcon width={20} height={20} />

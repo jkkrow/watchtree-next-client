@@ -16,7 +16,7 @@ const MAX = 30;
 
 const Subscribers: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user.info);
-  const { data, page, isLoading } = usePaginationQuery(
+  const { data, page } = usePaginationQuery(
     getSubscribers,
     { max: MAX, withCount: true },
     { skip: !user }
@@ -29,7 +29,7 @@ const Subscribers: NextPageWithLayout = () => {
       </Head>
 
       <SubscriptionGrid items={data?.items || []} />
-      <SkeletonGrid on={isLoading} count={MAX} type="subscription" />
+      <SkeletonGrid on={!data} count={MAX} type="subscription" />
       <NotFound
         items={data?.items}
         label="Subscriber"

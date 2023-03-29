@@ -21,7 +21,7 @@ export const appMiddleware = (
   const year = day * 365;
 
   const cookieMiddlewareConfig: NextReduxCookieMiddlewareConfig = {
-    compress: process.env.NODE_ENV === 'production' ? true : false,
+    compress: false,
     subtrees: [
       {
         subtree: 'video.volume',

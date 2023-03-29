@@ -16,7 +16,7 @@ const MAX = 30;
 
 const Subscribes: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user.info);
-  const { data, isFetchingMore, listRef, isLoading } = useInfiniteQuery(
+  const { data, isFetchingMore, listRef } = useInfiniteQuery(
     getSubscribes,
     { max: MAX },
     { skip: !user }
@@ -29,7 +29,7 @@ const Subscribes: NextPageWithLayout = () => {
       </Head>
 
       <SubscriptionGrid items={data?.items || []} ref={listRef} />
-      <SkeletonGrid on={isLoading} count={MAX} type="subscription" />
+      <SkeletonGrid on={!data} count={MAX} type="subscription" />
       <NotFound
         items={data?.items}
         label="Subscribe"

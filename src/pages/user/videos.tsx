@@ -16,7 +16,7 @@ const MAX = 24;
 
 const UserVideos: NextPageWithLayout = () => {
   const user = useAppSelector((state) => state.user.info);
-  const { data, originalArgs, page, isLoading } = usePaginationQuery(
+  const { data, originalArgs, page } = usePaginationQuery(
     getCreatedVideos,
     { max: MAX, withCount: true },
     { skip: !user }
@@ -30,7 +30,7 @@ const UserVideos: NextPageWithLayout = () => {
 
       <UserVideoHeader params={originalArgs} />
       <UserVideoGrid items={data?.items || []} />
-      <SkeletonGrid on={isLoading} count={MAX} type="video" />
+      <SkeletonGrid on={!data} count={MAX} type="video" />
       <NotFound items={data?.items} label="Video" icon={VideoIcon} />
       <Pagination count={data?.count || 0} size={MAX} page={page} />
     </>
