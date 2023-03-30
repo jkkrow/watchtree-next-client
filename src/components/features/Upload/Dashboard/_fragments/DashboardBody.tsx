@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 
 import Button from '@/components/common/Element/Button';
 import FileInput from '@/components/common/Element/FileInput';
+import Tooltip from '@/components/common/UI/Tooltip';
 import ImageIcon from '@/assets/icons/image.svg';
 import UndoIcon from '@/assets/icons/undo.svg';
 import SaveIcon from '@/assets/icons/save.svg';
@@ -126,14 +127,16 @@ export default function DashboardBody() {
         >
           <SaveIcon />
         </Button>
-        <Button
-          inversed
-          disabled={!!disableSubmit}
-          loading={completeUploadLoading}
-          onClick={completeUploadHandler}
-        >
-          Submit
-        </Button>
+        <Tooltip text={disableSubmit} direction="bottom" invalid>
+          <Button
+            inversed
+            disabled={!!disableSubmit}
+            loading={completeUploadLoading}
+            onClick={completeUploadHandler}
+          >
+            Submit
+          </Button>
+        </Tooltip>
       </div>
     </div>
   );
