@@ -12,5 +12,9 @@ export default function UploadLayout({ children }: PropsWithChildren) {
     router.replace('/user/videos');
   }, [tree, router]);
 
-  return <div className="max-w-9xl p-6 mx-auto">{tree ? children : null}</div>;
+  return (
+    <div className="flex flex-col max-w-9xl p-6 gap-6 mx-auto">
+      {tree ? children : null}
+    </div>
+  );
 }

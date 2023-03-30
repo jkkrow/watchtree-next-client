@@ -38,6 +38,11 @@ export interface DeleteVideoModal {
   title: string;
 }
 
+export interface DiscardNodeModal {
+  treeId: string;
+  nodeId: string;
+}
+
 export type ModalRoutes =
   | 'signin'
   | 'signout'
@@ -46,7 +51,8 @@ export type ModalRoutes =
   | 'delete-video'
   | 'delete-account'
   | 'clear-history'
-  | 'undo-upload';
+  | 'undo-upload'
+  | 'discard-node';
 
 export type ModalStatus = 'pending' | 'cancelled' | 'completed';
 

@@ -36,22 +36,24 @@ export default function Tooltip({
 
   const margin = `m${shorthand[opposite[direction]]}-2`;
 
-  return text ? (
+  return (
     <div className="group relative flex justify-center items-center">
       {children}
-      <div
-        className={`absolute flex justify-center items-center w-max ${margin} ${opposite[direction]}-full opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto`}
-      >
-        <span
-          className={`absolute border-8 ${direction}-full ${borders}`}
-        ></span>
-        <span
-          className="p-4 border-[1.5px] border-secondary rounded-md bg-primary data-[invalid=true]:bg-invalid"
-          data-invalid={invalid}
+      {text ? (
+        <div
+          className={`absolute flex justify-center items-center w-max ${margin} ${opposite[direction]}-full opacity-0 pointer-events-none transition-opacity group-hover:opacity-100 group-hover:pointer-events-auto`}
         >
-          {text}
-        </span>
-      </div>
+          <span
+            className={`absolute border-8 ${direction}-full ${borders}`}
+          ></span>
+          <span
+            className="p-4 border-[1.5px] border-secondary rounded-md bg-primary data-[invalid=true]:bg-invalid"
+            data-invalid={invalid}
+          >
+            {text}
+          </span>
+        </div>
+      ) : null}
     </div>
-  ) : null;
+  );
 }

@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import UserLayout from '@/components/features/User/_layout';
 import { NextPageWithLayout } from '../_app';
 
-const Dashboard = dynamic(
+const AccountDashboard = dynamic(
   () => import('@/components/features/User/Account/Dashboard'),
   { ssr: false }
 );
@@ -16,7 +16,7 @@ const Account: NextPageWithLayout = () => {
         <title>Account</title>
       </Head>
 
-      <Dashboard />
+      <AccountDashboard />
     </>
   );
 };

@@ -1,9 +1,7 @@
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 import Input from '@/components/common/Element/Input';
 import Textarea from '@/components/common/Element/Textarea';
-import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import EnterIcon from '@/assets/icons/enter.svg';
 import RemoveIcon from '@/assets/icons/remove.svg';
 import { useAppDispatch, useAppSelector } from '@/hooks/store';
@@ -19,7 +17,6 @@ interface DashboardInputs {
 export default function DashboardHeader() {
   const tree = useAppSelector((state) => state.upload.uploadTree!);
   const dispatch = useAppDispatch();
-  const router = useRouter();
 
   const [setTitleTimeout] = useTimeout();
   const [setDescTimeout] = useTimeout();
@@ -71,12 +68,6 @@ export default function DashboardHeader() {
 
   return (
     <header className="flex flex-col gap-4">
-      <button
-        className="w-6 h-6 mb-4 hover:text-hover"
-        onClick={() => router.back()}
-      >
-        <ArrowLeftIcon />
-      </button>
       <div>
         <Input {...titleInput} onChange={titleChangeHandler} />
       </div>

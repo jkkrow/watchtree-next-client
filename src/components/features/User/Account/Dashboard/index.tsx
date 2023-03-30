@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 
 const EDIT_TYPE = ['name', 'password', 'picture'] as const;
 
-export default function Dashboard() {
+export default function AccountDashboard() {
   const user = useAppSelector((state) => state.user.info);
   const router = useRouter();
 
@@ -20,7 +20,7 @@ export default function Dashboard() {
   }, [router.query]);
 
   return user ? (
-    <div className="w-2/3 min-w-[350px] max-w-2xl p-6 ring-secondary ring-2 rounded-md">
+    <div className="w-2/3 min-w-[350px] max-w-2xl p-6 border-[1.5px] border-secondary rounded-md">
       {editMode ? <Edit type={editMode} /> : <Profile user={user} />}
     </div>
   ) : null;

@@ -6,6 +6,7 @@ import DeleteVideo from './Elements/DeleteVideo';
 import DeleteAccount from './Elements/DeleteAccount';
 import ClearHistory from './Elements/ClearHistory';
 import UndoUpload from './Elements/UndoUpload';
+import DiscardNode from './Elements/DiscardNode';
 import ImagePreview from './Elements/ImagePreview';
 import { useAppSelector } from '@/hooks/store';
 import { useScrollLock } from '@/hooks/ui/scroll-lock';
@@ -24,6 +25,7 @@ export default function Modal() {
       <ModalRoute id="delete-account" element={DeleteAccount} />
       <ModalRoute id="clear-history" element={ClearHistory} />
       <ModalRoute id="undo-upload" element={UndoUpload} />
+      <ModalRoute id="discard-node" element={DiscardNode} />
       <ModalRoute id="image" element={ImagePreview} />
     </>
   );
