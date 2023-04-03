@@ -1,0 +1,32 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  grid-column: 2;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  @media (hover: hover) {
+    &:hover [data-type='range'] > * {
+      transform: scaleX(1);
+    }
+
+    &:hover svg {
+      transform: translateX(clamp(-6rem, -100%, -1.75rem)) scale(1.3);
+    }
+  }
+}
+
+.range {
+  @include vp-range();
+  position: absolute;
+  left: 50%;
+  width: clamp(3rem, 100%, 8rem);
+  height: clamp(2rem, 5cqw, 5rem);
+
+  > * {
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms ease-out;
+  }
+}

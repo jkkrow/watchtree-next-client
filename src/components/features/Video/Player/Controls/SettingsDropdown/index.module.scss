@@ -1,0 +1,63 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  bottom: 100%;
+  right: 0;
+  width: clamp(10rem, 35%, 20rem);
+  overflow: hidden;
+  transition: opacity 300ms ease-out, height 300ms ease-out;
+  background-color: rgba($vp-bg, 0.8);
+  z-index: 20;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
+
+.menu {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.list {
+  overflow: auto;
+  max-height: clamp(5rem, 25cqw, 30rem);
+}
+
+.label,
+.item {
+  display: flex;
+  align-items: center;
+  height: fit-content;
+  padding: 5% 10%;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 200ms;
+
+  &:hover {
+    background-color: rgba($vp-bg--hover, 0.8);
+  }
+}
+
+.label {
+  font-weight: 600;
+}
+
+.item {
+  justify-content: space-between;
+
+  &[data-active='true']::after {
+    content: '';
+    display: flex;
+    width: 1rem;
+    height: 1rem;
+    margin-left: auto;
+    border-radius: 50px;
+    background-color: $vp-text;
+  }
+}

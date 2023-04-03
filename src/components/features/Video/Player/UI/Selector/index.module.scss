@@ -1,0 +1,62 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-bottom: 2rem;
+  gap: 2rem;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: transform 400ms ease-out, opacity 400ms ease-out;
+  z-index: 15;
+
+  &[data-active='true'] {
+    pointer-events: initial;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  align-content: flex-end;
+  gap: 2rem;
+}
+
+.button {
+  width: 35%;
+  padding: 1.5%;
+  border: 1px solid $vp-bg--hover;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  color: $vp-text;
+  background-color: rgba($vp-bg, 0.8);
+  transition: background-color 200ms ease-out;
+
+  &:hover {
+    background-color: $vp-bg--hover;
+  }
+}
+
+.timer {
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0.1rem 0 black, 0 0.1rem black, -0.1rem 0 black, 0 -0.1rem black,
+    -0.1rem -0.1rem black, -0.1rem 0.1rem black, 0.1rem -0.1rem black,
+    0.1rem 0.1rem black;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+
+  &[data-active='true'] {
+    opacity: 1;
+  }
+}

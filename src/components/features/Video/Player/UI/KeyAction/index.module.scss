@@ -1,0 +1,88 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  position: absolute;
+  display: flex;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.volume {
+  position: absolute;
+  display: flex;
+  top: -1px;
+  bottom: 75%;
+  left: -1px;
+  right: -1px;
+  background-image: linear-gradient(rgba($vp-bg, 0.7), transparent);
+  transition: opacity 300ms ease-out;
+  z-index: 15;
+}
+
+.volumeContainer {
+  display: grid;
+  grid-template-columns: 1fr 2.5fr;
+  margin: auto;
+  gap: 2rem;
+  width: clamp(12rem, 20%, 25rem);
+  height: auto;
+  transition: all 300ms ease-out;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.volumeRange {
+  @include vp-range();
+  width: 100%;
+  height: 100%;
+  margin: auto;
+
+  *[data-type='background'],
+  *[data-type='current'] {
+    height: 10%;
+    transition: width 200ms ease-out;
+  }
+}
+
+.progress {
+  position: absolute;
+  display: flex;
+  top: -1px;
+  bottom: -1px;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+
+  &[data-type='rewind'] {
+    left: -1px;
+    right: 50%;
+    background-image: linear-gradient(to left, transparent, rgba($vp-bg, 0.7));
+  }
+
+  &[data-type='skip'] {
+    left: 50%;
+    right: -1px;
+    background-image: linear-gradient(to right, transparent, rgba($vp-bg, 0.7));
+  }
+
+  svg {
+    width: clamp(2rem, 15%, 5rem);
+    height: 100%;
+    margin: auto;
+  }
+}
+
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}

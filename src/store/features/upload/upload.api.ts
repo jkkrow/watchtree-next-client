@@ -94,6 +94,7 @@ export const uploadApi = appApi.injectEndpoints({
         };
 
         dispatch(updateNode({ id: nodeId, info }));
+        return;
 
         // Check if file is duplicated
         // Case 1: upload not finished

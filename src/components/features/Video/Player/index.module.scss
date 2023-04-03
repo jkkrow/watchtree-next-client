@@ -1,0 +1,41 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: $vp-text;
+  background-color: $vp-bg;
+  outline: none;
+  container: video-player / inline-size;
+
+  * {
+    font-size: clamp(0.5rem, 2cqw, 1.25rem);
+  }
+
+  button {
+    outline: none;
+  }
+
+  video {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    aspect-ratio: 16/9;
+
+    @media (hover: none) {
+      pointer-events: none;
+    }
+  }
+
+  @media (max-aspect-ratio: 16/9) {
+    height: 100%;
+  }
+
+  *::-webkit-scrollbar {
+    background-color: $vp-bg;
+  }
+}

@@ -49,17 +49,18 @@ export function getPaths(root: VideoNode) {
 }
 
 export function mapTree(root: VideoNode) {
-  const map: any = {};
+  const map: { [id: string]: { node: VideoNode; parent: VideoNode | null } } =
+    {};
 
-  const iterate = (node: VideoNode) => {
-    map[node.id] = node;
+  const iterate = (node: VideoNode, parent: VideoNode | null) => {
+    map[node.id] = { node, parent };
 
     if (node.children.length) {
-      node.children.forEach(iterate);
+      node.children.forEach((child) => iterate(child, node));
     }
   };
 
-  iterate(root);
+  iterate(root, null);
 
   return map;
 }
@@ -67,15 +68,15 @@ export function mapTree(root: VideoNode) {
 export function findAncestors(root: VideoNode, id: string, include?: boolean) {
   const map = mapTree(root);
   const ancestors: VideoNode[] = [];
-  let parentId = map[id]?.parentId;
+  let current = map[id];
 
-  if (include) {
-    ancestors.push(map[id]);
+  if (include && current) {
+    ancestors.push(current.node);
   }
 
-  while (parentId) {
-    ancestors.push(map[parentId]);
-    parentId = map[parentId]?.parentId;
+  while (current?.parent) {
+    ancestors.push(current.parent);
+    current = map[current.parent.id];
   }
 
   return ancestors;

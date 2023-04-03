@@ -16,7 +16,7 @@ export const videoSlice = createSlice({
   name: 'video',
   initialState,
   reducers: {
-    setVideoTree(state, { payload }: PayloadAction<VideoTree>) {
+    setVideoTree(state, { payload }: PayloadAction<VideoTree | null>) {
       state.videoTree = payload;
     },
     setActiveNode(state, { payload }: PayloadAction<string>) {

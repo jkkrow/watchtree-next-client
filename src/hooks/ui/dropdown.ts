@@ -3,10 +3,10 @@ import { PointerEventHandler, useState } from 'react';
 import { useClickOutside } from './click-outside';
 import { useTimeout } from '../util/time';
 
-export function useDropdown() {
+export function useDropdown<T extends HTMLElement>() {
   const [active, setActive] = useState(false);
   const [setClosingTimeout, clearClosingTimeout] = useTimeout();
-  const containerRef = useClickOutside(() => setActive(false));
+  const containerRef = useClickOutside<T>(() => setActive(false));
 
   const open: PointerEventHandler = (event) => {
     if (event.pointerType !== 'mouse') return;

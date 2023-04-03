@@ -1,0 +1,23 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 2rem;
+  text-align: center;
+  font-weight: 600;
+  color: var(--text-invalid);
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 30;
+
+  svg {
+    width: 5rem;
+    height: 5rem;
+    cursor: pointer;
+  }
+}

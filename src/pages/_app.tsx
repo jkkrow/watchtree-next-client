@@ -5,7 +5,8 @@ import { Provider } from 'react-redux';
 
 import { wrapper } from '@/store';
 import Layout from '@/layout';
-import '@/styles/globals.css';
+import '@/styles/globals.scss';
+import '@/styles/player.scss';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

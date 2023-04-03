@@ -3,7 +3,8 @@ import MenuDropdown from './_fragments/MenuDropdown';
 import { useDropdown } from '@/hooks/ui/dropdown';
 
 export default function Menu() {
-  const { active, containerRef, open, close, toggle } = useDropdown();
+  const { active, containerRef, open, close, toggle } =
+    useDropdown<HTMLDivElement>();
 
   return (
     <div

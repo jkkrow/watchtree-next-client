@@ -1,6 +1,7 @@
-import { AppState } from '@/store';
+import { AppBaseQueryError, AppState } from '@/store';
 import { appApi } from '@/store/app/api';
 import { getInfiniteQueryOptions } from '@/store/common/api.util';
+import { findAncestors, findNodeById } from '../video/video.util';
 import {
   getLocalHistories,
   saveLocalHistory,
@@ -11,6 +12,7 @@ import {
 import { MessageResponse } from '@/store/common/api.type';
 import { GetVideosResponse, VideoTreeWithData } from '../video/video.type';
 import {
+  History,
   GetHistoriesRequest,
   GetHistoriesResponse,
   SaveHistoryRequest,
@@ -58,19 +60,49 @@ const historyApi = appApi.injectEndpoints({
 
     saveHistory: builder.mutation<MessageResponse, SaveHistoryRequest>({
       queryFn: async (arg, api, _, baseQuery) => {
+        const error = { status: 400, data: { message: 'Invalid request' } };
+        const videoState = (api.getState() as AppState).video;
         const { info } = (api.getState() as AppState).user;
+        const { activeNodeId, initialProgress, currentProgress, videoTree } =
+          videoState;
+
+        if (!videoTree || !activeNodeId || videoTree.id !== arg.videoId) {
+          return { error } as { error: AppBaseQueryError };
+        }
+
+        const activeNode = findNodeById(videoTree.root, activeNodeId);
+        if (!activeNode) {
+          return { error } as { error: AppBaseQueryError };
+        }
+
+        const threshold =
+          activeNode.duration * 0.95 > activeNode.duration - 10
+            ? activeNode.duration - 10
+            : activeNode.duration * 0.95;
+        const isLastVideo = activeNode.children.length === 0;
+        const endAt = activeNode.duration - threshold > 180 ? 180 : threshold;
+
+        const previousNodes = findAncestors(videoTree.root, activeNode.id);
+        const previousProgress = previousNodes.reduce(
+          (acc, cur) => acc + (cur.duration || 0),
+          0
+        );
+
+        const progress = arg.unmount ? currentProgress : initialProgress || 0;
+        const totalProgress = progress + previousProgress;
+        const ended = isLastVideo && progress > endAt ? true : false;
+        const params = { activeNodeId, progress, totalProgress, ended };
 
         if (info) {
-          const { videoId, ...rest } = arg;
           const customArg = {
-            url: `histories/${videoId}`,
-            data: rest,
+            url: `histories/${videoTree.id}`,
+            data: params,
             method: 'put',
           };
           return baseQuery(customArg) as { data: MessageResponse };
         }
 
-        await saveLocalHistory(arg);
+        await saveLocalHistory({ videoId: videoTree.id, ...params });
         return { data: { message: 'History saved successfully' } };
       },
       extraOptions: { ignoreMessage: true },

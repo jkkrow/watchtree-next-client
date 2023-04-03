@@ -10,7 +10,8 @@ export default function Navigation() {
     { href: '/featured', name: 'Featured' },
   ];
 
-  const { active, containerRef, open, close, toggle } = useDropdown();
+  const { active, containerRef, open, close, toggle } =
+    useDropdown<HTMLDivElement>();
 
   return (
     <nav className="group relative flex justify-center items-center h-full mr-auto font-semibold">

@@ -22,10 +22,7 @@ export interface GetHistoriesRequest extends KeysetPaginationRequest {
 
 export interface SaveHistoryRequest {
   videoId: string;
-  activeNodeId: string;
-  progress: number;
-  totalProgress: number;
-  ended: boolean;
+  unmount: boolean;
 }
 
 export interface GetHistoriesResponse

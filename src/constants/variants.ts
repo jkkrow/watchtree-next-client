@@ -5,6 +5,11 @@ export const opacityVariants: Variants = {
   inActive: { opacity: 0 },
 };
 
+export const transformYVariants: Variants = {
+  active: { y: '0%' },
+  inActive: { y: '-100%' },
+};
+
 export const rotate180Variants: Variants = {
   active: { rotate: 180 },
   inActive: { rotate: 0 },
@@ -47,4 +52,24 @@ export const modalVariants: Record<'container' | 'window', Variants> = {
     active: { y: 0 },
     inActive: { y: -500, transition: { bounce: 0 } },
   },
+};
+
+export const playerDropdownVariants: Record<
+  'container' | 'index' | 'main',
+  Variants
+> = {
+  container: opacityVariants,
+  index: {
+    active: { x: 0 },
+    inActive: { x: '-100%' },
+  },
+  main: {
+    active: { x: 0 },
+    inActive: { x: '100%' },
+  },
+};
+
+export const playerModalVariants: Variants = {
+  active: { x: 0 },
+  inActive: { x: '100%' },
 };

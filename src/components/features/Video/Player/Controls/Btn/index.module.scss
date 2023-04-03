@@ -1,0 +1,63 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: clamp(1rem, 35%, 3rem);
+  margin: auto;
+  color: $vp-text;
+  background-color: transparent;
+  aspect-ratio: 1/1;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 200ms;
+  }
+
+  &::before {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 150%;
+    width: max-content;
+    padding: 0.5rem 0.75rem;
+    border-radius: 5px;
+    color: $vp-text;
+    background-color: rgba($vp-bg, 0.8);
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+  }
+
+  &:not([data-label])::before,
+  &[data-label='']::before {
+    display: none;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      svg {
+        transform: scale(1.3);
+      }
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      svg {
+        transform: scale(1.3);
+      }
+    }
+
+    &:active::before {
+      opacity: 1;
+    }
+  }
+}

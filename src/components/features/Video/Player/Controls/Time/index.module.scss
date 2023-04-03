@@ -1,0 +1,7 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  width: clamp(12rem, 20%, 20rem);
+  text-align: center;
+  font-weight: 500;
+}

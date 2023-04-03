@@ -1,0 +1,30 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  left: -1px;
+  right: -1px;
+  height: clamp(5rem, 25%, 10rem);
+  padding: 0 2rem;
+  background-image: linear-gradient($vp-bg, transparent);
+  transition: opacity 300ms ease-out;
+  z-index: 15;
+
+  &[data-hide='true'] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  svg {
+    position: absolute;
+    top: 2.5rem;
+    height: 2.5rem;
+    width: clamp(2rem, 3%, 3.5rem);
+    height: auto;
+    aspect-ratio: 1/1;
+    cursor: pointer;
+  }
+}

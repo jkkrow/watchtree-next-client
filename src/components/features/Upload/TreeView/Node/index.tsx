@@ -12,6 +12,7 @@ import {
   setActiveNode,
   updateNode,
 } from '@/store/features/upload/upload.slice';
+import { useUploadVideoMutation } from '@/store/features/upload/upload.api';
 import { findNodeByChildId } from '@/store/features/video/video.util';
 import { VideoNode } from '@/store/features/video/video.type';
 import { formatSize, formatTime } from '@/utils/format';
@@ -24,6 +25,7 @@ interface UploadNodeProps {
 export default function UploadNode({ node, active }: UploadNodeProps) {
   const root = useAppSelector((state) => state.upload.uploadTree!.root);
   const dispatch = useAppDispatch();
+  const [uploadVideo] = useUploadVideoMutation();
 
   const parentNode = useMemo(
     () => findNodeByChildId(root, node.id),
@@ -38,10 +40,16 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
     dispatch(updateNode({ id: node.id, info: { label: event.target.value } }));
   };
 
+  const uploadVideoHandler = (files: File[]) => {
+    const file = files[0];
+    console.log(file);
+    uploadVideo({ file, nodeId: node.id });
+  };
+
   return (
     <div className="w-full border-[1.5px] border-secondary rounded-md">
       <div>
-        <header className="flex items-center p-4 gap-2">
+        <header className="flex items-center p-4 gap-4">
           <div className="flex flex-col gap-2">
             {node.level === 0 ? (
               <div className="font-bold text-lg">ROOT</div>
@@ -68,10 +76,10 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
               </div>
             ) : null}
           </div>
-          <div className="flex ml-auto gap-2">
+          <div className="flex flex-shrink-0 ml-auto gap-2">
             {!active ? (
               <Button small inversed onClick={setActiveNodeHandler(node.id)}>
-                See Detail
+                Details
               </Button>
             ) : null}
             {active && node.url ? (
@@ -103,7 +111,7 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
               </div>
             ) : (
               <div className="[&>*]:border-none">
-                <FileInput type="video" onFile={() => console.log('test')}>
+                <FileInput type="video" onFile={uploadVideoHandler}>
                   <UploadIcon className="w-16 h-16" />
                 </FileInput>
               </div>

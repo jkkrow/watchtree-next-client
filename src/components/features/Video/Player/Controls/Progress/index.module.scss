@@ -1,0 +1,33 @@
+@use '@/styles/player.scss' as *;
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  > span {
+    position: absolute;
+    bottom: 100%;
+    padding: 0.5rem 0.75rem;
+    color: $vp-text;
+    background-color: rgba($vp-bg, 0.8);
+    border-radius: 5px;
+    font-weight: 700;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: opacity 200ms ease-out;
+  }
+
+  @media (hover: hover) {
+    &:hover > span {
+      opacity: 1;
+    }
+  }
+}
+
+.range {
+  @include vp-range();
+  width: 100%;
+  height: 100%;
+}
