@@ -17,11 +17,11 @@ export async function getVideoDuration(file: File) {
 }
 
 export function uploadProgressHandler(
+  progressArray: number[],
   partNumber: number,
   partCount: number,
   cb: (percentage: number, rate: number) => void
 ) {
-  const progressArray: number[] = [];
   return (progressEvent: AxiosProgressEvent) => {
     const loaded = progressEvent.loaded!;
     const total = progressEvent.total!;

@@ -88,13 +88,12 @@ export const uploadApi = appApi.injectEndpoints({
           size: file.size,
           label: `Select ${name}`,
           url: URL.createObjectURL(file),
-          duration,
+          duration: Math.ceil(duration * 1000) / 1000,
           selectionTimeStart: +(duration - 10 || 0).toFixed(3),
           selectionTimeEnd: +duration.toFixed(3),
         };
 
         dispatch(updateNode({ id: nodeId, info }));
-        return;
 
         // Check if file is duplicated
         // Case 1: upload not finished
@@ -124,13 +123,14 @@ export const uploadApi = appApi.injectEndpoints({
         const { data: processData, error: processError } = await baseQuery({
           url: `upload/multipart/${uploadId}`,
           method: 'put',
-          data: { videoId: id, fileName: name, partCount },
+          data: { videoId: id, fileName: name, partCount, fileType: file.type },
         });
 
         if (processError) return { error: processError };
         const uploadQuery = axiosBaseQuery();
         const { presignedUrls } = processData as { presignedUrls: string[] };
 
+        const progressArray: number[] = [];
         const uploadPartPromises = presignedUrls.map((presignedUrl, index) => {
           const partNumber = index + 1;
           const from = index * partSize;
@@ -139,10 +139,11 @@ export const uploadApi = appApi.injectEndpoints({
           return uploadQuery(
             {
               url: presignedUrl,
-              method: 'PUT',
+              method: 'put',
               headers: { 'Content-Type': file.type },
               data: blob,
               onUploadProgress: uploadProgressHandler(
+                progressArray,
                 partNumber,
                 partCount,
                 (percentage, rate) => {
@@ -156,8 +157,13 @@ export const uploadApi = appApi.injectEndpoints({
         });
 
         const uploadResponses = await Promise.all(uploadPartPromises);
+
+        for (const uploadResponse of uploadResponses) {
+          if (uploadResponse.error) return { error: uploadResponse.error };
+        }
+
         const uploadParts = uploadResponses.map((response, index) => ({
-          Etag: response.meta?.headers.etag,
+          ETag: response.meta?.headers.etag,
           PartNumber: index + 1,
         }));
 

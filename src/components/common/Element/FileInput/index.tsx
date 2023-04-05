@@ -87,7 +87,7 @@ export default function FileInput({
 
   return (
     <label
-      className="relative flex flex-col items-center w-full p-4 gap-2 cursor-pointer bg-primary border-secondary rounded-md border-[1.5px] transition-colors data-[invalid=true]:text-invalid data-[dragging=true]:bg-hover hover:bg-hover data-[loading=true]:pointer-events-none"
+      className="relative flex flex-col items-center w-full p-4 gap-2 cursor-pointer overflow-hidden bg-primary border-secondary rounded-md border-[1.5px] transition-colors data-[invalid=true]:text-invalid data-[dragging=true]:bg-hover hover:bg-hover data-[loading=true]:pointer-events-none"
       data-invalid={!!error}
       data-dragging={dragging}
       data-loading={loading}

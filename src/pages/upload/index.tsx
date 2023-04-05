@@ -14,8 +14,10 @@ const Upload: NextPageWithLayout = () => {
       </Head>
 
       <UploadPreview />
-      <UploadDashboard />
-      <UploadTree />
+      <div className="flex flex-col gap-4 lg:flex-row">
+        <UploadDashboard />
+        <UploadTree />
+      </div>
     </>
   );
 };

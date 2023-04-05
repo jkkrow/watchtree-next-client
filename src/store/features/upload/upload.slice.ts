@@ -109,6 +109,7 @@ export const uploadSlice = createSlice({
         state.progresses.push(payload);
       } else {
         progress.percentage = payload.percentage;
+        progress.rate = payload.rate || progress.rate;
       }
     },
 

@@ -1,13 +1,18 @@
 import { memo } from 'react';
 
-import Spinner from '@/components/common/UI/Spinner';
+import LoaderIcon from '@/assets/icons/loader.svg';
+import styles from './index.module.scss';
 
 interface LoaderProps {
   on: boolean;
 }
 
 const Loader: React.FC<LoaderProps> = ({ on }) => {
-  return <Spinner on={on} size={40} overlay />;
+  return (
+    <div className={styles.container} data-active={on}>
+      <LoaderIcon />
+    </div>
+  );
 };
 
 export default memo(Loader);

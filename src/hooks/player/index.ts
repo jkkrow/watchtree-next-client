@@ -38,7 +38,10 @@ export const usePlayer = ({
     if (!firstRender) return;
 
     const video = videoRef.current!;
-    const src = url;
+    const src =
+      url.startsWith('http') || url.startsWith('blob')
+        ? url
+        : `${process.env.NEXT_PUBLIC_ASSET_DOMAIN}/${url}`;
 
     // Edit mode
     if (src.substring(0, 4) === 'blob') {

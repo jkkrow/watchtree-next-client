@@ -33,6 +33,7 @@ export const useSelector = ({
       currentTime >= selectionTimeStart &&
       currentTime < selectionTimeEnd &&
       nextVideos.length &&
+      nextVideos.length > 1 &&
       !video.paused &&
       !isSelected
     ) {

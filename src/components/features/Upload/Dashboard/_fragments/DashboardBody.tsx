@@ -35,12 +35,12 @@ export default function DashboardBody() {
   const [completeUpload, { isLoading: completeUploadLoading }] =
     useCompleteUploadMutation();
 
+  const isUnfinished = useMemo(() => !!progresses.length, [progresses.length]);
   const disableSubmit = useMemo(() => {
     let message = '';
     const nodes = traverseNodes(tree.root);
     const isTitleEmpty = !tree.title;
     const isEmptyNode = nodes.find((node) => !node.url);
-    const isUnfinished = progresses.length;
 
     if (isTitleEmpty) {
       message = 'Title is empty';
@@ -55,7 +55,7 @@ export default function DashboardBody() {
     }
 
     return message;
-  }, [tree, progresses]);
+  }, [tree, isUnfinished]);
 
   const uploadThumbnailHandler = async (files: File[]) => {
     const file = files[0];
@@ -121,7 +121,7 @@ export default function DashboardBody() {
         </Button>
         <Button
           inversed
-          disabled={saved}
+          disabled={saved || isUnfinished}
           loading={saveUploadLoading}
           onClick={saveUploadHandler}
         >
@@ -134,7 +134,7 @@ export default function DashboardBody() {
             loading={completeUploadLoading}
             onClick={completeUploadHandler}
           >
-            Submit
+            Complete
           </Button>
         </Tooltip>
       </div>

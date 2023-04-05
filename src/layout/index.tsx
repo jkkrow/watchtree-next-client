@@ -4,7 +4,7 @@ import { Roboto } from '@next/font/google';
 import Main from './Main';
 import Header from './Header';
 import Footer from './Footer';
-import Message from './Message';
+import Alert from './Alert';
 import Modal from './Modal';
 import VideoModal from './VideoModal';
 import { useMountEffect } from '@/hooks/lifecycle/mount-effect';
@@ -33,7 +33,7 @@ export default function Layout({ children }: PropsWithChildren) {
       <Main>{children}</Main>
       <Footer />
       <Modal />
-      <Message />
+      <Alert />
       <VideoModal />
     </div>
   );

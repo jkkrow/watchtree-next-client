@@ -27,6 +27,7 @@ const Selector: React.FC<SelectorProps> = ({
           <motion.button
             className={styles.button}
             key={video.id}
+            layout
             variants={opacityVariants}
             initial="inActive"
             animate="active"

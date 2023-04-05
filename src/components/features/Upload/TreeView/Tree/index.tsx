@@ -34,7 +34,7 @@ export default function UploadTree() {
   return activeNode ? (
     <div className="flex flex-col w-full gap-4 min-h-[800px]">
       <UploadNode node={activeNode} active={true} />
-      <div className="flex flex-col ml-auto gap-4 w-11/12">
+      <div className="flex flex-col ml-auto gap-4 w-full">
         {activeNode.children.map((child) => (
           <div className="flex gap-2" key={child.id}>
             <Button small onClick={discardNodeHandler(child.id)}>
