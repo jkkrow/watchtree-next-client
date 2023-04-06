@@ -16,12 +16,6 @@ interface VolumeProps {
 const Volume = ({ volume, onToggle, onSeek }: VolumeProps) => {
   return (
     <div className={styles.container}>
-      <Btn onClick={onToggle}>
-        {volume > 0.7 && <VolumeHighIcon />}
-        {volume <= 0.7 && volume > 0.3 && <VolumeMiddleIcon />}
-        {volume <= 0.3 && volume > 0 && <VolumeLowIcon />}
-        {volume === 0 && <VolumeMuteIcon />}
-      </Btn>
       <div className={styles.range} data-type="range">
         <div data-type="background" />
         <div data-type="current" style={{ width: `${volume * 100}%` }}>
@@ -36,6 +30,12 @@ const Volume = ({ volume, onToggle, onSeek }: VolumeProps) => {
           onChange={onSeek}
         />
       </div>
+      <Btn onClick={onToggle}>
+        {volume > 0.7 && <VolumeHighIcon />}
+        {volume <= 0.7 && volume > 0.3 && <VolumeMiddleIcon />}
+        {volume <= 0.3 && volume > 0 && <VolumeLowIcon />}
+        {volume === 0 && <VolumeMuteIcon />}
+      </Btn>
     </div>
   );
 };

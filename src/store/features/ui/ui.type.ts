@@ -7,7 +7,6 @@ export interface Message {
   id: string;
   type: MessageType;
   content: string;
-  action?: string;
   subject?: string;
 }
 

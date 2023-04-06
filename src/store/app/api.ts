@@ -5,9 +5,7 @@ import axios, { AxiosRequestConfig, AxiosError } from 'axios';
 import dayjs from 'dayjs';
 
 import type { AppState, AppBaseQuery, AppBaseQueryConfig } from '..';
-import { setMessage, clearMessage } from '../features/ui/ui.slice';
 import { setCredentials, clearUser } from '../features/user/user.slice';
-import { MessageResponse } from '../common/api.type';
 import { Credentials } from '../features/user/user.type';
 
 export const appApi = createApi({
@@ -57,7 +55,6 @@ function configureBaseQuery(): AppBaseQuery {
   };
 
   baseQuery = configureReauthentication(baseQuery);
-  baseQuery = configureMessageResponse(baseQuery);
   baseQuery = configureMetadata(baseQuery);
 
   return baseQuery;
@@ -118,42 +115,6 @@ function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
   };
 }
 
-function configureMessageResponse(baseQuery: AppBaseQuery): AppBaseQuery {
-  return async (args, api, extraOptions) => {
-    const { dispatch, getState, endpoint: action } = api;
-    const { messages } = (getState() as AppState).ui;
-    const matchedMessage = messages.find((msg) => msg.action === action);
-
-    if (matchedMessage) {
-      dispatch(clearMessage(matchedMessage.id));
-    }
-
-    const result = await baseQuery(args, api, extraOptions);
-
-    if (extraOptions?.ignoreMessage) {
-      return result;
-    }
-
-    if (result.error) {
-      const data = result.error.data;
-      let subject = 'Unknown Error';
-      let content = 'Please try again later';
-
-      subject = typeof data === 'string' ? data : data?.error || subject;
-      content = typeof data === 'string' ? content : data?.message || content;
-
-      dispatch(setMessage({ type: 'error', action, subject, content }));
-    }
-
-    if (result.data && (result.data as MessageResponse).message) {
-      const content = (result.data as MessageResponse).message;
-      dispatch(setMessage({ type: 'message', action, content }));
-    }
-
-    return result;
-  };
-}
-
 function configureMetadata(baseQuery: AppBaseQuery): AppBaseQuery {
   return async (args, api, extraOptions) => {
     const { info } = (api.getState() as AppState).user;
@@ -164,7 +125,12 @@ function configureMetadata(baseQuery: AppBaseQuery): AppBaseQuery {
 
     return {
       ...result,
-      meta: result.meta && { ...result.meta, userId, environment },
+      meta: result.meta && {
+        ...result.meta,
+        userId,
+        environment,
+        extraOptions,
+      },
     };
   };
 }

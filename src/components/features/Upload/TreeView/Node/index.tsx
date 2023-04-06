@@ -107,6 +107,8 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
     uploadVideo({ file, nodeId: node.id });
   };
 
+  // TODO: Add deleting attached videofile.
+
   return (
     <div className="w-full border-[1.5px] border-secondary rounded-md">
       <div>

@@ -81,10 +81,12 @@ export const useSelector = ({
 
   useEffect(() => {
     if (active) return;
-
     setIsSelected(false);
-    setNextVideos(children.filter((video) => video.url));
   }, [active, children]);
+
+  useEffect(() => {
+    setNextVideos(children.filter((video) => video.url));
+  }, [children]);
 
   return {
     displaySelector: displaySelector || temporarilyVisible,

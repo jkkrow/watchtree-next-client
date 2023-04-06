@@ -11,6 +11,7 @@ import {
   clearProgress,
   updateTree,
   clearUpload,
+  setFile,
 } from './upload.slice';
 import {
   InitiateUploadResponse,
@@ -18,12 +19,17 @@ import {
   AppendNodeResponse,
   DiscardNodeRequest,
   UploadVideoRequest,
+  CancelUploadRequest,
 } from './upload.type';
 import {
   findDuplicate,
   getVideoDuration,
   uploadProgressHandler,
+  startRequest,
+  abortRequest,
+  completeRequest,
 } from './upload.util';
+import { traverseNodes } from '../video/video.util';
 
 export const uploadApi = appApi.injectEndpoints({
   overrideExisting: true,
@@ -72,7 +78,7 @@ export const uploadApi = appApi.injectEndpoints({
     uploadVideo: builder.mutation<MessageResponse, UploadVideoRequest>({
       queryFn: async ({ nodeId, file }, api, extraOptions, baseQuery) => {
         const { dispatch, getState } = api;
-        const { uploadTree } = (getState() as AppState).upload;
+        const { uploadTree, files } = (getState() as AppState).upload;
 
         if (!uploadTree || typeof window === 'undefined') {
           const error = { status: 400, data: { message: 'Invalid request' } };
@@ -80,13 +86,14 @@ export const uploadApi = appApi.injectEndpoints({
         }
 
         const id = uploadTree.id;
-        const name = file.name;
+        const fileName = file.name;
+        const fileType = file.type;
         const duration = await getVideoDuration(file);
 
         const info = {
-          name,
+          name: fileName,
           size: file.size,
-          label: `Select ${name}`,
+          label: `Select ${fileName}`,
           url: URL.createObjectURL(file),
           duration: Math.ceil(duration * 1000) / 1000,
           selectionTimeStart: +(duration - 10 || 0).toFixed(3),
@@ -99,20 +106,30 @@ export const uploadApi = appApi.injectEndpoints({
         // Case 1: upload not finished
         // Case 2: upload finished and node has blob url
         // Case 3: upload finished and node has valid url
-        const duplicate = findDuplicate(uploadTree.root, name);
+        const duplicate = findDuplicate(uploadTree.root, fileName);
         if (duplicate) {
-          return baseQuery({
+          const uploaded = files.find((item) => item.fileName === fileName);
+          if (!uploaded) return { data: { message: '' } };
+
+          const { data: updateData, error: updateError } = await baseQuery({
             url: `video-trees/${id}/video-nodes/${nodeId}`,
             method: 'patch',
-            data: { ...info, url: duplicate.url },
-          }) as { data: MessageResponse };
+            data: { ...info, url: uploaded.url },
+          });
+
+          if (updateError) return { error: updateError };
+          dispatch(setSaved(true));
+          return { data: updateData } as { data: MessageResponse };
         }
 
         // Upload video
+        dispatch(setProgress({ fileName, percentage: 0 }));
+        const abortSignal = startRequest(fileName);
         const { data: initData, error: initError } = await baseQuery({
           url: 'upload/multipart',
           method: 'post',
-          data: { videoId: id, fileName: name, fileType: file.type },
+          signal: abortSignal,
+          data: { videoId: id, fileName, fileType },
         });
 
         if (initError) return { error: initError };
@@ -123,7 +140,8 @@ export const uploadApi = appApi.injectEndpoints({
         const { data: processData, error: processError } = await baseQuery({
           url: `upload/multipart/${uploadId}`,
           method: 'put',
-          data: { videoId: id, fileName: name, partCount, fileType: file.type },
+          signal: abortSignal,
+          data: { videoId: id, fileName, partCount, fileType },
         });
 
         if (processError) return { error: processError };
@@ -136,19 +154,21 @@ export const uploadApi = appApi.injectEndpoints({
           const from = index * partSize;
           const to = partNumber < partCount ? partNumber * partSize : undefined;
           const blob = file.slice(from, to);
+          const callback = (percentage: number, rate?: number) => {
+            dispatch(setProgress({ fileName, percentage, rate, uploadId }));
+          };
           return uploadQuery(
             {
               url: presignedUrl,
               method: 'put',
-              headers: { 'Content-Type': file.type },
+              headers: { 'Content-Type': fileType },
+              signal: abortSignal,
               data: blob,
               onUploadProgress: uploadProgressHandler(
                 progressArray,
                 partNumber,
                 partCount,
-                (percentage, rate) => {
-                  dispatch(setProgress({ fileName: name, percentage, rate }));
-                }
+                callback
               ),
             },
             api,
@@ -170,20 +190,83 @@ export const uploadApi = appApi.injectEndpoints({
         const { data: completeData, error: completeError } = await baseQuery({
           url: `upload/multipart/${uploadId}`,
           method: 'post',
-          data: { videoId: id, fileName: name, parts: uploadParts },
+          signal: abortSignal,
+          data: { videoId: id, fileName: fileName, parts: uploadParts },
         });
 
         if (completeError) return { error: completeError };
         const { url } = completeData as { url: string };
-        return baseQuery({
-          url: `video-trees/${id}/video-nodes/${nodeId}`,
-          method: 'patch',
-          data: { ...info, url },
-        }) as { data: MessageResponse };
-      },
-      onQueryStarted: async ({ file }, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
+
+        const updatedTree = (getState() as AppState).upload.uploadTree!;
+        const nodes = traverseNodes(updatedTree.root);
+        const matchingNodes = nodes.filter((node) => node.name === fileName);
+
+        const updateNodesPromise = matchingNodes.map((node) =>
+          baseQuery({
+            url: `video-trees/${id}/video-nodes/${node.id}`,
+            method: 'patch',
+            signal: abortSignal,
+            data: { ...node, url },
+          })
+        );
+
+        const updateResponses = await Promise.all(updateNodesPromise);
+
+        for (const updateResponse of updateResponses) {
+          if (updateResponse.error) return { error: updateResponse.error };
+        }
+
+        completeRequest(fileName);
+        dispatch(setFile({ fileName, url }));
         dispatch(clearProgress(file.name));
+        dispatch(setSaved(true));
+        return updateResponses[0] as { data: MessageResponse };
+      },
+    }),
+
+    cancelUpload: builder.mutation<MessageResponse, CancelUploadRequest>({
+      queryFn: async ({ fileName, uploadId }, api, _, baseQuery) => {
+        const { uploadTree } = (api.getState() as AppState).upload;
+
+        if (!uploadTree || typeof window === 'undefined') {
+          const error = { status: 400, data: { message: 'Invalid request' } };
+          return { error } as { error: AppBaseQueryError };
+        }
+
+        abortRequest(fileName);
+        if (uploadId) {
+          return baseQuery({
+            url: `upload/multipart/${uploadId}`,
+            method: 'delete',
+            params: { videoId: uploadTree.id, fileName },
+          }) as { data: MessageResponse };
+        }
+
+        return { data: { message: 'Video upload cancelled successfully' } };
+      },
+      onQueryStarted: async (
+        { fileName },
+        { dispatch, getState, queryFulfilled }
+      ) => {
+        await queryFulfilled;
+        const uploadTree = (getState() as AppState).upload.uploadTree!;
+        const nodes = traverseNodes(uploadTree.root);
+        const matchingNodes = nodes.filter((node) => node.name === fileName);
+        const updates = {
+          name: '',
+          size: 0,
+          label: '',
+          url: '',
+          duration: 0,
+          selectionTimeStart: 0,
+          selectionTimeEnd: 0,
+        };
+
+        for (const node of matchingNodes) {
+          dispatch(updateNode({ id: node.id, info: updates }));
+        }
+
+        dispatch(clearProgress(fileName));
         dispatch(setSaved(true));
       },
     }),
@@ -324,6 +407,7 @@ export const {
   useAppendNodeMutation,
   useDiscardNodeMutation,
   useUploadVideoMutation,
+  useCancelUploadMutation,
   useUploadThumbnailMutation,
   useDeleteThumbnailMutation,
   useSaveUploadMutation,
@@ -337,6 +421,7 @@ export const {
   appendNode,
   discardNode,
   uploadVideo,
+  cancelUpload,
   uploadThumbnail,
   deleteThumbnail,
   saveUpload,

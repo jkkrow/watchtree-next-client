@@ -3,20 +3,27 @@ import { VideoTree, VideoNode } from '../video/video.type';
 export interface UploadSliceState {
   uploadTree: VideoTree | null;
   activeNodeId: string;
+  files: UploadFile[];
   progresses: UploadProgress[];
   errors: UploadError[];
   saved: boolean;
 }
 
-export interface UploadError {
-  nodeId: string;
-  message: string;
+export interface UploadFile {
+  fileName: string;
+  url: string;
 }
 
 export interface UploadProgress {
   fileName: string;
   percentage: number;
-  rate: number;
+  rate?: number;
+  uploadId?: string;
+}
+
+export interface UploadError {
+  nodeId: string;
+  message: string;
 }
 
 export interface InitiateUploadResponse {
@@ -45,4 +52,9 @@ export interface DeleteNodeRequest {
 export interface UploadVideoRequest {
   nodeId: string;
   file: File;
+}
+
+export interface CancelUploadRequest {
+  fileName: string;
+  uploadId?: string;
 }

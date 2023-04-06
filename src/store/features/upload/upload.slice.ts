@@ -9,12 +9,18 @@ import {
   getMinMaxDuration,
 } from '../video/video.util';
 import { VideoTree, VideoNode } from '../video/video.type';
-import { beforeunloadHandler } from './upload.util';
-import { UploadSliceState, UploadError, UploadProgress } from './upload.type';
+import { beforeunloadHandler, getFiles } from './upload.util';
+import {
+  UploadSliceState,
+  UploadError,
+  UploadProgress,
+  UploadFile,
+} from './upload.type';
 
 const initialState: UploadSliceState = {
   uploadTree: null,
   activeNodeId: '',
+  files: [],
   progresses: [],
   errors: [],
   saved: false,
@@ -27,6 +33,7 @@ export const uploadSlice = createSlice({
     setupUpload(state, { payload }: PayloadAction<VideoTree>) {
       state.uploadTree = payload;
       state.activeNodeId = payload.root.id;
+      state.files = getFiles(payload.root, state.files);
       state.saved = true;
     },
 
@@ -34,8 +41,9 @@ export const uploadSlice = createSlice({
       state.uploadTree = null;
       state.saved = false;
       state.activeNodeId = '';
-      state.errors = [];
+      state.files = [];
       state.progresses = [];
+      state.errors = [];
     },
 
     setSaved(state, { payload }: PayloadAction<boolean>) {
@@ -92,6 +100,16 @@ export const uploadSlice = createSlice({
       state.activeNodeId = payload;
     },
 
+    setFile(state, { payload }: PayloadAction<UploadFile>) {
+      const duplicated = state.files.some(
+        ({ fileName }) => fileName === payload.fileName
+      );
+
+      if (!duplicated) {
+        state.files.push(payload);
+      }
+    },
+
     setError(state, { payload }: PayloadAction<UploadError>) {
       state.errors.push(payload);
     },
@@ -110,6 +128,7 @@ export const uploadSlice = createSlice({
       } else {
         progress.percentage = payload.percentage;
         progress.rate = payload.rate || progress.rate;
+        progress.uploadId = payload.uploadId;
       }
     },
 
@@ -131,6 +150,14 @@ export const uploadSlice = createSlice({
       uploadTree.maxDuration = max;
       state.saved = false;
     });
+
+    builder.addMatcher(isAnyOf(deleteNode), (state) => {
+      if (!state.uploadTree) return;
+      const uploadTree = state.uploadTree;
+      const files = getFiles(uploadTree.root, state.files);
+
+      state.files = files;
+    });
   },
 });
 
@@ -143,6 +170,7 @@ export const {
   deleteNode,
   updateTree,
   setActiveNode,
+  setFile,
   setError,
   clearError,
   setProgress,
