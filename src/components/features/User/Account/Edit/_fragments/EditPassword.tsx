@@ -34,6 +34,7 @@ export default function EditPassword() {
         type="password"
         autoFocus
         message="Type current password"
+        autoComplete="off"
         invalid={!!formState.errors.password}
         {...register('password', {
           required: true,
@@ -43,6 +44,7 @@ export default function EditPassword() {
         type="password"
         invalid={!!formState.errors.newPassword}
         message="At least 8 characters with lowercase, uppercase, number, and special character"
+        autoComplete="off"
         {...register('newPassword', {
           required: true,
           pattern: isPassword,
@@ -51,6 +53,7 @@ export default function EditPassword() {
       <Input
         type="password"
         invalid={!!formState.errors.confirmPassword}
+        autoComplete="off"
         {...register('confirmPassword', {
           required: true,
           pattern: isPassword,

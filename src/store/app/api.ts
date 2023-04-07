@@ -11,7 +11,7 @@ import { Credentials } from '../features/user/user.type';
 export const appApi = createApi({
   baseQuery: configureBaseQuery(),
   endpoints: () => ({}),
-  tagTypes: ['User', 'Video', 'History', 'Subscription'],
+  tagTypes: ['Auth', 'User', 'Video', 'History', 'Subscription'],
 });
 
 export const { getRunningQueriesThunk } = appApi.util;
@@ -87,7 +87,7 @@ function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
     if (!mutex.isLocked()) {
       const release = await mutex.acquire();
 
-      const { data: credentials, error } = await baseQuery(
+      const { data, error } = await baseQuery(
         { url: 'users/current/credentials', withCredentials: true },
         api,
         extraOptions
@@ -95,17 +95,17 @@ function configureReauthentication(baseQuery: AppBaseQuery): AppBaseQuery {
 
       if (error) {
         dispatch(clearUser());
-        const signoutResult = await baseQuery(
+        await baseQuery(
           { url: 'users/signout', method: 'post', withCredentials: true },
           api,
-          { ignoreMessage: true }
+          extraOptions
         );
 
         release();
-        return signoutResult;
+        return baseQuery(args, api, extraOptions);
       }
 
-      dispatch(setCredentials(credentials as Credentials));
+      dispatch(setCredentials(data as Credentials));
       release();
     } else {
       await mutex.waitForUnlock();
@@ -125,7 +125,7 @@ function configureMetadata(baseQuery: AppBaseQuery): AppBaseQuery {
 
     return {
       ...result,
-      meta: result.meta && {
+      meta: {
         ...result.meta,
         userId,
         environment,

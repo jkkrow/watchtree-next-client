@@ -23,7 +23,7 @@ export const authApi = appApi.injectEndpoints({
         const { accessToken, refreshTokenExp } = data;
         dispatch(setCredentials({ accessToken, refreshTokenExp }));
       },
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Auth', 'User'],
     }),
 
     signin: builder.mutation<SigninResponse, SigninRequest>({
@@ -38,7 +38,7 @@ export const authApi = appApi.injectEndpoints({
         const { accessToken, refreshTokenExp } = data;
         dispatch(setCredentials({ accessToken, refreshTokenExp }));
       },
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Auth', 'User'],
     }),
 
     signinGoogle: builder.mutation<SigninResponse, string>({
@@ -53,7 +53,7 @@ export const authApi = appApi.injectEndpoints({
         const { accessToken, refreshTokenExp } = data;
         dispatch(setCredentials({ accessToken, refreshTokenExp }));
       },
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Auth', 'User'],
     }),
 
     signout: builder.mutation<void, void>({
@@ -67,7 +67,7 @@ export const authApi = appApi.injectEndpoints({
         await queryFulfilled;
       },
       extraOptions: { ignoreMessage: true },
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Auth'],
     }),
 
     sendVerification: builder.mutation<MessageResponse, string>({

@@ -29,6 +29,7 @@ const videoApi = appApi.injectEndpoints({
           : data.videoTree;
         return { videoTree };
       },
+      providesTags: (_, __, id) => [{ type: 'Video', id }, 'Auth'],
     }),
 
     getVideos: builder.query<GetVideosResponse, GetVideosRequest>({
@@ -45,7 +46,7 @@ const videoApi = appApi.injectEndpoints({
           ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
           : []),
         { type: 'Video', id: 'LIST' },
-        'User',
+        'Auth',
       ],
       ...getInfiniteQueryOptions(),
     }),
@@ -64,7 +65,7 @@ const videoApi = appApi.injectEndpoints({
           ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
           : []),
         { type: 'Video', id: 'LIST' },
-        'User',
+        'Auth',
       ],
     }),
 

@@ -24,7 +24,7 @@ export default function SignupForm() {
 
   const signupHandler: SubmitHandler<SignupInputs> = async (data) => {
     const result: any = await signup(data);
-    if (!result.error) return;
+    if (result.error) return;
     redirectHandler();
   };
 
@@ -44,6 +44,7 @@ export default function SignupForm() {
           invalid={!!formState.errors.name}
           message="At least 4 characters"
           autoFocus
+          autoComplete="name"
           {...register('name', {
             required: true,
             minLength: 4,
@@ -52,6 +53,7 @@ export default function SignupForm() {
         <Input
           type="text"
           invalid={!!formState.errors.email}
+          autoComplete="email"
           {...register('email', {
             required: true,
             pattern: isEmail,
@@ -61,6 +63,7 @@ export default function SignupForm() {
           type="password"
           invalid={!!formState.errors.password}
           message="At least 8 characters with lowercase, uppercase, number, and special character"
+          autoComplete="new-password"
           {...register('password', {
             required: true,
             pattern: isPassword,
@@ -69,6 +72,7 @@ export default function SignupForm() {
         <Input
           type="password"
           invalid={!!formState.errors.confirmPassword}
+          autoComplete="off"
           {...register('confirmPassword', {
             required: true,
             pattern: isPassword,

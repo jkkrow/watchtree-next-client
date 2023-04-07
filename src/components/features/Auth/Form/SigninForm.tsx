@@ -50,6 +50,7 @@ export default function SigninForm() {
         <Input
           type="text"
           invalid={!!formState.errors.email}
+          autoComplete="email"
           {...register('email', {
             required: true,
             pattern: isEmail,
@@ -58,6 +59,7 @@ export default function SigninForm() {
         <Input
           type="password"
           invalid={!!formState.errors.password}
+          autoComplete="current-password"
           {...register('password', {
             required: true,
           })}

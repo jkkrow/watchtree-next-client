@@ -10,7 +10,7 @@ import { getVideos } from '@/store/features/video/video.api';
 const MAX = 30;
 
 export default function Browse() {
-  const { data, isFetchingMore, listRef } = useInfiniteQuery(getVideos, {
+  const { data, error, isFetchingMore, listRef } = useInfiniteQuery(getVideos, {
     max: MAX,
   });
 
@@ -22,7 +22,7 @@ export default function Browse() {
           items={data?.items || []}
           ref={listRef}
         />
-        <SkeletonGrid on={!data} count={MAX} type="video" />
+        <SkeletonGrid on={!data && !error} count={MAX} type="video" />
         <NotFound items={data?.items} label="Video" icon={VideoIcon} />
         <Spinner on={isFetchingMore} size={64} />
       </BrowseLayout>

@@ -110,7 +110,7 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
   // TODO: Add deleting attached videofile.
 
   return (
-    <div className="w-full border-[1.5px] border-secondary rounded-md">
+    <div className="w-full border-[1.5px] border-secondary rounded-md overflow-hidden">
       <div>
         <header
           className="flex items-center p-4 gap-4 data-[empty=true]:bg-secondary"
@@ -187,7 +187,7 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
               <div>
                 <span className="flex-shrink-0">Selection Time</span>
                 <span className="flex items-center gap-4 [&_input]:max-w-[72px] [&_input]:text-center [&>div]:m-0 [&_button]:h-10 [&_button]:p-3">
-                  <Tooltip text={setCurrentTime} direction="bottom">
+                  <Tooltip text={setCurrentTime} direction="top">
                     <Button
                       small
                       inversed
@@ -203,7 +203,7 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
                     onChange={startChangeHandler}
                   />
                   <span>to</span>
-                  <Tooltip text={setCurrentTime} direction="bottom">
+                  <Tooltip text={setCurrentTime} direction="top">
                     <Button
                       small
                       inversed

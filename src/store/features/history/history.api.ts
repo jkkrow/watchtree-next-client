@@ -10,9 +10,8 @@ import {
   clearLocalHistoy,
 } from '@/services/history.service';
 import { MessageResponse } from '@/store/common/api.type';
-import { GetVideosResponse, VideoTreeWithData } from '../video/video.type';
+import { GetVideosResponse } from '../video/video.type';
 import {
-  History,
   GetHistoriesRequest,
   GetHistoriesResponse,
   SaveHistoryRequest,
@@ -48,12 +47,10 @@ const historyApi = appApi.injectEndpoints({
       },
       providesTags: (result) => [
         ...(result
-          ? result.items
-              .filter((item): item is VideoTreeWithData => !!item)
-              .map(({ id }) => ({ type: 'History' as const, id }))
+          ? result.items.map(({ id }) => ({ type: 'History' as const, id }))
           : []),
         { type: 'History', id: 'LIST' },
-        'User',
+        'Auth',
       ],
       ...getInfiniteQueryOptions(),
     }),

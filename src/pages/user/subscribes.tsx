@@ -7,7 +7,6 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Spinner from '@/components/common/UI/Spinner';
 import NotFound from '@/components/common/UI/NotFound';
 import SubscribeUsersIcon from '@/assets/icons/subscribe-users.svg';
-import { useAppSelector } from '@/hooks/store';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getSubscribes } from '@/store/features/channel/channel.api';
 import { NextPageWithLayout } from '../_app';
@@ -15,11 +14,9 @@ import { NextPageWithLayout } from '../_app';
 const MAX = 30;
 
 const Subscribes: NextPageWithLayout = () => {
-  const user = useAppSelector((state) => state.user.info);
-  const { data, isFetchingMore, listRef } = useInfiniteQuery(
+  const { data, error, isFetchingMore, listRef } = useInfiniteQuery(
     getSubscribes,
-    { max: MAX },
-    { skip: !user }
+    { max: MAX }
   );
 
   return (
@@ -29,7 +26,7 @@ const Subscribes: NextPageWithLayout = () => {
       </Head>
 
       <SubscriptionGrid items={data?.items || []} ref={listRef} />
-      <SkeletonGrid on={!data} count={MAX} type="subscription" />
+      <SkeletonGrid on={!data && !error} count={MAX} type="subscription" />
       <NotFound
         items={data?.items}
         label="Subscribe"

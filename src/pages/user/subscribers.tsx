@@ -7,7 +7,6 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
 import NotFound from '@/components/common/UI/NotFound';
 import SubscribeUsersIcon from '@/assets/icons/subscribe-users.svg';
-import { useAppSelector } from '@/hooks/store';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { getSubscribers } from '@/store/features/channel/channel.api';
 import { NextPageWithLayout } from '../_app';
@@ -15,12 +14,10 @@ import { NextPageWithLayout } from '../_app';
 const MAX = 30;
 
 const Subscribers: NextPageWithLayout = () => {
-  const user = useAppSelector((state) => state.user.info);
-  const { data, page } = usePaginationQuery(
-    getSubscribers,
-    { max: MAX, withCount: true },
-    { skip: !user }
-  );
+  const { data, error, page } = usePaginationQuery(getSubscribers, {
+    max: MAX,
+    withCount: true,
+  });
 
   return (
     <>
@@ -29,7 +26,7 @@ const Subscribers: NextPageWithLayout = () => {
       </Head>
 
       <SubscriptionGrid items={data?.items || []} />
-      <SkeletonGrid on={!data} count={MAX} type="subscription" />
+      <SkeletonGrid on={!data && !error} count={MAX} type="subscription" />
       <NotFound
         items={data?.items}
         label="Subscriber"

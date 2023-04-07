@@ -34,7 +34,7 @@ export type AppBaseQuery = BaseQueryFn<
   AxiosRequestConfig,
   unknown,
   AppBaseQueryError,
-  AppQueryExtraOptions | undefined,
+  AppQueryExtraOptions,
   AppQueryMeta
 >;
 export type AppBaseQueryConfig = {
@@ -45,8 +45,8 @@ export type AppBaseQueryError = {
   status?: number;
   data?: { error: string; message: string } | string;
 };
-export type AppQueryExtraOptions = { ignoreMessage?: boolean };
-export type AppQueryMeta = Omit<AxiosResponse, 'data'> & {
+export type AppQueryExtraOptions = { ignoreMessage?: boolean } | undefined;
+export type AppQueryMeta = Partial<Omit<AxiosResponse, 'data'>> & {
   userId?: string | null;
   environment?: 'server' | 'client';
   extraOptions?: AppQueryExtraOptions;

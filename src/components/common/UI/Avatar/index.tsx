@@ -22,6 +22,7 @@ export default function Avatar({ src, name, size }: AvatarProps) {
           alt={name || ''}
           fill
           sizes={`${size}px`}
+          priority={size > 64}
         />
       ) : (
         <UserIcon width={size} height={size} />
