@@ -6,6 +6,7 @@ import FileInput from '@/components/common/Element/FileInput';
 import Tooltip from '@/components/common/UI/Tooltip';
 import Progress from '@/components/common/UI/Progress';
 import UploadIcon from '@/assets/icons/upload.svg';
+import UpdateIcon from '@/assets/icons/update.svg';
 import AngleLeftIcon from '@/assets/icons/angle-left.svg';
 import AngleLeftDoubleIcon from '@/assets/icons/angle-left-double.svg';
 import VideoIcon from '@/assets/icons/video.svg';
@@ -107,8 +108,6 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
     uploadVideo({ file, nodeId: node.id });
   };
 
-  // TODO: Add deleting attached videofile.
-
   return (
     <div className="w-full border-[1.5px] border-secondary rounded-md overflow-hidden">
       <div>
@@ -146,6 +145,13 @@ export default function UploadNode({ node, active }: UploadNodeProps) {
           <div className="flex items-center ml-auto gap-4">
             {progress ? (
               <Progress size={40} percentage={progress.percentage} />
+            ) : null}
+            {!progress && node.url ? (
+              <Tooltip text="Change video file" direction="left">
+                <FileInput type="video" brief onFile={uploadVideoHandler}>
+                  <UpdateIcon className="w-6 h-6" />
+                </FileInput>
+              </Tooltip>
             ) : null}
             {!active ? (
               <Button small inversed onClick={setActiveNodeHandler(node.id)}>

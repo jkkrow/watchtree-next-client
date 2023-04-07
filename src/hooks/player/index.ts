@@ -21,6 +21,7 @@ export interface VideoPlayerDependencies extends VideoPlayerProps {
 export const usePlayer = ({
   id,
   url,
+  editMode,
   ...rest
 }: VideoPlayerProps): VideoPlayerDependencies => {
   const activeNodeId = useAppSelector((state) => state.video.activeNodeId);
@@ -35,7 +36,7 @@ export const usePlayer = ({
   const isUnmounted = useRef(false);
 
   useEffect(() => {
-    if (!firstRender) return;
+    if (!firstRender && !editMode) return;
 
     const video = videoRef.current!;
     const src =
@@ -63,10 +64,11 @@ export const usePlayer = ({
     if (isUnmounted.current) return;
 
     setPlayer(shakaPlayer);
-  }, [dispatch, id, url, activeNodeId, initialProgress, firstRender]);
+  }, [dispatch, id, url, editMode, activeNodeId, initialProgress, firstRender]);
 
   useEffect(() => {
     return () => {
+      console.log('unmount');
       isUnmounted.current = true;
     };
   }, []);

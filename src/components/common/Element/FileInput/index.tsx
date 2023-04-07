@@ -8,6 +8,7 @@ interface FileInputProps {
   multiple?: boolean;
   maxFile?: number;
   loading?: boolean;
+  brief?: boolean;
   onFile: (files: File[]) => void;
 }
 
@@ -17,6 +18,7 @@ export default function FileInput({
   multiple,
   maxFile,
   loading,
+  brief,
   onFile,
   children,
 }: PropsWithChildren<FileInputProps>) {
@@ -106,9 +108,11 @@ export default function FileInput({
         onChange={fileChangeHandler}
       />
       <div>{children}</div>
-      <div className="text-sm">
-        {error || `Drag and Drop ${type} file${multiple ? 's' : ''}`}
-      </div>
+      {!brief ? (
+        <div className="text-sm">
+          {error || `Drag and Drop ${type} file${multiple ? 's' : ''}`}
+        </div>
+      ) : null}
     </label>
   );
 }

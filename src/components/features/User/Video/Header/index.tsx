@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
 import Button from '@/components/common/Element/Button';
-import ReloadIcon from '@/assets/icons/reload.svg';
+import UpdateIcon from '@/assets/icons/update.svg';
 import UploadIcon from '@/assets/icons/upload.svg';
 import { useAppSelector } from '@/hooks/store';
 import { useGetCreatedVideosQuery } from '@/store/features/video/video.api';
@@ -40,7 +40,7 @@ export default function UserVideoHeader({ params }: UserVideoHeaderProps) {
           loading={!isLoading && isFetching}
           onClick={refetch}
         >
-          <ReloadIcon width={24} height={24} />
+          <UpdateIcon width={24} height={24} />
         </Button>
         <Button
           small

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 
-import ReloadIcon from '@/assets/icons/reload.svg';
+import UpdateIcon from '@/assets/icons/update.svg';
 import styles from './index.module.scss';
 
 interface ErrorProps {
@@ -16,7 +16,7 @@ const Error = ({ error }: ErrorProps) => {
     <div className={styles.container}>
       {error.code && <p>Error Code: {error.code}</p>}
       <p>{error.message || 'Error occurred! Please try again'}</p>
-      <ReloadIcon onClick={refreshHandler} />
+      <UpdateIcon onClick={refreshHandler} />
     </div>
   ) : null;
 };

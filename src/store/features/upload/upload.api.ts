@@ -183,7 +183,7 @@ export const uploadApi = appApi.injectEndpoints({
         }
 
         const uploadParts = uploadResponses.map((response, index) => ({
-          ETag: response.meta?.headers.etag,
+          ETag: response.meta?.headers?.etag,
           PartNumber: index + 1,
         }));
 

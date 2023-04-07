@@ -9,7 +9,7 @@ import {
   getMinMaxDuration,
 } from '../video/video.util';
 import { VideoTree, VideoNode } from '../video/video.type';
-import { beforeunloadHandler, getFiles } from './upload.util';
+import { beforeunloadHandler, setupFiles, updateFiles } from './upload.util';
 import {
   UploadSliceState,
   UploadError,
@@ -33,7 +33,7 @@ export const uploadSlice = createSlice({
     setupUpload(state, { payload }: PayloadAction<VideoTree>) {
       state.uploadTree = payload;
       state.activeNodeId = payload.root.id;
-      state.files = getFiles(payload.root, state.files);
+      state.files = setupFiles(payload.root);
       state.saved = true;
     },
 
@@ -138,25 +138,20 @@ export const uploadSlice = createSlice({
       );
     },
   },
+
   extraReducers: (builder) => {
     builder.addMatcher(isAnyOf(updateNode, deleteNode, updateTree), (state) => {
       if (!state.uploadTree) return;
       const uploadTree = state.uploadTree;
+      const files = updateFiles(uploadTree.root, state.files);
       const totalSize = getTotalSize(uploadTree.root);
       const { min, max } = getMinMaxDuration(uploadTree.root);
 
       uploadTree.size = totalSize;
       uploadTree.minDuration = min;
       uploadTree.maxDuration = max;
-      state.saved = false;
-    });
-
-    builder.addMatcher(isAnyOf(deleteNode), (state) => {
-      if (!state.uploadTree) return;
-      const uploadTree = state.uploadTree;
-      const files = getFiles(uploadTree.root, state.files);
-
       state.files = files;
+      state.saved = false;
     });
   },
 });

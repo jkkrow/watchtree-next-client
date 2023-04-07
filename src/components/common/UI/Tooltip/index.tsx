@@ -39,7 +39,7 @@ export default function Tooltip({
   };
 
   return (
-    <div className="group relative flex justify-center items-center z-10">
+    <div className="group relative flex justify-center items-center z-[1]">
       {children}
       {text ? (
         <div

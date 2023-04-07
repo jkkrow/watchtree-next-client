@@ -46,19 +46,25 @@ export async function getVideoDuration(file: File) {
   });
 }
 
-export function getFiles(root: VideoNode, files: UploadFile[]) {
+export function setupFiles(root: VideoNode) {
   const nodes = traverseNodes(root);
   return nodes.reduce((acc, cur) => {
     const duplicated = acc.some((obj) => obj.fileName === cur.name);
+    const blobFile = cur.url.startsWith('blob');
 
-    if (cur.name && cur.url && !duplicated) {
-      const existingFile = files.find((item) => item.fileName === cur.name);
-      const url = existingFile ? existingFile.url : cur.url;
-      acc.push({ fileName: cur.name, url });
+    if (cur.name && cur.url && !duplicated && !blobFile) {
+      acc.push({ fileName: cur.name, url: cur.url });
     }
 
     return acc;
   }, [] as UploadFile[]);
+}
+
+export function updateFiles(root: VideoNode, files: UploadFile[]) {
+  const nodes = traverseNodes(root);
+  return files.filter(({ fileName }) =>
+    nodes.some((node) => node.name === fileName)
+  );
 }
 
 export function uploadProgressHandler(
