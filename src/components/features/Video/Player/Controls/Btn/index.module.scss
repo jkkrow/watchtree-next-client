@@ -48,16 +48,4 @@
       opacity: 1;
     }
   }
-
-  @media (hover: none) {
-    &:active {
-      svg {
-        transform: scale(1.3);
-      }
-    }
-
-    &:active::before {
-      opacity: 1;
-    }
-  }
 }

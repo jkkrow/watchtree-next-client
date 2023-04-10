@@ -6,12 +6,20 @@
   display: flex;
   align-items: center;
 
+  button {
+    transition: transform 200ms ease-out;
+
+    &:hover svg {
+      transform: scale(1);
+    }
+  }
+
   @media (hover: hover) {
     &:hover [data-type='range'] > * {
       transform: scaleX(1);
     }
 
-    &:hover svg {
+    &:hover button {
       transform: translateX(clamp(-6rem, -100%, -1.75rem)) scale(1.3);
     }
   }
