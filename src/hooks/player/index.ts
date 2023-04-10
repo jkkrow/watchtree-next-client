@@ -15,7 +15,7 @@ export interface VideoPlayerProps extends VideoNode {
 
 export interface VideoPlayerDependencies extends VideoPlayerProps {
   videoRef: React.RefObject<HTMLVideoElement>;
-  player: shaka.Player | null;
+  playerRef: React.MutableRefObject<shaka.Player | null>;
 }
 
 export const usePlayer = ({
@@ -31,47 +31,37 @@ export const usePlayer = ({
   const dispatch = useAppDispatch();
   const firstRender = useFirstRender();
 
-  const [player, setPlayer] = useState<shaka.Player | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const isUnmounted = useRef(false);
+  const playerRef = useRef<shaka.Player | null>(null);
 
   useEffect(() => {
-    if (!firstRender && !editMode) return;
-
-    const video = videoRef.current!;
-    const src =
-      url.startsWith('http') || url.startsWith('blob')
-        ? url
-        : `${process.env.NEXT_PUBLIC_ASSET_DOMAIN}/${url}`;
-
-    // Edit mode
-    if (src.substring(0, 4) === 'blob') {
-      return video.setAttribute('src', src);
-    }
-
-    // Connect video to Shaka Player
-    const shakaPlayer = new shaka.Player(video);
-
     (async () => {
+      if (!firstRender && !editMode) return;
+
+      const video = videoRef.current!;
+      const src =
+        url.startsWith('http') || url.startsWith('blob')
+          ? url
+          : `${process.env.NEXT_PUBLIC_ASSET_DOMAIN}/${url}`;
+
+      // Edit mode
+      if (src.substring(0, 4) === 'blob') {
+        return video.setAttribute('src', src);
+      }
+
+      // Connect video to Shaka Player
+      const shakaPlayer = new shaka.Player(video);
+
       if (activeNodeId === id && initialProgress) {
         await shakaPlayer.load(src, initialProgress);
         dispatch(setInitialProgress(0));
       } else {
         await shakaPlayer.load(src);
       }
+
+      playerRef.current = shakaPlayer;
     })();
-
-    if (isUnmounted.current) return;
-
-    setPlayer(shakaPlayer);
   }, [dispatch, id, url, editMode, activeNodeId, initialProgress, firstRender]);
 
-  useEffect(() => {
-    return () => {
-      console.log('unmount');
-      isUnmounted.current = true;
-    };
-  }, []);
-
-  return { videoRef, player, id, url, ...rest };
+  return { videoRef, playerRef, id, url, editMode, ...rest };
 };

@@ -5,7 +5,10 @@ import { useInterval } from '../util/time';
 import { setResolution as dispatchResolution } from '@/store/features/video/video.slice';
 import { useAppSelector, useAppDispatch } from '@/hooks/store';
 
-export const useResolution = ({ player, active }: VideoPlayerDependencies) => {
+export const useResolution = ({
+  playerRef,
+  active,
+}: VideoPlayerDependencies) => {
   const videoResolution = useAppSelector((state) => state.video.resolution);
   const dispatch = useAppDispatch();
 
@@ -18,7 +21,8 @@ export const useResolution = ({ player, active }: VideoPlayerDependencies) => {
 
   const changeResolution = useCallback(
     (resolution: shaka.extern.Track | 'auto') => {
-      if (!player) return;
+      if (!playerRef.current) return;
+      const player = playerRef.current;
 
       let resolutionHeight: number | 'auto' = 'auto';
 
@@ -34,11 +38,12 @@ export const useResolution = ({ player, active }: VideoPlayerDependencies) => {
       setActiveResolutionHeight(resolutionHeight);
       dispatch(dispatchResolution(resolutionHeight));
     },
-    [player, dispatch]
+    [playerRef, dispatch]
   );
 
   const configureResolution = useCallback(() => {
-    if (!player) return;
+    if (!playerRef.current) return;
+    const player = playerRef.current;
 
     let resolutionHeight: number | 'auto' = 'auto';
     const tracks = player.getVariantTracks();
@@ -57,7 +62,7 @@ export const useResolution = ({ player, active }: VideoPlayerDependencies) => {
 
     setResolutions(tracks);
     setActiveResolutionHeight(resolutionHeight);
-  }, [player, videoResolution]);
+  }, [playerRef, videoResolution]);
 
   useEffect(() => {
     if (activeResolutionHeight !== 'auto') {
@@ -66,11 +71,13 @@ export const useResolution = ({ player, active }: VideoPlayerDependencies) => {
     }
 
     setResolutionInterval(() => {
-      if (!player) return;
+      if (!playerRef.current) return;
+      const player = playerRef.current;
+
       setResolutions(player.getVariantTracks());
     }, 5000);
   }, [
-    player,
+    playerRef,
     activeResolutionHeight,
     setResolutionInterval,
     clearResolutionInterval,

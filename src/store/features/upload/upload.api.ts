@@ -91,7 +91,7 @@ export const uploadApi = appApi.injectEndpoints({
         const duration = await getVideoDuration(file);
 
         const info = {
-          name: fileName,
+          name: encodeURIComponent(fileName),
           size: file.size,
           label: `Select ${fileName}`,
           url: URL.createObjectURL(file),

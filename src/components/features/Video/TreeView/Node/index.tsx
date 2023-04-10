@@ -60,7 +60,7 @@ export default function VideoNode({
     <>
       {(isActive || isActiveChild) && (
         <div
-          className="absolute hidden inset-0 data-[active=true]:static data-[active=true]:block"
+          className="absolute hidden inset-0 w-full h-full data-[active=true]:static data-[active=true]:block"
           data-active={isActive}
         >
           {currentVideo.url ? (
