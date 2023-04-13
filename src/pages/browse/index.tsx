@@ -1,3 +1,5 @@
+import Head from 'next/head';
+
 import BrowseLayout from '@/components/features/Browse/_layout';
 import VideoGrid from '@/components/features/Video/Grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
@@ -6,26 +8,35 @@ import Spinner from '@/components/common/UI/Spinner';
 import VideoIcon from '@/assets/icons/video.svg';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getVideos } from '@/store/features/video/video.api';
+import { NextPageWithLayout } from '../_app';
 
 const MAX = 30;
 
-export default function Browse() {
+const Browse: NextPageWithLayout = () => {
   const { data, error, isFetchingMore, listRef } = useInfiniteQuery(getVideos, {
     max: MAX,
   });
 
   return (
     <>
-      <BrowseLayout>
-        <VideoGrid
-          label="Recent Videos"
-          items={data?.items || []}
-          ref={listRef}
-        />
-        <SkeletonGrid on={!data && !error} count={MAX} type="video" />
-        <NotFound items={data?.items} label="Video" icon={VideoIcon} />
-        <Spinner on={isFetchingMore} size={64} />
-      </BrowseLayout>
+      <Head>
+        <title>Browse</title>
+      </Head>
+
+      <VideoGrid
+        label="Recent Videos"
+        items={data?.items || []}
+        ref={listRef}
+      />
+      <SkeletonGrid on={!data && !error} count={MAX} type="video" />
+      <NotFound items={data?.items} label="Video" icon={VideoIcon} />
+      <Spinner on={isFetchingMore} size={64} />
     </>
   );
-}
+};
+
+Browse.getLayout = function (page) {
+  return <BrowseLayout>{page}</BrowseLayout>;
+};
+
+export default Browse;

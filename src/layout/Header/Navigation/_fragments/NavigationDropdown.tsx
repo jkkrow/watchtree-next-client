@@ -29,8 +29,8 @@ export default function NavigationDropdown({
           {links.map(({ href, name }) => (
             <li key={name}>
               <Link
-                className="block px-10 py-4 hover:bg-hover aria-selected:text-primary text-secondary transition"
-                aria-selected={router.pathname === href}
+                className="block px-10 py-4 hover:bg-hover data-[active=true]:text-primary text-secondary transition"
+                data-active={router.pathname === href}
                 href={href}
               >
                 {name}

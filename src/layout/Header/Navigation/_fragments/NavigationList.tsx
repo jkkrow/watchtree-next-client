@@ -14,8 +14,8 @@ export default function NavigationList({ links }: NavigationListProps) {
         <li key={name}>
           <Link
             href={href}
-            className="flex gap-2 hover:text-primary aria-selected:text-primary text-secondary transition"
-            aria-selected={router.pathname === href}
+            className="flex gap-2 hover:text-primary data-[active=true]:text-primary text-secondary transition"
+            data-active={router.pathname === href}
           >
             {name}
           </Link>

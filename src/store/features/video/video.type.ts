@@ -53,6 +53,7 @@ export interface VideoNode {
   id: string;
   name: string;
   url: string;
+  thumbnail: string;
   label: string;
   level: number;
   size: number;

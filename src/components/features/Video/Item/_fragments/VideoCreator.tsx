@@ -15,7 +15,7 @@ export default function VideoCreator({ creator, brief }: VideoCreatorProps) {
 
   return (
     <Link
-      className="flex items-center w-fit max-w-full hover:text-hover transition-colors"
+      className="flex items-center w-fit max-w-full hover:opacity-70 transition-opacity"
       href={`/channel/${creator.id}`}
       onClick={(event) => event.stopPropagation()}
     >

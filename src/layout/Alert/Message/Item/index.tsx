@@ -28,8 +28,8 @@ export default function MessageItem({ message }: MessageItemProps) {
   return (
     <motion.button
       layout
-      className="flex flex-col w-full p-4 bg-success aria-[invalid=true]:bg-invalid shadow-md cursor-pointer rounded-md"
-      aria-invalid={message.type === 'error'}
+      className="flex flex-col w-full p-4 bg-success data-[invalid=true]:bg-invalid shadow-md cursor-pointer rounded-md"
+      data-invalid={message.type === 'error'}
       variants={opacityVariants}
       initial="inActive"
       animate="active"

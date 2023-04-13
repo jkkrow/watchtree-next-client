@@ -21,7 +21,7 @@ const videoApi = appApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
     getVideo: builder.query<GetVideoResponse, string>({
-      query: (id) => ({ url: `video-tree/${id}` }),
+      query: (id) => ({ url: `video-trees/${id}` }),
       transformResponse: async (data: GetVideoResponse, meta) => {
         const isLocal = meta && !meta.userId && meta.environment === 'client';
         const videoTree = isLocal

@@ -13,8 +13,8 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function TextArea({ id, name, rows = 5, invalid, message, ...rest }, ref) {
     return (
       <div
-        className="relative flex flex-col w-full my-2 aria-[invalid=true]:text-invalid"
-        aria-invalid={invalid}
+        className="relative flex flex-col w-full my-2 data-[invalid=true]:text-invalid"
+        data-invalid={invalid}
       >
         <textarea
           className="peer w-full py-2 outline-none bg-transparent text-current border-current border-b-[1.5px] placeholder:invisible"

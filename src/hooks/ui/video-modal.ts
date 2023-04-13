@@ -1,22 +1,34 @@
 import { useRouter } from 'next/router';
 import { useMemo, useCallback } from 'react';
 
-export function useVideoModal(videoId?: string) {
+import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
+import { encodeObject, decodeObject } from '@/utils/serialize';
+
+export function useVideoModal(video?: VideoTreeEntryWithData) {
   const router = useRouter();
 
-  const itemId = useMemo(() => {
+  const { active, item } = useMemo(() => {
     const { item } = router.query;
-    return item instanceof Array ? item[0] : item;
-  }, [router.query]);
+    const param = item instanceof Array ? item[0] : item;
+
+    const decoded = param ? decodeObject<VideoTreeEntryWithData>(param) : null;
+    const active = decoded?.id === video?.id;
+
+    return { active, item: decoded };
+  }, [router.query, video]);
 
   const open = useCallback(() => {
-    if (!videoId) return;
-    router.push({ query: { item: videoId } }, undefined, { scroll: false });
-  }, [videoId, router]);
+    if (!video) return;
+    const encoded = encodeObject(video);
+    const query = { ...router.query, item: encoded };
+    router.push({ query }, undefined, { scroll: false });
+  }, [video, router]);
 
   const close = useCallback(() => {
-    router.push({ query: '' }, undefined, { scroll: false });
+    const { item, ...rest } = router.query;
+    const query = rest;
+    router.push({ query }, undefined, { scroll: false });
   }, [router]);
 
-  return { itemId, active: itemId === videoId, open, close };
+  return { item, active, open, close };
 }

@@ -151,8 +151,8 @@ const SettingsDropdown = ({
     <>
       <div className={styles.label} onClick={() => setIsIndex(true)}>
         <ArrowLeftIcon />
-        <span>{activeType === 'resolution' && 'Resolution'}</span>
-        <span>{activeType === 'speed' && 'Speed'}</span>
+        {activeType === 'resolution' ? <span>Resolution</span> : null}
+        {activeType == 'speed' ? <span>Speed</span> : null}
       </div>
       {activeType === 'resolution' && resolutionList}
       {activeType === 'speed' && playbackRateList}

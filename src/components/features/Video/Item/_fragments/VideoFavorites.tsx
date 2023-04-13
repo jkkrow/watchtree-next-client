@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Button from '@/components/common/Element/Button';
 import FavoriteIcon from '@/assets/icons/favorite.svg';
@@ -27,6 +27,9 @@ export default function VideoFavorites({
 
   const [favorites, setFavorites] = useState(+count);
   const [favorited, setFavorited] = useState(active);
+
+  useEffect(() => setFavorites(count), [count]);
+  useEffect(() => setFavorited(active), [active]);
 
   const [addToFavorites, { isLoading: addLoading }] =
     useAddToFavoritesMutation();

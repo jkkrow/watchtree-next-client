@@ -2,34 +2,73 @@
 
 .container {
   position: absolute;
+  display: flex;
+  flex-direction: column;
   top: 0;
   right: 0;
-  width: clamp(15rem, 30cqw, 30rem);
+  width: clamp(15rem, 50cqw, 50rem);
   height: 100%;
+  padding: 1px;
   overflow-x: auto;
   background-color: rgba($vp-bg, 0.8);
+  overflow: hidden;
   z-index: 20;
 }
 
+.header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: clamp(1rem, 2cqw, 3rem);
+  font-weight: 500;
+
+  svg {
+    width: clamp(1.5rem, 3cqw, 3rem);
+    height: clamp(1.5rem, 3cqw, 3rem);
+  }
+}
+
 .list {
+  position: relative;
+  flex-grow: 1;
   width: 100%;
-  height: 100%;
+  max-height: 100%;
+  overflow: auto;
 }
 
 .item {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: auto;
-  padding: 2rem;
   gap: 2rem;
   text-align: center;
+
+  &:last-child {
+    border: 1.5px solid $vp-text;
+  }
+}
+
+.header,
+.item {
+  padding: clamp(1rem, 3cqw, 2rem);
   cursor: pointer;
   transition: background-color 200ms;
 
   &:hover {
     background-color: rgba($vp-bg--hover, 0.8);
   }
+}
+
+.image {
+  position: relative;
+  width: 40%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+.label {
+  flex: 1;
+  text-align: end;
 }

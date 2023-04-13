@@ -19,15 +19,20 @@ interface VideoItemProps {
 }
 
 export default function VideoItem({ item }: VideoItemProps) {
-  const { active: scaled, itemRef, style, start, stop } = useScaleOnHover();
-  const { active, open } = useVideoModal(item.id);
+  const { active, itemRef, style, start, stop, cancel } = useScaleOnHover();
+  const { active: activeModal, open } = useVideoModal(item);
+
+  const openModalHandler = () => {
+    cancel();
+    open();
+  };
 
   return (
     <motion.li
-      className="relative aria-selected:z-10"
-      aria-selected={active}
+      className="relative data-[active=true]:z-10"
+      data-active={activeModal}
       layoutId={item.id}
-      onClick={open}
+      onClick={openModalHandler}
     >
       <div
         className="relative flex flex-col h-full transition shadow-md hover:shadow-lg cursor-pointer bg-primary"
@@ -36,27 +41,29 @@ export default function VideoItem({ item }: VideoItemProps) {
         onMouseEnter={start}
         onMouseLeave={stop}
       >
-        <Link
-          className="relative overflow-hidden"
-          href={`/watch/${item.id}`}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div className="relative overflow-hidden">
           <VideoThumbnail title={item.title} url={item.thumbnail} />
           <AnimatePresence>
-            {scaled ? (
+            {active ? (
               <motion.div
-                className="absolute flex justify-center items-center inset-0 text-neutral-100 bg-neutral-900/70"
+                className="absolute inset-0 text-neutral-100 bg-neutral-900/70"
                 variants={opacityVariants}
                 initial="inActive"
                 animate="active"
                 exit="inActive"
                 transition={{ duration: 0.15 }}
               >
-                <PlayIcon width={40} height={40} />
+                <Link
+                  className="flex justify-center items-center w-full h-full"
+                  href={`/watch/${item.id}`}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <PlayIcon width={40} height={40} />
+                </Link>
               </motion.div>
             ) : null}
           </AnimatePresence>
-        </Link>
+        </div>
         <div className="p-4 text-sm">
           <div className="mb-2 mr-auto line-clamp-2 text-ellipsis">
             <VideoTitle title={item.title} />
@@ -71,7 +78,7 @@ export default function VideoItem({ item }: VideoItemProps) {
           </div>
         </div>
         <AnimatePresence>
-          {scaled ? (
+          {active ? (
             <motion.div
               className="absolute flex flex-col top-full w-full p-4 gap-4 bg-primary shadow-lg"
               variants={opacityVariants}

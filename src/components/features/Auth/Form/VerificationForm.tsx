@@ -51,8 +51,8 @@ export default function VerificationForm() {
       <Spinner on={isLoading} size={64} overlay position="top" />
       {response ? (
         <div
-          className="p-4 shadow-md rounded-md bg-success aria-[invalid=true]:bg-invalid"
-          aria-invalid={response.type === 'error'}
+          className="p-4 shadow-md rounded-md bg-success data-[invalid=true]:bg-invalid"
+          data-invalid={response.type === 'error'}
         >
           <h3 className="font-bold">{response.subject}</h3>
           <div>{response.content}</div>

@@ -76,7 +76,7 @@ export default function DashboardHeader() {
           className="relative flex items-center"
           onSubmit={handleSubmit(addCategoryHandler)}
         >
-          <Input {...categoryInput} />
+          <Input {...categoryInput} disabled={tree.categories.length >= 10} />
           <button
             type="submit"
             className="absolute right-0 w-6 h-6 data-[disabled=true]:text-secondary data-[disabled=true]:cursor-not-allowed"
@@ -99,7 +99,12 @@ export default function DashboardHeader() {
         </ul>
       </div>
       <div>
-        <Textarea {...descInput} onChange={descChangeHandler} />
+        <Textarea
+          {...descInput}
+          maxLength={1000}
+          onChange={descChangeHandler}
+        />
+        <div className="text-end">{tree.description.length}/1000</div>
       </div>
     </header>
   );

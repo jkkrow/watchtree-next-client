@@ -59,7 +59,6 @@ export const uploadApi = appApi.injectEndpoints({
       onQueryStarted: async ({ parentId }, { dispatch, queryFulfilled }) => {
         const { data } = await queryFulfilled;
         dispatch(createNode({ parentId, node: data.videoNode }));
-        dispatch(setSaved(true));
       },
     }),
 
@@ -71,7 +70,6 @@ export const uploadApi = appApi.injectEndpoints({
       onQueryStarted: async ({ nodeId }, { dispatch, queryFulfilled }) => {
         await queryFulfilled;
         dispatch(deleteNode(nodeId));
-        dispatch(setSaved(true));
       },
     }),
 
@@ -110,15 +108,26 @@ export const uploadApi = appApi.injectEndpoints({
         if (duplicate) {
           const uploaded = files.find((item) => item.fileName === fileName);
           if (!uploaded) return { data: { message: '' } };
+          if (duplicate.thumbnail) {
+            dispatch(
+              updateNode({
+                id: nodeId,
+                info: { thumbnail: duplicate.thumbnail },
+              })
+            );
+          }
 
           const { data: updateData, error: updateError } = await baseQuery({
             url: `video-trees/${id}/video-nodes/${nodeId}`,
             method: 'patch',
-            data: { ...info, url: uploaded.url },
+            data: {
+              ...info,
+              url: uploaded.url,
+              thumbnail: duplicate.thumbnail,
+            },
           });
 
           if (updateError) return { error: updateError };
-          dispatch(setSaved(true));
           return { data: updateData } as { data: MessageResponse };
         }
 
@@ -219,7 +228,6 @@ export const uploadApi = appApi.injectEndpoints({
         completeRequest(fileName);
         dispatch(setFile({ fileName, url }));
         dispatch(clearProgress(file.name));
-        dispatch(setSaved(true));
         return updateResponses[0] as { data: MessageResponse };
       },
     }),
@@ -267,7 +275,6 @@ export const uploadApi = appApi.injectEndpoints({
         }
 
         dispatch(clearProgress(fileName));
-        dispatch(setSaved(true));
       },
     }),
 

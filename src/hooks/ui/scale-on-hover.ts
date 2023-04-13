@@ -104,9 +104,14 @@ export function useScaleOnHover(options?: {
     active && dispatch({ type: 'STOP' });
   }, [active, clearStartTimeout, setFinishTimeout]);
 
+  const cancel = useCallback(() => {
+    clearStartTimeout();
+  }, [clearStartTimeout]);
+
   return {
     start,
     stop,
+    cancel,
     itemRef,
     active,
     style: {

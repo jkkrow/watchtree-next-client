@@ -12,6 +12,7 @@ import EditIcon from '@/assets/icons/edit.svg';
 import DeleteIcon from '@/assets/icons/delete.svg';
 import CircleLoadingIcon from '@/assets/icons/circle-loading.svg';
 import { useModal } from '@/hooks/ui/modal';
+import { useVideoModal } from '@/hooks/ui/video-modal';
 import { useAppSelector } from '@/hooks/store';
 import { useContinueUploadMutation } from '@/store/features/upload/upload.api';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
@@ -26,6 +27,7 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
   const tree = useAppSelector((state) => state.upload.uploadTree);
   const { open: openEdit } = useModal<EditVideoModal>();
   const { open: openDelete } = useModal<DeleteVideoModal>();
+  const { open: openVideoModal } = useVideoModal(item);
   const [continueUpload, { isLoading }] = useContinueUploadMutation();
 
   const editHandler = async () => {
@@ -50,7 +52,7 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
       className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md dark:ring-2 dark:ring-tertiary"
       layoutId={item.id}
     >
-      <div className="relative">
+      <div className="relative cursor-pointer" onClick={openVideoModal}>
         <VideoThumbnail title={item.title} url={item.thumbnail} />
         {item.editing ? (
           <div className="absolute top-0 left-0 font-medium bg-neutral-900/80 text-neutral-100 p-2">

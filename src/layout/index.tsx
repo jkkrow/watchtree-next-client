@@ -47,9 +47,9 @@ export default function Layout({ children }: PropsWithChildren) {
       <Header />
       <Main>{children}</Main>
       <Footer />
+      <VideoModal />
       <Modal />
       <Alert />
-      <VideoModal />
     </div>
   );
 }

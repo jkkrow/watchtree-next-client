@@ -16,7 +16,7 @@ interface HistoryItemProps {
 }
 
 export default function HistoryItem({ item }: HistoryItemProps) {
-  const { open } = useVideoModal(item.id);
+  const { open } = useVideoModal(item);
   const [deleteHistory, { isLoading }] = useDeleteHistoryMutation();
 
   const deleteHistoryHandler = () => {

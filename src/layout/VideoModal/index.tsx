@@ -1,40 +1,35 @@
 import { motion, AnimatePresence } from 'framer-motion';
 
+import VideoModalContent from './Content';
 import { useVideoModal } from '@/hooks/ui/video-modal';
 import { useScrollLock } from '@/hooks/ui/scroll-lock';
-
-const backdropVariants = {
-  visible: { opacity: 1 },
-  hidden: { opacity: 0 },
-};
+import { opacityVariants } from '@/constants/variants';
 
 export default function VideoModal() {
-  const { itemId, close } = useVideoModal();
+  const { item, close } = useVideoModal();
 
-  useScrollLock(!!itemId);
+  useScrollLock(!!item);
 
   return (
-    <>
-      <AnimatePresence>
-        {itemId ? (
+    <AnimatePresence>
+      {item ? (
+        <div className="fixed flex inset-0 md:p-6 z-10">
           <motion.div
-            className="absolute inset-0 z-10 bg-black/60"
-            variants={backdropVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
+            className="absolute inset-0 bg-black/60"
+            variants={opacityVariants}
+            initial="inActive"
+            animate="active"
+            exit="inActive"
             onClick={close}
           />
-        ) : null}
-      </AnimatePresence>
-      <AnimatePresence>
-        {itemId ? (
           <motion.div
-            className="fixed top-8 left-0 right-0 mx-auto z-10 w-2/3 h-3/4 bg-primary"
-            layoutId={itemId}
-          ></motion.div>
-        ) : null}
-      </AnimatePresence>
-    </>
+            className="relative max-w-6xl z-10 w-full mx-auto bg-primary md:rounded-md overflow-auto scrollbar-hide"
+            layoutId={item.id}
+          >
+            <VideoModalContent item={item} onClose={close} />
+          </motion.div>
+        </div>
+      ) : null}
+    </AnimatePresence>
   );
 }

@@ -41,8 +41,8 @@ export default function GoogleOAuth({
       inversed={inversed}
     >
       <div
-        className="group flex bg-inherit text-inherit justify-center items-center w-full h-full aria-disabled:pointer-events-none"
-        aria-disabled={disabled}
+        className="group flex bg-inherit text-inherit justify-center items-center w-full h-full data-[disabled=true]:pointer-events-none"
+        data-disabled={disabled}
       >
         <div ref={buttonRef} />
         <div className="absolute inset-0 flex justify-center items-center gap-4 bg-inherit text-inherit pointer-events-none transition-opacity group-hover:opacity-0">
