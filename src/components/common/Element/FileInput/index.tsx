@@ -28,16 +28,21 @@ export default function FileInput({
   const handleFiles = useCallback(
     (files: FileList) => {
       const selectedFiles = [...files];
-      const invalidFile = selectedFiles.find(
+      const invalidName = selectedFiles.find((file) => file.name.length > 50);
+      const invalidType = selectedFiles.find(
         (file) => file.type.split('/')[0] !== type
       );
 
-      if (invalidFile) {
+      if (invalidName) {
+        return setError('Too long file name (max: 100 characters)');
+      }
+
+      if (invalidType) {
         return setError('Invalid file type');
       }
 
       if (maxFile && maxFile < selectedFiles.length) {
-        return setError('Invalid file number');
+        return setError('Exceeded max file number');
       }
 
       onFile(selectedFiles);

@@ -30,7 +30,7 @@ export default function UploadProgressItem({
           loading={isLoading}
           onClick={cancelUploadHandler}
         >
-          <RemoveIcon width={24} height={24} />
+          <RemoveIcon className="w-6 h-6" />
         </Button>
       </div>
     </div>

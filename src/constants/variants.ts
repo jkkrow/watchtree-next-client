@@ -38,7 +38,7 @@ export const menuVariants: Record<'top' | 'center' | 'bottom', Variants> = {
 export const searchVariants: Record<'button' | 'input', Variants> = {
   button: {
     active: { x: 0 },
-    inActive: { x: 160, transition: { type: 'tween' } },
+    inActive: { x: '10rem', transition: { type: 'tween' } },
   },
   input: {
     active: { scaleX: 1, opacity: 1 },

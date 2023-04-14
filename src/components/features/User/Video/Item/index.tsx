@@ -49,7 +49,7 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
 
   return (
     <motion.li
-      className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md dark:ring-2 dark:ring-tertiary"
+      className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md"
       layoutId={item.id}
     >
       <div className="relative cursor-pointer" onClick={openVideoModal}>
@@ -61,14 +61,12 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
         ) : null}
       </div>
       <div className="relative flex flex-col h-full p-4 gap-4">
-        <VideoTitle title={item.title} />
-        <div className="flex justify-between mt-auto gap-2">
-          <div className="flex flex-col mt-auto gap-2">
-            <VideoDuration
-              min={item.minDuration}
-              max={item.maxDuration}
-              brief
-            />
+        <div className="mb-auto line-clamp-2">
+          <VideoTitle title={item.title} />
+        </div>
+        <div className="flex flex-col gap-2">
+          <VideoDuration min={item.minDuration} max={item.maxDuration} brief />
+          <div className="flex flex-wrap justify-between items-center gap-2">
             <div className="flex gap-2">
               <VideoViews count={item.views} />
               <VideoFavorites
@@ -77,9 +75,9 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
                 active={false}
               />
             </div>
-          </div>
-          <div className="mt-auto">
-            <VideoTimestamps timestamp={item.createdAt} />
+            <div className="ml-auto">
+              <VideoTimestamps timestamp={item.createdAt} />
+            </div>
           </div>
         </div>
         <div className="flex gap-2">
@@ -90,13 +88,13 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
             onClick={editHandler}
           >
             {tree && tree.id === item.id ? (
-              <CircleLoadingIcon width={24} height={24} />
+              <CircleLoadingIcon className="w-6 h-6" />
             ) : (
-              <EditIcon width={20} height={20} />
+              <EditIcon className="w-5 h-5" />
             )}
           </Button>
           <Button onClick={deleteHandler}>
-            <DeleteIcon width={20} height={20} />
+            <DeleteIcon className="w-5 h-5" />
           </Button>
         </div>
       </div>

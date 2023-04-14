@@ -17,7 +17,7 @@ export default function VideoThumbnail({
   preload = true,
 }: VideoThumbnailProps) {
   return (
-    <div className="relative flex justify-center items-center aspect-video">
+    <div className="relative flex justify-center bg-inversed text-inversed items-center aspect-video">
       {url ? (
         <Image
           className="object-cover"

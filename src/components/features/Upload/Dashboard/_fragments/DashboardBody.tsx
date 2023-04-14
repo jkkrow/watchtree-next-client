@@ -93,7 +93,7 @@ export default function DashboardBody() {
           onFile={uploadThumbnailHandler}
         >
           <div className="flex items-center gap-2">
-            <ImageIcon width={32} height={32} />
+            <ImageIcon className="w-8 h-8" />
             <div>{thumbnail ? 'Replace' : 'Add'} Thumbnail</div>
           </div>
         </FileInput>

@@ -74,6 +74,14 @@
   background-color: #727272;
 }
 
+html {
+  font-size: 100%;
+
+  @media (max-width: 768px) {
+    font-size: 75%;
+  }
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,

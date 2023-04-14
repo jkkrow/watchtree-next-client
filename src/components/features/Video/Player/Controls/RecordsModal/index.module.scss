@@ -8,7 +8,6 @@
   right: 0;
   width: clamp(15rem, 50cqw, 50rem);
   height: 100%;
-  padding: 1px;
   overflow-x: auto;
   background-color: rgba($vp-bg, 0.8);
   overflow: hidden;
@@ -46,7 +45,7 @@
   text-align: center;
 
   &:last-child {
-    border: 1.5px solid $vp-text;
+    background-color: $vp-bg--hover;
   }
 }
 

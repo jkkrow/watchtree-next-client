@@ -40,7 +40,7 @@ export default function UserVideoHeader({ params }: UserVideoHeaderProps) {
           loading={!isLoading && isFetching}
           onClick={refetch}
         >
-          <UpdateIcon width={24} height={24} />
+          <UpdateIcon className="w-6 h-6" />
         </Button>
         <Button
           small
@@ -48,7 +48,7 @@ export default function UserVideoHeader({ params }: UserVideoHeaderProps) {
           loading={initiateLoading}
           onClick={initiateUploadHandler}
         >
-          <UploadIcon width={20} height={20} />
+          <UploadIcon className="w-5 h-5" />
           <span>{tree ? 'Continue Upload' : 'Upload Video'}</span>
         </Button>
       </div>

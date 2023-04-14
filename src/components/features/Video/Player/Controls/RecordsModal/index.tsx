@@ -54,7 +54,7 @@ const RecordsModal = ({
             <span>Records</span>
           </header>
           <ul className={styles.list}>
-            {[...records].reverse().map((record) =>
+            {records.map((record) =>
               record.url ? (
                 <li
                   key={record.id}

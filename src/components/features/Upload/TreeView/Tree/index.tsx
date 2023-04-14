@@ -38,7 +38,7 @@ export default function UploadTree() {
         {activeNode.children.map((child) => (
           <div className="flex gap-2" key={child.id}>
             <Button small onClick={discardNodeHandler(child.id)}>
-              <RemoveIcon width={24} height={24} />
+              <RemoveIcon className="w-6 h-6" />
             </Button>
             <UploadNode node={child} active={false} />
           </div>

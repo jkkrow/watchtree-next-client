@@ -15,10 +15,7 @@ export const useRecords = ({ videoRef, id }: VideoPlayerDependencies) => {
 
   const records = useMemo(() => {
     const ancestors = findAncestors(tree.root, id, true);
-
-    return ancestors.sort((videoA, videoB) =>
-      videoA.level < videoB.level ? 1 : -1
-    );
+    return ancestors.reverse();
   }, [tree.root, id]);
 
   const toggleRecords = useCallback(() => {

@@ -101,10 +101,10 @@ export default function DashboardHeader() {
       <div>
         <Textarea
           {...descInput}
-          maxLength={1000}
+          maxLength={2000}
           onChange={descChangeHandler}
         />
-        <div className="text-end">{tree.description.length}/1000</div>
+        <div className="text-end">{tree.description.length}/2000</div>
       </div>
     </header>
   );

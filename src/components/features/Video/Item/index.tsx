@@ -41,7 +41,7 @@ export default function VideoItem({ item }: VideoItemProps) {
         onMouseEnter={start}
         onMouseLeave={stop}
       >
-        <div className="relative overflow-hidden">
+        <div className="relative flex-shrink-0 overflow-hidden">
           <VideoThumbnail title={item.title} url={item.thumbnail} />
           <AnimatePresence>
             {active ? (
@@ -58,17 +58,17 @@ export default function VideoItem({ item }: VideoItemProps) {
                   href={`/watch/${item.id}`}
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <PlayIcon width={40} height={40} />
+                  <PlayIcon className="w-10 h-10" />
                 </Link>
               </motion.div>
             ) : null}
           </AnimatePresence>
         </div>
-        <div className="p-4 text-sm">
-          <div className="mb-2 mr-auto line-clamp-2 text-ellipsis">
+        <div className="flex flex-col h-full gap-4 p-4 text-sm">
+          <div className="mb-auto line-clamp-2">
             <VideoTitle title={item.title} />
           </div>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
             <VideoDuration
               min={item.minDuration}
               max={item.maxDuration}

@@ -10,7 +10,10 @@ interface HistoryGridProps {
 const HistoryGrid = forwardRef<HTMLUListElement, HistoryGridProps>(
   function HistoryGrid({ items }, ref) {
     return (
-      <ul className="grid grid-cols-video gap-6 w-full" ref={ref}>
+      <ul
+        className="grid grid-cols-2 md:grid-cols-video gap-6 w-full"
+        ref={ref}
+      >
         {items.map((item) => (
           <HistoryItem key={item.id} item={item as VideoTreeEntryWithData} />
         ))}

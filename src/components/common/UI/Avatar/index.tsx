@@ -10,10 +10,12 @@ interface AvatarProps {
 }
 
 export default function Avatar({ src, name, size }: AvatarProps) {
+  const sizeInRem = size / 16;
+
   return (
     <div
       className="relative rounded-full overflow-hidden"
-      style={{ width: size, height: size }}
+      style={{ width: `${sizeInRem}rem`, height: `${sizeInRem}rem` }}
     >
       {src ? (
         <Image
@@ -25,7 +27,7 @@ export default function Avatar({ src, name, size }: AvatarProps) {
           priority={size > 64}
         />
       ) : (
-        <UserIcon width={size} height={size} />
+        <UserIcon width={`${sizeInRem}rem`} height={`${sizeInRem}rem`} />
       )}
     </div>
   );

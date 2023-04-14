@@ -205,6 +205,7 @@ export const uploadApi = appApi.injectEndpoints({
 
         if (completeError) return { error: completeError };
         const { url } = completeData as { url: string };
+        dispatch(setFile({ fileName, url }));
 
         const updatedTree = (getState() as AppState).upload.uploadTree!;
         const nodes = traverseNodes(updatedTree.root);
@@ -226,7 +227,6 @@ export const uploadApi = appApi.injectEndpoints({
         }
 
         completeRequest(fileName);
-        dispatch(setFile({ fileName, url }));
         dispatch(clearProgress(file.name));
         return updateResponses[0] as { data: MessageResponse };
       },

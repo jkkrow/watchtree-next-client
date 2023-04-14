@@ -34,7 +34,7 @@ module.exports = {
         'active-inversed': 'var(--bg-active-inversed)',
       },
       gridTemplateColumns: {
-        video: 'repeat(auto-fill, minmax(300px, 1fr))',
+        video: 'repeat(auto-fill, minmax(20rem, 1fr))',
       },
       maxWidth: {
         '8xl': 1408,
@@ -42,13 +42,6 @@ module.exports = {
         '10xl': 1664,
         '11xl': 1792,
         '12xl': 1920,
-      },
-      keyframes: {
-        shimmer: {
-          '100%': {
-            transform: 'translateX(100%)',
-          },
-        },
       },
     },
   },

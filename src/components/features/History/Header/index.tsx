@@ -16,7 +16,7 @@ export default function HistoryHeader() {
       </div>
       <div className="flex ml-auto gap-4">
         <Button small onClick={clearHistoryHandler}>
-          <DeleteIcon width={20} height={20} />
+          <DeleteIcon className="w-5 h-5" />
           <span>Clear History</span>
         </Button>
       </div>

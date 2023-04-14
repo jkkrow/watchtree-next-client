@@ -11,6 +11,8 @@ interface SpinnerProps {
 }
 
 export default function Spinner({ on, size, overlay, position }: SpinnerProps) {
+  const sizeInRem = size / 16;
+
   return (
     <AnimatePresence>
       {on ? (
@@ -24,7 +26,11 @@ export default function Spinner({ on, size, overlay, position }: SpinnerProps) {
           animate="active"
           exit="inActive"
         >
-          <LoaderIcon className="animate-spin" width={size} height={size} />
+          <LoaderIcon
+            className="animate-spin"
+            width={`${sizeInRem}rem`}
+            height={`${sizeInRem}rem`}
+          />
         </motion.div>
       ) : null}
     </AnimatePresence>

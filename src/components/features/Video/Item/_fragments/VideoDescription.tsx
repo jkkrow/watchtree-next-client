@@ -32,7 +32,7 @@ export default function VideoDescription({
     <div>
       <article className="overflow-hidden">
         <p
-          className="whitespace-pre-wrap data-[minimized=true]:line-clamp-4 leading-6"
+          className="whitespace-pre-wrap data-[minimized=true]:line-clamp-4"
           ref={paragraphRef}
           data-minimized={minimized}
         >

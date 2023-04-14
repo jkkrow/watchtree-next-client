@@ -10,7 +10,10 @@ interface UserVideoGridProps {
 const UserVideoGrid = forwardRef<HTMLUListElement, UserVideoGridProps>(
   function UserVideoGrid({ items }, ref) {
     return (
-      <ul className="grid grid-cols-video w-full gap-6" ref={ref}>
+      <ul
+        className="grid grid-cols-2 md:grid-cols-video w-full gap-6"
+        ref={ref}
+      >
         {items.map((item) => (
           <UserVideoItem key={item.id} item={item} />
         ))}
