@@ -8,12 +8,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { AppBaseQueryError, AppQueryMeta } from '@/store';
 import { appListener } from '@/store/app/listener';
-import { UiSliceState, Message, Modal } from './ui.type';
+import { UiSliceState, Message, Curtain, Modal } from './ui.type';
 import { MessageResponse } from '@/store/common/api.type';
 
 const initialState: UiSliceState = {
   messages: [],
   modal: null,
+  curtain: null,
 };
 
 export const uiSlice = createSlice({
@@ -26,6 +27,12 @@ export const uiSlice = createSlice({
     clearMessage(state, { payload }: PayloadAction<string>) {
       state.messages = state.messages.filter((msg) => msg.id !== payload);
     },
+    setCurtain(state, { payload }: PayloadAction<Curtain>) {
+      state.curtain = payload;
+    },
+    clearCurtain(state) {
+      state.curtain = null;
+    },
     setModal(state, { payload }: PayloadAction<Modal>) {
       state.modal = payload;
     },
@@ -35,8 +42,14 @@ export const uiSlice = createSlice({
   },
 });
 
-export const { setMessage, clearMessage, setModal, clearModal } =
-  uiSlice.actions;
+export const {
+  setMessage,
+  clearMessage,
+  setModal,
+  clearModal,
+  setCurtain,
+  clearCurtain,
+} = uiSlice.actions;
 
 appListener.startListening({
   actionCreator: setMessage,

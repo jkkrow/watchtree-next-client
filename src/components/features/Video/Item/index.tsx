@@ -11,6 +11,7 @@ import VideoFavorites from './_fragments/VideoFavorites';
 import PlayIcon from '@/assets/icons/play.svg';
 import { useScaleOnHover } from '@/hooks/ui/scale-on-hover';
 import { useVideoModal } from '@/hooks/ui/video-modal';
+import { useCurtain } from '@/hooks/ui/curtain';
 import { opacityVariants } from '@/constants/variants';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
 
@@ -21,10 +22,16 @@ interface VideoItemProps {
 export default function VideoItem({ item }: VideoItemProps) {
   const { active, itemRef, style, start, stop, cancel } = useScaleOnHover();
   const { active: activeModal, open } = useVideoModal(item);
+  const { open: watch } = useCurtain();
 
   const openModalHandler = () => {
     cancel();
     open();
+  };
+
+  const watchVideoHandler = (event: React.MouseEvent) => {
+    event.stopPropagation();
+    watch({ pathname: `/video/${item.id}` });
   };
 
   return (
@@ -53,13 +60,12 @@ export default function VideoItem({ item }: VideoItemProps) {
                 exit="inActive"
                 transition={{ duration: 0.15 }}
               >
-                <Link
+                <div
                   className="flex justify-center items-center w-full h-full"
-                  href={`/watch/${item.id}`}
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={watchVideoHandler}
                 >
                   <PlayIcon className="w-10 h-10" />
-                </Link>
+                </div>
               </motion.div>
             ) : null}
           </AnimatePresence>

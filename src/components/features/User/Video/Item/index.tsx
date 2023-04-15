@@ -49,7 +49,7 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
 
   return (
     <motion.li
-      className="relative flex flex-col h-full bg-primaryoverflow-hidden shadow-md"
+      className="relative flex flex-col h-full bg-primary overflow-hidden shadow-md"
       layoutId={item.id}
     >
       <div className="relative cursor-pointer" onClick={openVideoModal}>

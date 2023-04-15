@@ -1,5 +1,8 @@
+import { ParsedUrlQueryInput } from 'querystring';
+
 export interface UiSliceState {
   messages: Message[];
+  curtain: Curtain | null;
   modal: Modal | null;
 }
 
@@ -8,6 +11,11 @@ export interface Message {
   type: MessageType;
   content: string;
   subject?: string;
+}
+
+export interface Curtain {
+  pathname: string;
+  query?: ParsedUrlQueryInput;
 }
 
 export type Modal<Payload extends ModalPayload = {}> = {

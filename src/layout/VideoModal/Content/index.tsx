@@ -17,6 +17,7 @@ import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import PlayIcon from '@/assets/icons/play.svg';
 import HistoryIcon from '@/assets/icons/history.svg';
 import { useGetVideoQuery } from '@/store/features/video/video.api';
+import { useCurtain } from '@/hooks/ui/curtain';
 import { findAncestors } from '@/store/features/video/video.util';
 import {
   VideoTreeEntryWithData,
@@ -32,7 +33,8 @@ export default function VideoModalContent({
   item,
   onClose,
 }: VideoModalContentProps) {
-  const { data, isLoading } = useGetVideoQuery(item.id);
+  const { data, error } = useGetVideoQuery(item.id);
+  const { open } = useCurtain();
   const video: VideoTreeEntryWithData | VideoTreeWithData | null = useMemo(
     () => (data ? data.videoTree : item),
     [item, data]
@@ -48,10 +50,17 @@ export default function VideoModalContent({
     return ancestors.length ? ancestors.reverse() : [root];
   }, [data]);
 
+  const watchVideoHandler = (nodeId?: string) => () => {
+    open({
+      pathname: `/video/${video.id}`,
+      query: nodeId ? { nodeId } : undefined,
+    });
+  };
+
   return (
     <div>
       <section className="relative flex flex-col bg-neutral-900 text-neutral-50">
-        <div className="absolute top-0 right-0 w-[800px] max-w-full overflow-hidden">
+        <div className="absolute top-0 right-0 w-[800px] max-w-full">
           <VideoThumbnail title={video.title} url={video.thumbnail} large />
           <div className="absolute inset-0 bg-gradient-to-r via-transparent from-neutral-900" />
           <div className="absolute inset-0 bg-gradient-to-t via-transparent from-neutral-900" />
@@ -83,7 +92,10 @@ export default function VideoModalContent({
               />
             </div>
             <VideoCreator creator={video.creator} />
-            <div className="flex items-center mt-6 gap-4 cursor-pointer transition-opacity hover:opacity-70">
+            <button
+              className="flex items-center w-max mt-6 gap-4 cursor-pointer transition-opacity hover:opacity-70"
+              onClick={watchVideoHandler()}
+            >
               <div className="w-12 h-12 p-4 bg-neutral-100 text-neutral-900 rounded-full">
                 <PlayIcon />
               </div>
@@ -92,11 +104,11 @@ export default function VideoModalContent({
                   ? 'Continue to watch'
                   : 'Watch Now'}
               </div>
-            </div>
+            </button>
           </div>
 
           <div className="overflow-hidden p-12">
-            {isLoading ? (
+            {!data && !error ? (
               <div className="flex flex-col gap-4">
                 <Skeleton variant="text" width="70%" />
                 <Skeleton variant="text" width="60%" />
@@ -145,17 +157,14 @@ export default function VideoModalContent({
           />
         </div>
         <div className="p-6">
-          <SkeletonGrid on={isLoading} count={3} type="node" />
+          <SkeletonGrid on={!data && !error} count={3} type="node" />
           {nodes ? (
             <ul className="grid grid-cols-1 gap-6">
               {nodes.map((node) => (
                 <li key={node.id}>
-                  <Link
-                    className="group flex gap-4"
-                    href={{
-                      pathname: `/watch/${item.id}`,
-                      query: { nodeId: node.id },
-                    }}
+                  <div
+                    className="group flex gap-4 cursor-pointer"
+                    onClick={watchVideoHandler(node.id)}
                   >
                     <div className="relative flex-shrink-0 w-1/3 min-w-[150px]">
                       <VideoThumbnail title={node.label} url={node.thumbnail} />
@@ -173,7 +182,7 @@ export default function VideoModalContent({
                         brief
                       />
                     </div>
-                  </Link>
+                  </div>
                 </li>
               ))}
             </ul>

@@ -14,7 +14,7 @@ import { useScrollLock } from '@/hooks/ui/scroll-lock';
 export default function Modal() {
   const modal = useAppSelector((state) => state.ui.modal);
 
-  useScrollLock(!!modal);
+  useScrollLock(!!modal, true);
 
   return (
     <>

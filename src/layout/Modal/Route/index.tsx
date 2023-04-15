@@ -16,13 +16,13 @@ export default function ModalRoute({ id, element: Element }: ModalItemProps) {
     <AnimatePresence onExitComplete={clear}>
       {modal && modal.status === 'pending' && modal.id === id ? (
         <motion.div
-          className="fixed flex justify-center items-center inset-0 z-10 bg-black/60"
+          className="fixed flex justify-center items-center inset-0 z-40 bg-black/60"
           variants={modalVariants.container}
           initial="inActive"
           animate="active"
           exit="inActive"
         >
-          <div className="absolute inset-0 -z-10" onClick={cancel} />
+          <div className="absolute inset-0 -z-40" onClick={cancel} />
           <motion.div
             className="relative mx-8 mb-16 bg-primary rounded-md overflow-hidden shadow-md dark:ring-1 dark:ring-secondary"
             variants={modalVariants.window}
