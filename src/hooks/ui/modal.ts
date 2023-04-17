@@ -4,7 +4,6 @@ import EventEmitter from 'events';
 import { useAppSelector, useAppDispatch } from '../store';
 import { setModal, clearModal } from '@/store/features/ui/ui.slice';
 import {
-  Modal,
   ModalPayload,
   ModalRoutes,
   ModalStatus,
@@ -13,10 +12,8 @@ import {
 const eventBus = new EventEmitter();
 
 export function useModal<Payload extends ModalPayload = {}>() {
+  const modal = useAppSelector((state) => state.ui.modal);
   const dispatch = useAppDispatch();
-  const modal = useAppSelector(
-    (state) => state.ui.modal
-  ) as Modal<Payload> | null;
 
   const open = useCallback(
     (id: ModalRoutes, payload?: Payload): Promise<ModalStatus> => {

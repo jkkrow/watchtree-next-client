@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
 import ModalRoute from './Route';
 import Signin from './Elements/Signin';
 import Signout from './Elements/Signout';
@@ -8,11 +11,20 @@ import ClearHistory from './Elements/ClearHistory';
 import UndoUpload from './Elements/UndoUpload';
 import DiscardNode from './Elements/DiscardNode';
 import ImagePreview from './Elements/ImagePreview';
-import { useAppSelector } from '@/hooks/store';
+import { useModal } from '@/hooks/ui/modal';
 import { useScrollLock } from '@/hooks/ui/scroll-lock';
 
 export default function Modal() {
-  const modal = useAppSelector((state) => state.ui.modal);
+  const { modal, cancel } = useModal();
+  const router = useRouter();
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', cancel);
+
+    return () => {
+      router.events.off('routeChangeStart', cancel);
+    };
+  }, [router.events, cancel]);
 
   useScrollLock(!!modal, true);
 

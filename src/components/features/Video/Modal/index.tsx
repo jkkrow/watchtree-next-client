@@ -4,19 +4,16 @@ import { useContext } from 'react';
 
 import VideoModalContent from './Content';
 import { VideoModalContext } from '@/context/video-modal';
-import { useScrollLock } from '@/hooks/ui/scroll-lock';
-import { opacityVariants } from '@/constants/variants';
+import { videoModalVariants } from '@/constants/variants';
 
 export default function VideoModal() {
-  const { item, close } = useContext(VideoModalContext);
-
-  useScrollLock(!!item); //TODO: move this to modal context & add cleanup function to remove & add a scroll position information in router query
+  const { item, layoutAnimation, close } = useContext(VideoModalContext);
 
   return (
     <>
       {item ? (
         <Head>
-          <title>{item.title}</title>
+          <title>{item.video.title}</title>
         </Head>
       ) : null}
 
@@ -25,7 +22,7 @@ export default function VideoModal() {
           <div className="fixed flex inset-0 md:p-6 z-10">
             <motion.div
               className="absolute inset-0 bg-black/60"
-              variants={opacityVariants}
+              variants={videoModalVariants.container}
               initial="inActive"
               animate="active"
               exit="inActive"
@@ -33,13 +30,15 @@ export default function VideoModal() {
             />
             <motion.div
               className="relative max-w-6xl z-10 w-full mx-auto bg-primary md:rounded-md overflow-auto scrollbar-hide"
-              layoutId={item.id}
-              // variants={opacityVariants}
-              // initial="inActive"
-              // animate="active"
-              // exit="inActive"
+              layoutId={layoutAnimation ? item.video.id : undefined}
+              variants={
+                !layoutAnimation ? videoModalVariants.window : undefined
+              }
+              initial="inActive"
+              animate="active"
+              exit="inActive"
             >
-              <VideoModalContent item={item} onClose={close} />
+              <VideoModalContent video={item.video} onClose={close} />
             </motion.div>
           </div>
         ) : null}

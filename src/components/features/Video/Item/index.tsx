@@ -42,7 +42,7 @@ export default function VideoItem({ item }: VideoItemProps) {
   return (
     <motion.li
       className="relative data-[active=true]:z-10"
-      data-active={modalItem?.id === item.id}
+      data-active={modalItem?.video.id === item.id}
       layoutId={item.id}
       onClick={openModalHandler}
     >

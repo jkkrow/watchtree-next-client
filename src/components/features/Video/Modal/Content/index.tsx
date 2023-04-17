@@ -25,19 +25,19 @@ import {
 } from '@/store/features/video/video.type';
 
 interface VideoModalContentProps {
-  item: VideoTreeEntryWithData;
+  video: VideoTreeEntryWithData;
   onClose: () => void;
 }
 
 export default function VideoModalContent({
-  item,
+  video: tempVideo,
   onClose,
 }: VideoModalContentProps) {
-  const { data, error } = useGetVideoQuery(item.id);
+  const { data, error } = useGetVideoQuery(tempVideo.id);
   const { open } = useCurtain();
   const video: VideoTreeEntryWithData | VideoTreeWithData | null = useMemo(
-    () => (data ? data.videoTree : item),
-    [item, data]
+    () => (data ? data.videoTree : tempVideo),
+    [tempVideo, data]
   );
   const nodes = useMemo(() => {
     if (!data) return null;

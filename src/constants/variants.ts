@@ -20,6 +20,14 @@ export const toggleVariants: Variants = {
   inActive: { x: '-50%' },
 };
 
+export const videoModalVariants: Record<'container' | 'window', Variants> = {
+  container: opacityVariants,
+  window: {
+    active: { opacity: 1, y: 0, transition: { ease: 'easeOut' } },
+    inActive: { opacity: 0, y: '20%', transition: { ease: 'easeOut' } },
+  },
+};
+
 export const menuVariants: Record<'top' | 'center' | 'bottom', Variants> = {
   top: {
     active: { y: 0, rotate: 135 },
