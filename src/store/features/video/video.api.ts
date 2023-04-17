@@ -16,10 +16,34 @@ import {
   GetFavoritesRequest,
   GetFavoritesResponse,
 } from './video.type';
+import { AppState } from '@/store';
 
 const videoApi = appApi.injectEndpoints({
   overrideExisting: true,
   endpoints: (builder) => ({
+    watchVideo: builder.query<GetVideoResponse, string>({
+      queryFn: async (id, { getState }, _, baseQuery) => {
+        const store = getState() as AppState;
+        const cache = videoApi.endpoints.getVideo.select(id)(store) as {
+          data: GetVideoResponse | undefined;
+        };
+
+        if (cache.data) return { data: cache.data };
+        const { data, error } = await baseQuery({ url: `video-trees/${id}` });
+
+        if (error) return { error };
+        const { videoTree: videoData } = data as GetVideoResponse;
+        const isLocal = !store.user.info && typeof window !== 'undefined';
+        const videoTree = isLocal
+          ? await applyLocalHistory(videoData)
+          : videoData;
+
+        return { data: { videoTree } } as { data: GetVideoResponse };
+      },
+      forceRefetch: () => true,
+      providesTags: (_, __, id) => [{ type: 'Video', id }, 'Auth'],
+    }),
+
     getVideo: builder.query<GetVideoResponse, string>({
       query: (id) => ({ url: `video-trees/${id}` }),
       transformResponse: async (data: GetVideoResponse, meta) => {
@@ -29,7 +53,11 @@ const videoApi = appApi.injectEndpoints({
           : data.videoTree;
         return { videoTree };
       },
-      providesTags: (_, __, id) => [{ type: 'Video', id }, 'Auth'],
+      providesTags: (_, __, id) => [
+        { type: 'Video', id },
+        { type: 'History', id },
+        'Auth',
+      ],
     }),
 
     getVideos: builder.query<GetVideosResponse, GetVideosRequest>({
@@ -41,11 +69,9 @@ const videoApi = appApi.injectEndpoints({
           : data.items;
         return { items, token: data.token };
       },
-      providesTags: (result) => [
-        ...(result
-          ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
-          : []),
+      providesTags: () => [
         { type: 'Video', id: 'LIST' },
+        { type: 'History', id: 'LIST' },
         'Auth',
       ],
       ...getInfiniteQueryOptions(),
@@ -60,11 +86,9 @@ const videoApi = appApi.injectEndpoints({
           : data.items;
         return { items, count: data.count };
       },
-      providesTags: (result) => [
-        ...(result
-          ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
-          : []),
+      providesTags: () => [
         { type: 'Video', id: 'LIST' },
+        { type: 'History', id: 'LIST' },
         'Auth',
       ],
     }),
@@ -74,22 +98,14 @@ const videoApi = appApi.injectEndpoints({
       GetCreatedVideosRequest
     >({
       query: (params) => ({ url: 'channels/current/video-trees', params }),
-      providesTags: (result) => [
-        ...(result
-          ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
-          : []),
-        { type: 'Video', id: 'LIST' },
-        'User',
-      ],
+      providesTags: () => [{ type: 'Video', id: 'LIST' }, 'User'],
     }),
 
     getFavorites: builder.query<GetFavoritesResponse, GetFavoritesRequest>({
       query: (params) => ({ url: 'channels/current/favorites', params }),
-      providesTags: (result) => [
-        ...(result
-          ? result.items.map(({ id }) => ({ type: 'Video' as const, id }))
-          : []),
+      providesTags: () => [
         { type: 'Video', id: 'LIST' },
+        { type: 'History', id: 'LIST' },
         'User',
       ],
     }),
@@ -113,7 +129,9 @@ const videoApi = appApi.injectEndpoints({
 });
 
 export const {
+  useWatchVideoQuery,
   useGetVideoQuery,
+  useLazyGetVideoQuery,
   useGetVideosQuery,
   useSearchVideosQuery,
   useGetCreatedVideosQuery,
@@ -122,6 +140,7 @@ export const {
   useRemoveFromFavoritesMutation,
 } = videoApi;
 export const {
+  watchVideo,
   getVideo,
   getVideos,
   searchVideos,

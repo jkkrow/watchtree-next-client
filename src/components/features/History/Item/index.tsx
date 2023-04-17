@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useContext } from 'react';
 
 import VideoTitle from '../../Video/Item/_fragments/VideoTitle';
 import VideoThumbnail from '../../Video/Item/_fragments/VideoThumbnail';
@@ -8,8 +9,8 @@ import VideoTimestamps from '../../Video/Item/_fragments/VideoTimestamps';
 import VideoFavorites from '../../Video/Item/_fragments/VideoFavorites';
 import Button from '@/components/common/Element/Button';
 import DeleteIcon from '@/assets/icons/delete.svg';
+import { VideoModalContext } from '@/context/video-modal';
 import { useDeleteHistoryMutation } from '@/store/features/history/history.api';
-import { useVideoModal } from '@/hooks/ui/video-modal';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
 
 interface HistoryItemProps {
@@ -17,8 +18,12 @@ interface HistoryItemProps {
 }
 
 export default function HistoryItem({ item }: HistoryItemProps) {
-  const { open } = useVideoModal(item);
+  const { open } = useContext(VideoModalContext);
   const [deleteHistory, { isLoading }] = useDeleteHistoryMutation();
+
+  const openVideoModalHandler = () => {
+    open(item);
+  };
 
   const deleteHistoryHandler = () => {
     deleteHistory(item.id);
@@ -29,12 +34,15 @@ export default function HistoryItem({ item }: HistoryItemProps) {
       className="relative flex flex-col shadow-md bg-primary"
       layoutId={item.id}
     >
-      <div className="cursor-pointer" onClick={open}>
+      <div className="cursor-pointer" onClick={openVideoModalHandler}>
         <VideoThumbnail url={item.thumbnail} title={item.title} />
       </div>
       <div className="flex flex-col h-full p-4 gap-4">
         <div className="flex-1 flex flex-col gap-4">
-          <div className="cursor-pointer mb-auto line-clamp-2" onClick={open}>
+          <div
+            className="cursor-pointer mb-auto line-clamp-2"
+            onClick={openVideoModalHandler}
+          >
             <VideoTitle title={item.title} />
           </div>
           <div className="flex flex-col gap-2">

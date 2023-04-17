@@ -69,9 +69,7 @@ const RecordsModal = ({
                       fill
                     />
                   </div>
-                  <div className={styles.label}>
-                    {record.level === 0 ? 'Root' : record.label}
-                  </div>
+                  <div className={styles.label}>{record.label}</div>
                 </li>
               ) : null
             )}

@@ -6,6 +6,7 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import NotFound from '@/components/common/UI/NotFound';
 import Spinner from '@/components/common/UI/Spinner';
 import VideoIcon from '@/assets/icons/video.svg';
+import { VideoModalProvider } from '@/context/video-modal';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getVideos } from '@/store/features/video/video.api';
 import { NextPageWithLayout } from '../_app';
@@ -36,7 +37,11 @@ const Browse: NextPageWithLayout = () => {
 };
 
 Browse.getLayout = function (page) {
-  return <BrowseLayout>{page}</BrowseLayout>;
+  return (
+    <VideoModalProvider>
+      <BrowseLayout>{page}</BrowseLayout>
+    </VideoModalProvider>
+  );
 };
 
 export default Browse;

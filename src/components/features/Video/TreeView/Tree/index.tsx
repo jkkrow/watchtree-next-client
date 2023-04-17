@@ -65,7 +65,7 @@ export default function VideoTree({
   }, [dispatch, saveHistory, editMode, tree.id]);
 
   return (
-    <div className="relative w-full max-h-screen aspect-video" id={tree.id}>
+    <div className="relative w-full h-full" id={tree.id}>
       {treeState && activeNodeId && (
         <VideoNode
           treeId={tree.id}

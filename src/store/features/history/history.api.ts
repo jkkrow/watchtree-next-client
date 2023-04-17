@@ -45,18 +45,12 @@ const historyApi = appApi.injectEndpoints({
 
         return { data: customData };
       },
-      providesTags: (result) => [
-        ...(result
-          ? result.items.map(({ id }) => ({ type: 'History' as const, id }))
-          : []),
-        { type: 'History', id: 'LIST' },
-        'Auth',
-      ],
+      providesTags: () => [{ type: 'History', id: 'LIST' }, 'Auth'],
       ...getInfiniteQueryOptions(),
     }),
 
     saveHistory: builder.mutation<MessageResponse, SaveHistoryRequest>({
-      queryFn: async (arg, api, _, baseQuery) => {
+      queryFn: async (arg, api, extraOptions, baseQuery) => {
         const error = { status: 400, data: { message: 'Invalid request' } };
         const videoState = (api.getState() as AppState).video;
         const { info } = (api.getState() as AppState).user;
@@ -100,7 +94,9 @@ const historyApi = appApi.injectEndpoints({
         }
 
         await saveLocalHistory({ videoId: videoTree.id, ...params });
-        return { data: { message: 'History saved successfully' } };
+        const data = { message: 'History saved successfully' };
+        const meta = { extraOptions };
+        return { data, meta };
       },
       extraOptions: { ignoreMessage: true },
       invalidatesTags: (_, __, { videoId: id }) => [

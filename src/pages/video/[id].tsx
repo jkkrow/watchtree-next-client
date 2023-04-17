@@ -1,31 +1,41 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-
-import VideoLayout from '@/components/features/Video/_layout';
-import { useGetVideoQuery } from '@/store/features/video/video.api';
 import { useMemo } from 'react';
 
-export default function Video() {
+import VideoLayout from '@/components/features/Video/_layout';
+import VideoTree from '@/components/features/Video/TreeView/Tree';
+import { useWatchVideoQuery } from '@/store/features/video/video.api';
+import { NextPageWithLayout } from '../_app';
+
+const Video: NextPageWithLayout = () => {
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
 
   const id = useMemo(() => router.query.id || '', [router.query.id]);
-  const { data } = useGetVideoQuery(id instanceof Array ? id[0] : id, {
-    skip: !router.isReady,
+  const arg = id instanceof Array ? id[0] : id;
+
+  const { data } = useWatchVideoQuery(arg, {
+    skip: !id,
   });
 
-  useEffect(() => setMounted(true), []);
+  const video = data;
 
   return (
     <>
-      {/* {data ? (
+      {video ? (
         <Head>
-          <title>{data.videoTree.title}</title>
+          <title>{video.videoTree.title}</title>
         </Head>
-      ) : null} */}
+      ) : null}
 
-      <VideoLayout></VideoLayout>
+      {video ? (
+        <VideoTree tree={video.videoTree} history={video.videoTree.history} />
+      ) : null}
     </>
   );
-}
+};
+
+Video.getLayout = function (page) {
+  return <VideoLayout>{page}</VideoLayout>;
+};
+
+export default Video;

@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useContext } from 'react';
 
 import VideoThumbnail from './_fragments/VideoThumbnail';
 import VideoTitle from './_fragments/VideoTitle';
@@ -10,7 +10,7 @@ import VideoViews from './_fragments/VideoViews';
 import VideoFavorites from './_fragments/VideoFavorites';
 import PlayIcon from '@/assets/icons/play.svg';
 import { useScaleOnHover } from '@/hooks/ui/scale-on-hover';
-import { useVideoModal } from '@/hooks/ui/video-modal';
+import { VideoModalContext } from '@/context/video-modal';
 import { useCurtain } from '@/hooks/ui/curtain';
 import { opacityVariants } from '@/constants/variants';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
@@ -21,12 +21,12 @@ interface VideoItemProps {
 
 export default function VideoItem({ item }: VideoItemProps) {
   const { active, itemRef, style, start, stop, cancel } = useScaleOnHover();
-  const { active: activeModal, open } = useVideoModal(item);
+  const { open, item: modalItem } = useContext(VideoModalContext);
   const { open: watch } = useCurtain();
 
   const openModalHandler = () => {
     cancel();
-    open();
+    open(item);
   };
 
   const watchVideoHandler = (event: React.MouseEvent) => {
@@ -37,7 +37,7 @@ export default function VideoItem({ item }: VideoItemProps) {
   return (
     <motion.li
       className="relative data-[active=true]:z-10"
-      data-active={activeModal}
+      data-active={modalItem?.id === item.id}
       layoutId={item.id}
       onClick={openModalHandler}
     >

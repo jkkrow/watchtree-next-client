@@ -1,12 +1,10 @@
 import { PropsWithChildren, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
 import { Roboto } from '@next/font/google';
 import dayjs from 'dayjs';
 
 import Main from './Main';
 import Header from './Header';
 import Footer from './Footer';
-import VideoModal from './VideoModal';
 import Curtain from './Curtain';
 import Modal from './Modal';
 import Alert from './Alert';
@@ -49,7 +47,6 @@ export default function Layout({ children }: PropsWithChildren) {
       <Header />
       <Main>{children}</Main>
       <Footer />
-      <VideoModal />
       <Curtain />
       <Modal />
       <Alert />

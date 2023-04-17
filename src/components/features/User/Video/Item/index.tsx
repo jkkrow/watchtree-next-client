@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
+import { useContext } from 'react';
 
 import VideoTitle from '@/components/features/Video/Item/_fragments/VideoTitle';
 import VideoThumbnail from '@/components/features/Video/Item/_fragments/VideoThumbnail';
@@ -11,8 +12,8 @@ import Button from '@/components/common/Element/Button';
 import EditIcon from '@/assets/icons/edit.svg';
 import DeleteIcon from '@/assets/icons/delete.svg';
 import CircleLoadingIcon from '@/assets/icons/circle-loading.svg';
+import { VideoModalContext } from '@/context/video-modal';
 import { useModal } from '@/hooks/ui/modal';
-import { useVideoModal } from '@/hooks/ui/video-modal';
 import { useAppSelector } from '@/hooks/store';
 import { useContinueUploadMutation } from '@/store/features/upload/upload.api';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
@@ -27,8 +28,12 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
   const tree = useAppSelector((state) => state.upload.uploadTree);
   const { open: openEdit } = useModal<EditVideoModal>();
   const { open: openDelete } = useModal<DeleteVideoModal>();
-  const { open: openVideoModal } = useVideoModal(item);
+  const { open: openVideoModal } = useContext(VideoModalContext);
   const [continueUpload, { isLoading }] = useContinueUploadMutation();
+
+  const openVideoModalHandler = () => {
+    openVideoModal(item);
+  };
 
   const editHandler = async () => {
     if (tree && tree.id === item.id) {
@@ -52,7 +57,7 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
       className="relative flex flex-col h-full bg-primary overflow-hidden shadow-md"
       layoutId={item.id}
     >
-      <div className="relative cursor-pointer" onClick={openVideoModal}>
+      <div className="relative cursor-pointer" onClick={openVideoModalHandler}>
         <VideoThumbnail title={item.title} url={item.thumbnail} />
         {item.editing ? (
           <div className="absolute top-0 left-0 font-medium bg-neutral-900/80 text-neutral-100 p-2">

@@ -11,7 +11,7 @@
   visibility: hidden;
   transition: all 200ms ease-out;
   transition-property: opacity, visibility;
-  z-index: 15;
+  z-index: 10;
 
   &[data-active='true'] {
     opacity: 1;

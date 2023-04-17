@@ -7,6 +7,7 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import NotFound from '@/components/common/UI/NotFound';
 import Spinner from '@/components/common/UI/Spinner';
 import HistoryIcon from '@/assets/icons/history.svg';
+import { VideoModalProvider } from '@/context/video-modal';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getHistories } from '@/store/features/history/history.api';
 import { NextPageWithLayout } from '../_app';
@@ -35,7 +36,11 @@ const History: NextPageWithLayout = () => {
 };
 
 History.getLayout = function (page) {
-  return <HistoryLayout>{page}</HistoryLayout>;
+  return (
+    <VideoModalProvider>
+      <HistoryLayout>{page}</HistoryLayout>
+    </VideoModalProvider>
+  );
 };
 
 export default History;

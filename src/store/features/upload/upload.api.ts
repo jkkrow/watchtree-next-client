@@ -84,14 +84,14 @@ export const uploadApi = appApi.injectEndpoints({
         }
 
         const id = uploadTree.id;
-        const fileName = file.name;
+        const fileName = encodeURIComponent(file.name);
         const fileType = file.type;
         const duration = await getVideoDuration(file);
 
         const info = {
-          name: encodeURIComponent(fileName),
+          name: fileName,
           size: file.size,
-          label: `Select ${fileName}`,
+          label: nodeId === uploadTree.root.id ? 'Root' : `Select ${fileName}`,
           url: URL.createObjectURL(file),
           duration: Math.ceil(duration * 1000) / 1000,
           selectionTimeStart: +(duration - 10 || 0).toFixed(3),

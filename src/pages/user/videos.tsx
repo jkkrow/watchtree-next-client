@@ -7,6 +7,7 @@ import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
 import NotFound from '@/components/common/UI/NotFound';
 import VideoIcon from '@/assets/icons/video.svg';
+import { VideoModalProvider } from '@/context/video-modal';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { getCreatedVideos } from '@/store/features/video/video.api';
 import { NextPageWithLayout } from '../_app';
@@ -35,7 +36,11 @@ const UserVideos: NextPageWithLayout = () => {
 };
 
 UserVideos.getLayout = function getLayout(page) {
-  return <UserLayout>{page}</UserLayout>;
+  return (
+    <VideoModalProvider>
+      <UserLayout>{page}</UserLayout>
+    </VideoModalProvider>
+  );
 };
 
 export default UserVideos;
