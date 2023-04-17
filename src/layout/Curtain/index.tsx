@@ -15,7 +15,9 @@ export default function Curtain() {
 
   useEffect(() => {
     if (!curtain) return;
-    const { pathname, query } = curtain;
+    const { id, nodeId, progress } = curtain;
+    const pathname = `/video/${id}`;
+    const query = { nodeId, progress };
     setCurtainTimeout(() => router.push({ pathname, query }), DELAY);
   }, [router, curtain, setCurtainTimeout]);
 

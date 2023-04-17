@@ -9,19 +9,20 @@ import {
   setCurrentProgress,
 } from '@/store/features/video/video.slice';
 import { VideoTree as VideoTreeType } from '@/store/features/video/video.type';
-import { History } from '@/store/features/history/history.type';
 import { useSaveHistoryMutation } from '@/store/features/history/history.api';
 
 interface VideoTreeProps {
   tree: VideoTreeType;
-  history?: History | null;
+  initialNodeId?: string;
+  initialProgress?: number;
   autoPlay?: boolean;
   editMode?: boolean;
 }
 
 export default function VideoTree({
   tree,
-  history,
+  initialNodeId,
+  initialProgress,
   autoPlay = true,
   editMode = false,
 }: VideoTreeProps) {
@@ -36,17 +37,9 @@ export default function VideoTree({
   }, [dispatch, tree]);
 
   useEffect(() => {
-    let initialNodeId = tree.root.id;
-    let initialTime = 0;
-
-    if (history && !history.ended) {
-      initialNodeId = history.activeNodeId;
-      initialTime = history.progress;
-    }
-
-    dispatch(setActiveNode(initialNodeId));
-    dispatch(setInitialProgress(initialTime));
-  }, [dispatch, tree.root.id, history]);
+    dispatch(setActiveNode(initialNodeId || tree.root.id));
+    dispatch(setInitialProgress(initialProgress || 0));
+  }, [dispatch, tree.root.id, initialNodeId, initialProgress]);
 
   useEffect(() => {
     if (activeNodeId && !editMode) {

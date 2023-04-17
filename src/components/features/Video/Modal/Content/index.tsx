@@ -51,9 +51,14 @@ export default function VideoModalContent({
   }, [data]);
 
   const watchVideoHandler = (nodeId?: string) => () => {
+    const history = video.history;
+    const defaultNodeId = history && !history.ended ? history.activeNodeId : '';
+    const progress = history && !history.ended ? history.progress : 0;
+
     open({
-      pathname: `/video/${video.id}`,
-      query: nodeId ? { nodeId } : undefined,
+      id: video.id,
+      nodeId: nodeId || defaultNodeId,
+      progress: nodeId && nodeId !== history?.activeNodeId ? 0 : progress,
     });
   };
 

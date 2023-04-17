@@ -31,7 +31,12 @@ export default function VideoItem({ item }: VideoItemProps) {
 
   const watchVideoHandler = (event: React.MouseEvent) => {
     event.stopPropagation();
-    watch({ pathname: `/video/${item.id}` });
+
+    const history = item.history;
+    const defaultNodeId = history && !history.ended ? history.activeNodeId : '';
+    const progress = history && !history.ended ? history.progress : 0;
+
+    watch({ id: item.id, nodeId: defaultNodeId, progress });
   };
 
   return (

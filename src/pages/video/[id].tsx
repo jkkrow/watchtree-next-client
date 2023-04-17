@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 import { useMemo } from 'react';
 
 import VideoLayout from '@/components/features/Video/_layout';
@@ -10,25 +11,35 @@ import { NextPageWithLayout } from '../_app';
 const Video: NextPageWithLayout = () => {
   const router = useRouter();
 
-  const id = useMemo(() => router.query.id || '', [router.query.id]);
-  const arg = id instanceof Array ? id[0] : id;
+  const launchParams = useMemo(() => {
+    if (!router.isReady || !router.query.id) return null;
+    const { id, nodeId, progress } = router.query;
 
-  const { data } = useWatchVideoQuery(arg, {
-    skip: !id,
+    return {
+      id: id instanceof Array ? id[0] : id,
+      nodeId: nodeId instanceof Array ? nodeId[0] : nodeId,
+      progress: progress instanceof Array ? +progress[0] : +(progress || 0),
+    };
+  }, [router.isReady, router.query]);
+
+  const { data } = useWatchVideoQuery(launchParams?.id || skipToken, {
+    skip: !launchParams,
   });
-
-  const video = data;
 
   return (
     <>
-      {video ? (
+      {data ? (
         <Head>
-          <title>{video.videoTree.title}</title>
+          <title>{data.videoTree.title}</title>
         </Head>
       ) : null}
 
-      {video ? (
-        <VideoTree tree={video.videoTree} history={video.videoTree.history} />
+      {data && launchParams ? (
+        <VideoTree
+          tree={data.videoTree}
+          initialNodeId={launchParams.nodeId}
+          initialProgress={launchParams.progress}
+        />
       ) : null}
     </>
   );

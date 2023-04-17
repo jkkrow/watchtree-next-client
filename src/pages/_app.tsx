@@ -1,7 +1,8 @@
+import Head from 'next/head';
+import { Provider } from 'react-redux';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
-import { Provider } from 'react-redux';
 
 import { wrapper } from '@/store';
 import Layout from '@/layout';
@@ -22,6 +23,9 @@ export default function App({ Component, ...rest }: AppPropsWithLayout) {
 
   return (
     <Provider store={store}>
+      <Head>
+        <title>WatchTree</title>
+      </Head>
       <Layout>{getLayout(<Component {...props} />)}</Layout>
     </Provider>
   );

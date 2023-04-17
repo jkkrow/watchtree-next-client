@@ -56,13 +56,9 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
       const encoded = encodeObject(video);
       const query = { ...router.query, item: encoded };
       setLockChildren(true);
-      routerRef.current.push(
-        { query },
-        { pathname: router.pathname, query: { item: video.id } },
-        { scroll: false }
-      );
+      routerRef.current.push({ query }, undefined, { scroll: false });
     },
-    [router.query, router.pathname]
+    [router.query]
   );
 
   const close = useCallback(() => {
