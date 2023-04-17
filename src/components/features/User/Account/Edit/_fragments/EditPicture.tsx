@@ -30,11 +30,8 @@ export default function EditPicture() {
   };
 
   const savePictureHandler = async () => {
-    const result: any = file
-      ? await updatePicture(file)
-      : await deletePicture();
-
-    if (!result.error) router.push('/user/account');
+    file ? await updatePicture(file).unwrap() : await deletePicture().unwrap();
+    router.push('/user/account');
   };
 
   return (

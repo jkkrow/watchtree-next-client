@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import { skipToken } from '@reduxjs/toolkit/dist/query';
 
 import Button from '@/components/common/Element/Button';
 import UpdateIcon from '@/assets/icons/update.svg';
@@ -15,17 +16,18 @@ interface UserVideoHeaderProps {
 export default function UserVideoHeader({ params }: UserVideoHeaderProps) {
   const router = useRouter();
   const tree = useAppSelector((state) => state.upload.uploadTree);
-  const { refetch, isFetching, isLoading } = useGetCreatedVideosQuery(params!, {
-    skip: !params,
-  });
+  const { refetch, isFetching, isLoading } = useGetCreatedVideosQuery(
+    params || skipToken,
+    { skip: !params }
+  );
   const [initiateUpload, { isLoading: initiateLoading }] =
     useInitiateUploadMutation();
 
   const initiateUploadHandler = async () => {
     if (tree) return router.push('/upload');
 
-    const result: any = await initiateUpload();
-    if (!result.error) router.push('/upload');
+    await initiateUpload().unwrap();
+    router.push('/upload');
   };
 
   return (

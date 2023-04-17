@@ -25,14 +25,12 @@ export default function SigninForm() {
   });
 
   const signinHandler: SubmitHandler<SigninInputs> = async (data) => {
-    const result: any = await signin(data);
-    if (result.error) return;
+    await signin(data).unwrap();
     redirectHandler();
   };
 
   const googleSigninhandler = async (credential: string) => {
-    const result: any = await signinGoogle(credential);
-    if (result.error) return;
+    await signinGoogle(credential).unwrap();
     redirectHandler();
   };
 

@@ -14,7 +14,7 @@ export default function DeleteVideo() {
   });
 
   const submitHandler = async () => {
-    modal && (await deleteVideo(modal.videoId));
+    modal && (await deleteVideo(modal.videoId).unwrap());
     complete();
   };
 

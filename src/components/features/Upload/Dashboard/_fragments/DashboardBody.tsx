@@ -68,8 +68,8 @@ export default function DashboardBody() {
   };
 
   const deleteThumbnailHandler = async () => {
-    const result: any = await deleteThumbnail();
-    if (!result.error) setThumbnail('');
+    await deleteThumbnail().unwrap();
+    setThumbnail('');
   };
 
   const undoUploadHandler = () => {

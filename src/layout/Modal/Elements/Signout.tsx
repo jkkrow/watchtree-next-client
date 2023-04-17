@@ -9,7 +9,7 @@ export default function Signout() {
   const [signout, { isLoading }] = useSignoutMutation();
 
   const signoutHandler = async () => {
-    await signout();
+    await signout().unwrap();
     complete();
   };
 

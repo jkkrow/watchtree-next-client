@@ -49,6 +49,10 @@ export interface DiscardNodeModal {
   nodeId: string;
 }
 
+export interface DeleteHistoryModal {
+  videoId: string;
+}
+
 export type ModalRoutes =
   | 'signin'
   | 'signout'
@@ -56,6 +60,7 @@ export type ModalRoutes =
   | 'edit-video'
   | 'delete-video'
   | 'delete-account'
+  | 'delete-history'
   | 'clear-history'
   | 'undo-upload'
   | 'discard-node';

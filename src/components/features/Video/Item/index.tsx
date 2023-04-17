@@ -98,7 +98,11 @@ export default function VideoItem({ item }: VideoItemProps) {
               animate="active"
               transition={{ duration: 0.15 }}
             >
-              <VideoHistory history={item.history} max={item.maxDuration} />
+              <VideoHistory
+                max={item.maxDuration}
+                progress={item.history?.totalProgress}
+                ended={item.history?.ended}
+              />
               <div className="flex justify-between gap-4 text-sm">
                 <div className="flex items-center overflow-hidden">
                   <VideoCreator creator={item.creator} />

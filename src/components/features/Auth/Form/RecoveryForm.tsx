@@ -22,8 +22,8 @@ export default function RecoveryForm() {
   const sendRecoveryHandler: SubmitHandler<RecoveryInputs> = async ({
     email,
   }) => {
-    const result: any = await sendRecovery(email);
-    if (!result.error) router.push('/auth/signin');
+    await sendRecovery(email).unwrap();
+    router.push('/auth/signin');
   };
 
   return (

@@ -51,7 +51,11 @@ export default function HistoryItem({ item }: HistoryItemProps) {
               min={item.minDuration}
               brief
             />
-            <VideoHistory history={item.history} max={item.maxDuration} />
+            <VideoHistory
+              max={item.maxDuration}
+              progress={item.history?.totalProgress}
+              ended={item.history?.ended}
+            />
           </div>
           <div className="ml-auto">
             <VideoTimestamps timestamp={item.history!.watchedAt} />

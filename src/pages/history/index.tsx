@@ -15,10 +15,8 @@ import { NextPageWithLayout } from '../_app';
 const MAX = 30;
 
 const History: NextPageWithLayout = () => {
-  const { data, error, isFetchingMore, listRef } = useInfiniteQuery(
-    getHistories,
-    { max: MAX }
-  );
+  const { data, error, isFetchingMore, originalArgs, listRef } =
+    useInfiniteQuery(getHistories, { max: MAX });
 
   return (
     <>
@@ -26,7 +24,7 @@ const History: NextPageWithLayout = () => {
         <title>History</title>
       </Head>
 
-      <HistoryHeader />
+      <HistoryHeader params={originalArgs} />
       <HistoryGrid items={data?.items || []} ref={listRef} />
       <SkeletonGrid on={!data && !error} count={MAX} type="video" />
       <NotFound items={data?.items} label="History" icon={HistoryIcon} />

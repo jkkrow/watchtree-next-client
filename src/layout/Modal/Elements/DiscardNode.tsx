@@ -17,7 +17,7 @@ export default function DiscardNode() {
 
   const discardNodeHandler = async () => {
     if (!modal || !tree) return;
-    await discardNode({ id: modal.treeId, nodeId: modal.nodeId });
+    await discardNode({ id: modal.treeId, nodeId: modal.nodeId }).unwrap();
     const parentNode = findNodeByChildId(tree.root, modal.nodeId);
 
     if (modal.nodeId === activeNodeId) {

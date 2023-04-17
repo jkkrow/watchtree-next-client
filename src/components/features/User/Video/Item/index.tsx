@@ -44,8 +44,8 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
       return openEdit('edit-video', { videoId: item.id });
     }
 
-    const result: any = await continueUpload(item.id);
-    if (!result.error) router.push('/upload');
+    await continueUpload(item.id).unwrap();
+    router.push('/upload');
   };
 
   const deleteHandler = () => {

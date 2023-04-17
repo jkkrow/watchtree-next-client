@@ -23,13 +23,9 @@ export default function SubscriptionItem({ item }: SubscriptionItemProps) {
   const [unsubscribe, { isLoading: unsubLoading }] = useUnsubscribeMutation();
 
   const subscribeHandler = async () => {
-    const result: any = subscribed
-      ? await unsubscribe(item.id)
-      : await subscribe(item.id);
-
-    if (result.error) {
-      return;
-    }
+    subscribed
+      ? await unsubscribe(item.id).unwrap()
+      : await subscribe(item.id).unwrap();
 
     setSubscribed((prev) => !prev);
   };

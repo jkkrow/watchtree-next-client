@@ -23,8 +23,7 @@ export default function SignupForm() {
   });
 
   const signupHandler: SubmitHandler<SignupInputs> = async (data) => {
-    const result: any = await signup(data);
-    if (result.error) return;
+    await signup(data).unwrap();
     redirectHandler();
   };
 

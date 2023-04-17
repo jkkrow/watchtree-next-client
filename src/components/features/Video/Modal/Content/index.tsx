@@ -7,6 +7,7 @@ import VideoDuration from '@/components/features/Video/Item/_fragments/VideoDura
 import VideoViews from '@/components/features/Video/Item/_fragments/VideoViews';
 import VideoFavorites from '@/components/features/Video/Item/_fragments/VideoFavorites';
 import VideoCreator from '@/components/features/Video/Item/_fragments/VideoCreator';
+import VideoHistory from '@/components/features/Video/Item/_fragments/VideoHistory';
 import VideoDescription from '@/components/features/Video/Item/_fragments/VideoDescription';
 import VideoCategories from '@/components/features/Video/Item/_fragments/VideoCategories';
 import VideoTimestamps from '@/components/features/Video/Item/_fragments/VideoTimestamps';
@@ -17,8 +18,10 @@ import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import PlayIcon from '@/assets/icons/play.svg';
 import HistoryIcon from '@/assets/icons/history.svg';
 import { useGetVideoQuery } from '@/store/features/video/video.api';
+import { useModal } from '@/hooks/ui/modal';
 import { useCurtain } from '@/hooks/ui/curtain';
 import { findAncestors } from '@/store/features/video/video.util';
+import { DeleteHistoryModal } from '@/store/features/ui/ui.type';
 import {
   VideoTreeEntryWithData,
   VideoTreeWithData,
@@ -34,7 +37,8 @@ export default function VideoModalContent({
   onClose,
 }: VideoModalContentProps) {
   const { data, error } = useGetVideoQuery(tempVideo.id);
-  const { open } = useCurtain();
+  const { open } = useModal<DeleteHistoryModal>();
+  const { open: watch } = useCurtain();
   const video: VideoTreeEntryWithData | VideoTreeWithData | null = useMemo(
     () => (data ? data.videoTree : tempVideo),
     [tempVideo, data]
@@ -55,11 +59,15 @@ export default function VideoModalContent({
     const defaultNodeId = history && !history.ended ? history.activeNodeId : '';
     const progress = history && !history.ended ? history.progress : 0;
 
-    open({
+    watch({
       id: video.id,
       nodeId: nodeId || defaultNodeId,
       progress: nodeId && nodeId !== history?.activeNodeId ? 0 : progress,
     });
+  };
+
+  const deleteHistoryHandler = () => {
+    open('delete-history', { videoId: video.id });
   };
 
   return (
@@ -98,18 +106,28 @@ export default function VideoModalContent({
             </div>
             <VideoCreator creator={video.creator} />
             <button
-              className="flex items-center w-max mt-6 gap-4 cursor-pointer transition-opacity hover:opacity-70"
+              className="flex items-center w-max mt-6 gap-4 transition-opacity hover:opacity-70"
               onClick={watchVideoHandler()}
             >
               <div className="w-12 h-12 p-4 bg-neutral-100 text-neutral-900 rounded-full">
                 <PlayIcon />
               </div>
               <div className="text-xl font-bold">
-                {video.history && !video.history.ended
-                  ? 'Continue to watch'
-                  : 'Watch Now'}
+                {video.history
+                  ? video.history.ended
+                    ? 'Replay from start'
+                    : 'Continue to watch'
+                  : 'Watch now'}
               </div>
             </button>
+            <div className="w-64 max-w-full">
+              <VideoHistory
+                max={video.maxDuration}
+                progress={video.history?.totalProgress}
+                ended={video.history?.ended}
+                inversed
+              />
+            </div>
           </div>
 
           <div className="overflow-hidden p-12">
@@ -148,12 +166,14 @@ export default function VideoModalContent({
 
       <section className="p-6">
         <div className="flex gap-2 justify-end">
-          <Button small>
-            <span className="w-6 h-6">
-              <HistoryIcon />
-            </span>
-            <span>Reset Watching History</span>
-          </Button>
+          {video.history ? (
+            <Button small onClick={deleteHistoryHandler}>
+              <span className="w-6 h-6">
+                <HistoryIcon />
+              </span>
+              <span>Delete Watching History</span>
+            </Button>
+          ) : null}
           <VideoFavorites
             id={video.id}
             count={video.favorites}
@@ -181,11 +201,22 @@ export default function VideoModalContent({
                       <div className="font-medium line-clamp-2">
                         {node.label}
                       </div>
-                      <VideoDuration
-                        max={node.duration}
-                        min={node.duration}
-                        brief
-                      />
+                      <div className="flex flex-col w-52 max-w-full gap-4">
+                        <VideoDuration
+                          max={node.duration}
+                          min={node.duration}
+                          brief
+                        />
+                        <VideoHistory
+                          max={node.duration}
+                          progress={video.history?.progress}
+                          ended={
+                            node.id !== video.history?.activeNodeId ||
+                            (node.id === video.history.activeNodeId &&
+                              video.history.ended)
+                          }
+                        />
+                      </div>
                     </div>
                   </div>
                 </li>

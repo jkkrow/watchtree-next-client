@@ -59,8 +59,8 @@ export default function ResetPasswordForm() {
     data
   ) => {
     if (!token) return;
-    const result: any = await resetPassword({ ...data, token });
-    if (!result.error) router.replace('/auth/signin');
+    await resetPassword({ ...data, token }).unwrap();
+    router.replace('/auth/signin');
   };
 
   return (

@@ -21,8 +21,8 @@ export default function EditPassword() {
   });
 
   const saveHandler = async (data: EditPasswordInputs) => {
-    const result: any = await updatePassword(data);
-    if (!result.error) router.push('/user/account');
+    await updatePassword(data).unwrap();
+    router.push('/user/account');
   };
 
   return (

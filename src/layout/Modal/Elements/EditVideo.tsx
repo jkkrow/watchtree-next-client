@@ -12,8 +12,7 @@ export default function EditVideo() {
 
   const editVideoHandler = async () => {
     if (!modal) return;
-    const result: any = await continueUpload(modal.videoId);
-    if (result.error) return;
+    await continueUpload(modal.videoId).unwrap();
     router.push('/upload');
     complete();
   };

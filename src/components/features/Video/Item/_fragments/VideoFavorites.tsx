@@ -40,14 +40,11 @@ export default function VideoFavorites({
     event.stopPropagation();
 
     if (!button) return;
-    if (!user) {
-      return open('signin');
-    }
+    if (!user) return open('signin');
 
-    const action = favorited ? removeFromFavorites : addToFavorites;
-    const result: any = await action(id);
-
-    if (result.error) return;
+    favorited
+      ? await removeFromFavorites(id).unwrap()
+      : await addToFavorites(id).unwrap();
 
     setFavorites((prev) => (favorited ? prev - 1 : prev + 1));
     setFavorited((prev) => !prev);

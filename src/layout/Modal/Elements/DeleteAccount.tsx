@@ -38,21 +38,18 @@ export default function DeleteAccount() {
 
   const submitHandler = async (data: DeleteAccountInputs) => {
     if (!user) return;
-    let result: any;
 
     if (user.type === 'native') {
-      result = await deleteAccount(data.password!);
+      await deleteAccount(data.password!).unwrap();
     }
 
     if (user.type === 'google') {
-      result = await deleteGoogleAccount(data.token!);
+      await deleteGoogleAccount(data.token!).unwrap();
     }
 
-    if (!result.error) {
-      await signout();
-      complete();
-      router.push('/');
-    }
+    await signout();
+    complete();
+    router.push('/');
   };
 
   const verifyGoogleHandler = (credential: string) => {

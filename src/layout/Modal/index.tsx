@@ -7,6 +7,7 @@ import Signout from './Elements/Signout';
 import EditVideo from './Elements/EditVideo';
 import DeleteVideo from './Elements/DeleteVideo';
 import DeleteAccount from './Elements/DeleteAccount';
+import DeleteHistory from './Elements/DeleteHistory';
 import ClearHistory from './Elements/ClearHistory';
 import UndoUpload from './Elements/UndoUpload';
 import DiscardNode from './Elements/DiscardNode';
@@ -35,6 +36,7 @@ export default function Modal() {
       <ModalRoute id="edit-video" element={EditVideo} />
       <ModalRoute id="delete-video" element={DeleteVideo} />
       <ModalRoute id="delete-account" element={DeleteAccount} />
+      <ModalRoute id="delete-history" element={DeleteHistory} />
       <ModalRoute id="clear-history" element={ClearHistory} />
       <ModalRoute id="undo-upload" element={UndoUpload} />
       <ModalRoute id="discard-node" element={DiscardNode} />

@@ -20,8 +20,8 @@ export default function EditName() {
   });
 
   const saveHandler = async ({ name }: EditNameInputs) => {
-    const result: any = await updateName(name);
-    if (!result.error) router.push('/user/account');
+    await updateName(name).unwrap();
+    router.push('/user/account');
   };
 
   return (
