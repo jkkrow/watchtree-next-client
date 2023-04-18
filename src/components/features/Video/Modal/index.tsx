@@ -38,7 +38,7 @@ export default function VideoModal() {
               animate="active"
               exit="inActive"
             >
-              <VideoModalContent video={item.video} onClose={close} />
+              <VideoModalContent video={item.video} />
             </motion.div>
           </div>
         ) : null}

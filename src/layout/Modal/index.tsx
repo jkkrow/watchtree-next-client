@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import ModalRoute from './Route';
 import Signin from './Elements/Signin';
 import Signout from './Elements/Signout';
-import EditVideo from './Elements/EditVideo';
 import DeleteVideo from './Elements/DeleteVideo';
 import DeleteAccount from './Elements/DeleteAccount';
 import DeleteHistory from './Elements/DeleteHistory';
@@ -27,13 +26,12 @@ export default function Modal() {
     };
   }, [router.events, cancel]);
 
-  useScrollLock(!!modal, true);
+  useScrollLock(!!modal);
 
   return (
     <>
       <ModalRoute id="signin" element={Signin} />
       <ModalRoute id="signout" element={Signout} />
-      <ModalRoute id="edit-video" element={EditVideo} />
       <ModalRoute id="delete-video" element={DeleteVideo} />
       <ModalRoute id="delete-account" element={DeleteAccount} />
       <ModalRoute id="delete-history" element={DeleteHistory} />

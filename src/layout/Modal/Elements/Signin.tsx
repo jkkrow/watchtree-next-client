@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router';
 
-import Button from '@/components/common/Element/Button';
+import PromptModal from '../Template/Prompt';
 import { useModal } from '@/hooks/ui/modal';
 
 export default function Signin() {
   const router = useRouter();
   const { complete, cancel } = useModal();
 
-  const signoutHandler = () => {
+  const signinHandler = () => {
     router.push({
       pathname: '/auth/signin',
       query: { redirect: router.pathname },
@@ -16,16 +16,12 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex flex-col p-6 gap-6">
-      <div className="p-2 font-bold text-center">
-        This action requires sign in
-      </div>
-      <div className="flex w-64 ml-auto gap-2">
-        <Button onClick={cancel}>Cancel</Button>
-        <Button inversed onClick={signoutHandler}>
-          Sign in
-        </Button>
-      </div>
-    </div>
+    <PromptModal
+      title="Sign in"
+      action="Sign in"
+      header="This action requires sign in."
+      onCancel={cancel}
+      onClick={signinHandler}
+    />
   );
 }

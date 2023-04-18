@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { decodeJwt } from 'jose';
 
+import PromptModal from '../Template/Prompt';
 import Input from '@/components/common/Element/Input';
-import Button from '@/components/common/Element/Button';
 import GoogleOAuth from '@/components/features/Auth/OAuth/GoogleOAuth';
 import { useAppSelector } from '@/hooks/store';
 import { useModal } from '@/hooks/ui/modal';
@@ -68,70 +68,66 @@ export default function DeleteAccount() {
   };
 
   return user ? (
-    <div className="flex flex-col p-6 gap-6">
-      <h3 className="text-xl font-bold">
-        Do you really want to delete your account?
-      </h3>
-      <div className="flex flex-col gap-2">
-        <h4 className="text-invalid font-bold">&#9888; WARNING!</h4>
-        <p>
-          This process <b>cannot</b> be undone. Your <b>account</b> and{' '}
-          <b>created contents</b> will no longer be available.
-        </p>
-        <p>
-          To proceed to delete your account, type <b>delete my account</b> and
-          verify with your{' '}
-          <b>{user.type === 'native' ? 'password' : 'google account'}</b>.
-        </p>
-      </div>
-      <form className="flex flex-col" onSubmit={handleSubmit(submitHandler)}>
-        <Input
-          type="text"
-          message='Type "delete my account"'
-          invalid={!!formState.errors.confirm}
-          {...register('confirm', {
-            required: true,
-            validate: (value) => value === 'delete my account',
-          })}
-        />
-        {user.type === 'native' ? (
+    <PromptModal
+      title="Delete Account"
+      action="Delete"
+      header="Do you really want to delete your account?"
+      body={
+        <>
+          <p>
+            This process <b>cannot</b> be undone. Your <b>account</b> and{' '}
+            <b>created contents</b> will no longer be available.
+          </p>
+          <p>
+            To proceed to delete your account, type <b>delete my account</b> and
+            verify with your{' '}
+            <b>{user.type === 'native' ? 'password' : 'google account'}</b>.
+          </p>
+        </>
+      }
+      field={
+        <>
           <Input
             type="text"
-            invalid={!!formState.errors.password}
-            {...register('password', {
+            message='Type "delete my account"'
+            invalid={!!formState.errors.confirm}
+            {...register('confirm', {
               required: true,
+              validate: (value) => value === 'delete my account',
             })}
           />
-        ) : null}
-        {user.type === 'google' ? (
-          <>
-            <input hidden {...register('token', { required: true })} />
-            <GoogleOAuth
-              label="Verify with Google"
-              invalid={!!formState.errors.token}
-              disabled={!formState.errors.token && formState.dirtyFields.token}
-              onVerify={verifyGoogleHandler}
+          {user.type === 'native' ? (
+            <Input
+              type="text"
+              invalid={!!formState.errors.password}
+              {...register('password', {
+                required: true,
+              })}
             />
-            <p className="text-invalid text-xs my-2">
-              {formState.errors.token?.message}
-            </p>
-          </>
-        ) : null}
-        <div className="flex mt-4 ml-auto gap-2">
-          <Button type="button" small onClick={cancel}>
-            Cancel
-          </Button>
-          <Button
-            inversed
-            invalid
-            small
-            loading={deleteLoading || deleteGoogleLoading}
-            disabled={!formState.isValid}
-          >
-            Delete Account
-          </Button>
-        </div>
-      </form>
-    </div>
+          ) : null}
+          {user.type === 'google' ? (
+            <>
+              <input hidden {...register('token', { required: true })} />
+              <GoogleOAuth
+                label="Verify with Google"
+                invalid={!!formState.errors.token}
+                disabled={
+                  !formState.errors.token && formState.dirtyFields.token
+                }
+                onVerify={verifyGoogleHandler}
+              />
+              <p className="text-invalid text-xs my-2">
+                {formState.errors.token?.message}
+              </p>
+            </>
+          ) : null}
+        </>
+      }
+      danger
+      loading={deleteLoading || deleteGoogleLoading}
+      disabled={!formState.isValid}
+      onCancel={cancel}
+      onSubmit={handleSubmit(submitHandler)}
+    />
   ) : null;
 }

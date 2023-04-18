@@ -1,5 +1,4 @@
-import Link from 'next/link';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 
 import VideoThumbnail from '@/components/features/Video/Item/_fragments/VideoThumbnail';
 import VideoTitle from '@/components/features/Video/Item/_fragments/VideoTitle';
@@ -18,6 +17,7 @@ import ArrowLeftIcon from '@/assets/icons/arrow-left.svg';
 import PlayIcon from '@/assets/icons/play.svg';
 import HistoryIcon from '@/assets/icons/history.svg';
 import { useGetVideoQuery } from '@/store/features/video/video.api';
+import { VideoModalContext } from '@/context/video-modal';
 import { useModal } from '@/hooks/ui/modal';
 import { useCurtain } from '@/hooks/ui/curtain';
 import { findAncestors } from '@/store/features/video/video.util';
@@ -29,20 +29,21 @@ import {
 
 interface VideoModalContentProps {
   video: VideoTreeEntryWithData;
-  onClose: () => void;
 }
 
 export default function VideoModalContent({
   video: tempVideo,
-  onClose,
 }: VideoModalContentProps) {
   const { data, error } = useGetVideoQuery(tempVideo.id);
+  const { close } = useContext(VideoModalContext);
   const { open } = useModal<DeleteHistoryModal>();
   const { open: watch } = useCurtain();
+
   const video: VideoTreeEntryWithData | VideoTreeWithData | null = useMemo(
     () => (data ? data.videoTree : tempVideo),
     [tempVideo, data]
   );
+
   const nodes = useMemo(() => {
     if (!data) return null;
     if (!data.videoTree.history) return [data.videoTree.root];
@@ -83,7 +84,7 @@ export default function VideoModalContent({
           <header className="top-0 w-full p-6">
             <button
               className="w-6 h-6 hover:opacity-70 transition-opacity"
-              onClick={onClose}
+              onClick={close}
             >
               <ArrowLeftIcon />
             </button>
@@ -105,28 +106,30 @@ export default function VideoModalContent({
               />
             </div>
             <VideoCreator creator={video.creator} />
-            <button
-              className="flex items-center w-max mt-6 gap-4 transition-opacity hover:opacity-70"
-              onClick={watchVideoHandler()}
-            >
-              <div className="w-12 h-12 p-4 bg-neutral-100 text-neutral-900 rounded-full">
-                <PlayIcon />
+            <div className="relative">
+              <button
+                className="flex items-center w-max my-10 gap-4 transition-opacity hover:opacity-70"
+                onClick={watchVideoHandler()}
+              >
+                <div className="w-12 h-12 p-4 bg-neutral-100 text-neutral-900 rounded-full">
+                  <PlayIcon />
+                </div>
+                <div className="text-xl font-bold">
+                  {video.history
+                    ? video.history.ended
+                      ? 'Replay from start'
+                      : 'Continue to watch'
+                    : 'Watch now'}
+                </div>
+              </button>
+              <div className="absolute bottom-0 left-0 w-64 max-w-full">
+                <VideoHistory
+                  max={video.maxDuration}
+                  progress={video.history?.totalProgress}
+                  ended={video.history?.ended}
+                  inversed
+                />
               </div>
-              <div className="text-xl font-bold">
-                {video.history
-                  ? video.history.ended
-                    ? 'Replay from start'
-                    : 'Continue to watch'
-                  : 'Watch now'}
-              </div>
-            </button>
-            <div className="w-64 max-w-full">
-              <VideoHistory
-                max={video.maxDuration}
-                progress={video.history?.totalProgress}
-                ended={video.history?.ended}
-                inversed
-              />
             </div>
           </div>
 

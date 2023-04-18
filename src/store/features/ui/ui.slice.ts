@@ -15,6 +15,7 @@ const initialState: UiSliceState = {
   messages: [],
   modal: null,
   curtain: null,
+  scrollLock: false,
 };
 
 export const uiSlice = createSlice({
@@ -39,6 +40,9 @@ export const uiSlice = createSlice({
     clearModal(state) {
       state.modal = null;
     },
+    setScrollLock(state, { payload }: PayloadAction<boolean>) {
+      state.scrollLock = payload;
+    },
   },
 });
 
@@ -49,6 +53,7 @@ export const {
   clearModal,
   setCurtain,
   clearCurtain,
+  setScrollLock,
 } = uiSlice.actions;
 
 appListener.startListening({

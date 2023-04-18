@@ -2,6 +2,7 @@ export interface UiSliceState {
   messages: Message[];
   curtain: Curtain | null;
   modal: Modal | null;
+  scrollLock: boolean;
 }
 
 export interface Message {
@@ -35,10 +36,6 @@ export interface ImageModal {
   alt?: string;
 }
 
-export interface EditVideoModal {
-  videoId: string;
-}
-
 export interface DeleteVideoModal {
   videoId: string;
   title: string;
@@ -57,7 +54,6 @@ export type ModalRoutes =
   | 'signin'
   | 'signout'
   | 'image'
-  | 'edit-video'
   | 'delete-video'
   | 'delete-account'
   | 'delete-history'

@@ -1,4 +1,5 @@
 import Button from '@/components/common/Element/Button';
+import PromptModal from '../Template/Prompt';
 import { useAppSelector, useAppDispatch } from '@/hooks/store';
 import { useModal } from '@/hooks/ui/modal';
 import { useDiscardNodeMutation } from '@/store/features/upload/upload.api';
@@ -32,24 +33,15 @@ export default function DiscardNode() {
   };
 
   return (
-    <div className="flex flex-col p-6 gap-6">
-      <h3 className="text-xl font-bold">Discard Node</h3>
-      <div className="font-medium">Do you want to discard this video node?</div>
-      {tree ? (
-        <div className="flex flex-col gap-2">
-          <h4 className="text-invalid font-bold">&#9888; WARNING!</h4>
-          <div className="max-w-lg">
-            This will remove all videos appended to it. Are you sure to
-            continue?
-          </div>
-        </div>
-      ) : null}
-      <div className="flex w-64 ml-auto gap-2">
-        <Button onClick={cancel}>Cancel</Button>
-        <Button inversed loading={isLoading} onClick={discardNodeHandler}>
-          Discard
-        </Button>
-      </div>
-    </div>
+    <PromptModal
+      title="Discard Node"
+      action="Discard"
+      header="Do you want to discard this video node?"
+      body="This will remove all videos appended to it. Are you sure to continue?"
+      danger
+      loading={isLoading}
+      onCancel={cancel}
+      onClick={discardNodeHandler}
+    />
   );
 }

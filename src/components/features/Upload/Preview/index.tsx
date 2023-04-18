@@ -5,7 +5,7 @@ export default function UploadPreview() {
   const tree = useAppSelector((state) => state.upload.uploadTree);
   const preview = tree?.root.url;
 
-  return tree && preview ? (
+  return preview ? (
     <div className="z-0 overflow-hidden rounded-md aspect-video">
       <VideoTree tree={tree} autoPlay={false} editMode />
     </div>

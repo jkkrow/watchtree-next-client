@@ -48,22 +48,19 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
   }, [router.query]);
 
   useEffect(() => {
-    const { style, classList, scrollTop } = document.documentElement;
+    const { style, classList } = document.documentElement;
 
     if (item) {
       if (item.scrollPosition === null) return;
-      scrollPositionRef.current = item.scrollPosition;
-      document.documentElement.scrollTop = scrollPositionRef.current;
-      style.top = `-${scrollTop}px`;
+      style.top = `-${item.scrollPosition}px`;
       classList.add('fixed');
       classList.add('overflow-y-scroll');
       classList.add('w-full');
-      classList.add('disabled');
+      scrollPositionRef.current = item.scrollPosition;
     } else {
       classList.remove('fixed');
       classList.remove('overflow-y-scroll');
       classList.remove('w-full');
-      classList.remove('disabled');
       style.removeProperty('top');
       document.documentElement.scrollTop = scrollPositionRef.current;
     }
@@ -76,19 +73,19 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
       classList.remove('fixed');
       classList.remove('overflow-y-scroll');
       classList.remove('w-full');
-      classList.remove('disabled');
       style.removeProperty('top');
     };
   }, []);
 
   const open = useCallback(
     (video: VideoTreeEntryWithData) => {
-      const { scrollTop, scrollHeight, clientHeight } =
-        document.documentElement;
+      const { documentElement } = document;
+      const { scrollTop, scrollHeight, clientHeight } = documentElement;
       const scrollPosition = scrollHeight <= clientHeight ? null : scrollTop;
 
       const encoded = encodeObject({ video, scrollPosition });
       const query = { ...router.query, item: encoded };
+
       setLayoutAnimation(true);
       routerRef.current.push({ query }, undefined, { scroll: false });
     },
