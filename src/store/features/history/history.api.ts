@@ -35,7 +35,7 @@ const historyApi = appApi.injectEndpoints({
         const ids = localHistories.map((history) => history.videoId);
 
         if (!ids.length) return emptyResult;
-        const customArg = { url: 'video-trees', params: { ...arg, ids } };
+        const customArg = { url: 'video-trees', params: { ids } };
         const { data, error } = await baseQuery(customArg);
 
         if (error) return { error };
@@ -138,7 +138,7 @@ const historyApi = appApi.injectEndpoints({
         await clearLocalHistoy();
         return { data: { message: 'Histories deleted successfully' } };
       },
-      invalidatesTags: () => [{ type: 'History', id: 'LIST' }],
+      invalidatesTags: () => ['History'],
     }),
   }),
 });

@@ -1,6 +1,7 @@
 import { db } from './db';
+import dayjs from 'dayjs';
 
-import { fastForward, generateToken } from './db.utils';
+import { generateToken, parseToken } from './db.utils';
 import {
   VideoTreeEntryWithData,
   VideoTreeWithData,
@@ -28,21 +29,42 @@ export async function clearLocalHistoy() {
 export async function getLocalHistories(params: GetHistoriesRequest) {
   const { token, max, skipEnded } = params;
 
+  const prevEntry = token ? parseToken<LocalHistory>(token) : null;
+  let fastForwardComplete = false;
+
   const filterFn = (item: LocalHistory) => {
-    if (!skipEnded) return true;
-    return item.ended === false;
+    const filterEnded = skipEnded ? item.ended === false : true;
+
+    if (!prevEntry) {
+      return filterEnded;
+    }
+
+    if (fastForwardComplete) {
+      const isBefore = dayjs(item.watchedAt).isBefore(prevEntry.watchedAt);
+      return isBefore && filterEnded;
+    }
+
+    if (prevEntry && prevEntry.videoId === item.videoId) {
+      fastForwardComplete = true;
+    }
+
+    return false;
   };
 
   const localHistories = await db.histories
-    .filter(fastForward(token, 'videoId', filterFn))
-    .limit(max)
+    .orderBy('watchedAt')
     .reverse()
-    .sortBy('watchedAt');
+    .filter(filterFn)
+    .limit(max)
+    .toArray();
 
   const lastEntry = localHistories[localHistories.length - 1];
   const newToken = lastEntry ? generateToken(lastEntry) : null;
 
-  return { localHistories, token: newToken };
+  return {
+    localHistories,
+    token: localHistories.length < max ? null : newToken,
+  };
 }
 
 export async function applyLocalHistory(video: VideoTreeWithData) {
