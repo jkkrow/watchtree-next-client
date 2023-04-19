@@ -18,6 +18,7 @@ export default function Modal() {
   const { modal, cancel } = useModal();
   const router = useRouter();
 
+  useScrollLock(!!modal, 'modal');
   useEffect(() => {
     router.events.on('routeChangeStart', cancel);
 
@@ -25,8 +26,6 @@ export default function Modal() {
       router.events.off('routeChangeStart', cancel);
     };
   }, [router.events, cancel]);
-
-  useScrollLock(!!modal);
 
   return (
     <>

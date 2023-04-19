@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import VideoModal from '@/components/features/Video/Modal';
+import { useScrollLock } from '@/hooks/ui/scroll-lock';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
 import { encodeObject, decodeObject } from '@/utils/serialize';
 
@@ -38,7 +39,6 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
   const [layoutAnimation, setLayoutAnimation] = useState(false);
   const router = useRouter();
   const routerRef = useRef(router);
-  const scrollPositionRef = useRef<number>(0);
 
   const item = useMemo(() => {
     const { item } = router.query;
@@ -47,35 +47,7 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
     return param ? decodeObject<VideoModalItem>(param) : null;
   }, [router.query]);
 
-  useEffect(() => {
-    const { style, classList } = document.documentElement;
-
-    if (item) {
-      if (item.scrollPosition === null) return;
-      style.top = `-${item.scrollPosition}px`;
-      classList.add('fixed');
-      classList.add('overflow-y-scroll');
-      classList.add('w-full');
-      scrollPositionRef.current = item.scrollPosition;
-    } else {
-      classList.remove('fixed');
-      classList.remove('overflow-y-scroll');
-      classList.remove('w-full');
-      style.removeProperty('top');
-      document.documentElement.scrollTop = scrollPositionRef.current;
-    }
-  }, [item]);
-
-  useEffect(() => {
-    return () => {
-      const { style, classList } = document.documentElement;
-
-      classList.remove('fixed');
-      classList.remove('overflow-y-scroll');
-      classList.remove('w-full');
-      style.removeProperty('top');
-    };
-  }, []);
+  useScrollLock(!!item, 'video-modal', item?.scrollPosition || undefined);
 
   const open = useCallback(
     (video: VideoTreeEntryWithData) => {

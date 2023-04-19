@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import { useContext } from 'react';
 
-import VideoTitle from '../../Video/Item/_fragments/VideoTitle';
-import VideoThumbnail from '../../Video/Item/_fragments/VideoThumbnail';
-import VideoDuration from '../../Video/Item/_fragments/VideoDuration';
-import VideoHistory from '../../Video/Item/_fragments/VideoHistory';
-import VideoTimestamps from '../../Video/Item/_fragments/VideoTimestamps';
-import VideoFavorites from '../../Video/Item/_fragments/VideoFavorites';
+import VideoTitle from '../../Video/UI/VideoTitle';
+import VideoThumbnail from '../../Video/UI/VideoThumbnail';
+import VideoDuration from '../../Video/UI/VideoDuration';
+import VideoHistory from '../../Video/UI/VideoHistory';
+import VideoTimestamps from '../../Video/UI/VideoTimestamps';
+import VideoFavorites from '../../Video/UI/VideoFavorites';
 import Button from '@/components/common/Element/Button';
 import DeleteIcon from '@/assets/icons/delete.svg';
 import { VideoModalContext } from '@/context/video-modal';

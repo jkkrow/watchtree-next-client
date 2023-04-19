@@ -5,7 +5,6 @@ interface VideoHistoryProps {
   progress?: number;
   ended?: boolean;
   brief?: boolean;
-  inversed?: boolean;
 }
 
 export default function VideoHistory({
@@ -13,24 +12,20 @@ export default function VideoHistory({
   progress,
   ended,
   brief,
-  inversed,
 }: VideoHistoryProps) {
   const percentage = Math.floor(ended ? 100 : ((progress ?? 0) / max) * 100);
 
   return progress !== undefined ? (
-    <div
-      className="flex items-center w-full gap-2 data-[inversed=true]:text-inversed"
-      data-inversed={inversed}
-    >
+    <div className="flex items-center w-full gap-2">
       <div className="flex-shrink-0 w-6 h-6">
         <HistoryIcon />
       </div>
       {!brief ? (
         <div className="w-full h-1 rounded-lg bg-secondary overflow-hidden">
           <div
-            className="h-full rounded-lg bg-inversed data-[inversed=true]:bg-primary"
+            className="rounded-lg border-[0.125rem] border-current data-[percentage='0']:border-0"
             style={{ width: percentage + '%' }}
-            data-inversed={inversed}
+            data-percentage={percentage}
           />
         </div>
       ) : null}

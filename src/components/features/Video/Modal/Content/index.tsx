@@ -1,15 +1,15 @@
 import { useContext, useMemo } from 'react';
 
-import VideoThumbnail from '@/components/features/Video/Item/_fragments/VideoThumbnail';
-import VideoTitle from '@/components/features/Video/Item/_fragments/VideoTitle';
-import VideoDuration from '@/components/features/Video/Item/_fragments/VideoDuration';
-import VideoViews from '@/components/features/Video/Item/_fragments/VideoViews';
-import VideoFavorites from '@/components/features/Video/Item/_fragments/VideoFavorites';
-import VideoCreator from '@/components/features/Video/Item/_fragments/VideoCreator';
-import VideoHistory from '@/components/features/Video/Item/_fragments/VideoHistory';
-import VideoDescription from '@/components/features/Video/Item/_fragments/VideoDescription';
-import VideoCategories from '@/components/features/Video/Item/_fragments/VideoCategories';
-import VideoTimestamps from '@/components/features/Video/Item/_fragments/VideoTimestamps';
+import VideoThumbnail from '@/components/features/Video/UI/VideoThumbnail';
+import VideoTitle from '@/components/features/Video/UI/VideoTitle';
+import VideoDuration from '@/components/features/Video/UI/VideoDuration';
+import VideoViews from '@/components/features/Video/UI/VideoViews';
+import VideoFavorites from '@/components/features/Video/UI/VideoFavorites';
+import VideoCreator from '@/components/features/Video/UI/VideoCreator';
+import VideoHistory from '@/components/features/Video/UI/VideoHistory';
+import VideoDescription from '@/components/features/Video/UI/VideoDescription';
+import VideoCategories from '@/components/features/Video/UI/VideoCategories';
+import VideoTimestamps from '@/components/features/Video/UI/VideoTimestamps';
 import Button from '@/components/common/Element/Button';
 import Skeleton from '@/components/common/UI/Skeleton';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
@@ -127,7 +127,6 @@ export default function VideoModalContent({
                   max={video.maxDuration}
                   progress={video.history?.totalProgress}
                   ended={video.history?.ended}
-                  inversed
                 />
               </div>
             </div>

@@ -2,7 +2,7 @@ export interface UiSliceState {
   messages: Message[];
   curtain: Curtain | null;
   modal: Modal | null;
-  scrollLock: boolean;
+  scrollLock: ScrollLock | null;
 }
 
 export interface Message {
@@ -16,6 +16,11 @@ export interface Curtain {
   id: string;
   nodeId?: string;
   progress?: number;
+}
+
+export interface ScrollLock {
+  name: string;
+  position: number;
 }
 
 export type Modal<Payload extends ModalPayload = {}> = {

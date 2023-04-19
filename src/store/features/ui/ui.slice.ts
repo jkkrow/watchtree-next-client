@@ -8,14 +8,14 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { AppBaseQueryError, AppQueryMeta } from '@/store';
 import { appListener } from '@/store/app/listener';
-import { UiSliceState, Message, Curtain, Modal } from './ui.type';
+import { UiSliceState, Message, Curtain, Modal, ScrollLock } from './ui.type';
 import { MessageResponse } from '@/store/common/api.type';
 
 const initialState: UiSliceState = {
   messages: [],
   modal: null,
   curtain: null,
-  scrollLock: false,
+  scrollLock: null,
 };
 
 export const uiSlice = createSlice({
@@ -40,8 +40,13 @@ export const uiSlice = createSlice({
     clearModal(state) {
       state.modal = null;
     },
-    setScrollLock(state, { payload }: PayloadAction<boolean>) {
+    setScrollLock(state, { payload }: PayloadAction<ScrollLock>) {
+      if (state.scrollLock) return;
       state.scrollLock = payload;
+    },
+    clearScrollLock(state, { payload }: PayloadAction<string>) {
+      if (state.scrollLock && state.scrollLock.name !== payload) return;
+      state.scrollLock = null;
     },
   },
 });
@@ -54,6 +59,7 @@ export const {
   setCurtain,
   clearCurtain,
   setScrollLock,
+  clearScrollLock,
 } = uiSlice.actions;
 
 appListener.startListening({
@@ -96,5 +102,36 @@ appListener.startListening({
     content = typeof data === 'string' ? content : data?.message || content;
 
     dispatch(setMessage({ type: 'error', subject, content }));
+  },
+});
+
+appListener.startListening({
+  actionCreator: setScrollLock,
+  effect: ({ payload }, { getState }) => {
+    const { scrollLock } = getState().ui;
+
+    if (!scrollLock || scrollLock.name !== payload.name) return;
+    const { classList, style } = document.documentElement;
+
+    style.top = `-${payload.position}px`;
+    classList.add('fixed');
+    classList.add('overflow-y-scroll');
+    classList.add('w-full');
+  },
+});
+
+appListener.startListening({
+  actionCreator: clearScrollLock,
+  effect: ({ payload }, { getOriginalState }) => {
+    const { scrollLock } = getOriginalState().ui;
+
+    if (!scrollLock || scrollLock.name !== payload) return;
+    const { classList, style } = document.documentElement;
+
+    classList.remove('fixed');
+    classList.remove('overflow-y-scroll');
+    classList.remove('w-full');
+    style.removeProperty('top');
+    document.documentElement.scrollTop = scrollLock.position;
   },
 });

@@ -2,12 +2,12 @@ import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import { useContext } from 'react';
 
-import VideoTitle from '@/components/features/Video/Item/_fragments/VideoTitle';
-import VideoThumbnail from '@/components/features/Video/Item/_fragments/VideoThumbnail';
-import VideoDuration from '@/components/features/Video/Item/_fragments/VideoDuration';
-import VideoViews from '@/components/features/Video/Item/_fragments/VideoViews';
-import VideoFavorites from '@/components/features/Video/Item/_fragments/VideoFavorites';
-import VideoTimestamps from '@/components/features/Video/Item/_fragments/VideoTimestamps';
+import VideoTitle from '@/components/features/Video/UI/VideoTitle';
+import VideoThumbnail from '@/components/features/Video/UI/VideoThumbnail';
+import VideoDuration from '@/components/features/Video/UI/VideoDuration';
+import VideoViews from '@/components/features/Video/UI/VideoViews';
+import VideoFavorites from '@/components/features/Video/UI/VideoFavorites';
+import VideoTimestamps from '@/components/features/Video/UI/VideoTimestamps';
 import Button from '@/components/common/Element/Button';
 import EditIcon from '@/assets/icons/edit.svg';
 import DeleteIcon from '@/assets/icons/delete.svg';

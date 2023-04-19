@@ -1,13 +1,13 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useContext } from 'react';
 
-import VideoThumbnail from './_fragments/VideoThumbnail';
-import VideoTitle from './_fragments/VideoTitle';
-import VideoDuration from './_fragments/VideoDuration';
-import VideoCreator from './_fragments/VideoCreator';
-import VideoHistory from './_fragments/VideoHistory';
-import VideoViews from './_fragments/VideoViews';
-import VideoFavorites from './_fragments/VideoFavorites';
+import VideoThumbnail from '../UI/VideoThumbnail';
+import VideoTitle from '../UI/VideoTitle';
+import VideoDuration from '../UI/VideoDuration';
+import VideoCreator from '../UI/VideoCreator';
+import VideoHistory from '../UI/VideoHistory';
+import VideoViews from '../UI/VideoViews';
+import VideoFavorites from '../UI/VideoFavorites';
 import PlayIcon from '@/assets/icons/play.svg';
 import { useScaleOnHover } from '@/hooks/ui/scale-on-hover';
 import { VideoModalContext } from '@/context/video-modal';
