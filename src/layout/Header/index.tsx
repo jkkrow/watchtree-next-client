@@ -7,7 +7,7 @@ import Search from './Search';
 const Menu = dynamic(() => import('./Menu'), { ssr: false });
 
 export default function Header() {
-  const [isTop, setIsTop] = useState(false);
+  const [isTop, setIsTop] = useState(true);
   const headerRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {

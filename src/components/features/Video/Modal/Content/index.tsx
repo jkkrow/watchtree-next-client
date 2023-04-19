@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useRef, useMemo, useEffect, useState } from 'react';
 
 import VideoThumbnail from '@/components/features/Video/UI/VideoThumbnail';
 import VideoTitle from '@/components/features/Video/UI/VideoTitle';
@@ -38,6 +38,8 @@ export default function VideoModalContent({
   const { close } = useContext(VideoModalContext);
   const { open } = useModal<DeleteHistoryModal>();
   const { open: watch } = useCurtain();
+  const [isTop, setIsTop] = useState(true);
+  const headerRef = useRef<HTMLHeadingElement>(null);
 
   const video: VideoTreeEntryWithData | VideoTreeWithData | null = useMemo(
     () => (data ? data.videoTree : tempVideo),
@@ -55,6 +57,21 @@ export default function VideoModalContent({
     return ancestors.length ? ancestors.reverse() : [root];
   }, [data]);
 
+  useEffect(() => {
+    if (!headerRef.current) return;
+
+    const header = headerRef.current;
+    const observer = new IntersectionObserver(([entry]) =>
+      setIsTop(entry.isIntersecting)
+    );
+
+    observer.observe(header);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const watchVideoHandler = (nodeId?: string) => () => {
     const history = video.history;
     const defaultNodeId = history && !history.ended ? history.activeNodeId : '';
@@ -71,6 +88,11 @@ export default function VideoModalContent({
     open('delete-history', { videoId: video.id });
   };
 
+  const scrollToTopHandler = () => {
+    if (!headerRef.current) return;
+    headerRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div>
       <section className="relative flex flex-col bg-neutral-900 text-neutral-50">
@@ -81,7 +103,7 @@ export default function VideoModalContent({
         </div>
 
         <div className="relative min-h-[500px] selection:text-neutral-900 selection:bg-neutral-100">
-          <header className="top-0 w-full p-6">
+          <header className="top-0 w-full p-6" ref={headerRef}>
             <button
               className="w-6 h-6 hover:opacity-70 transition-opacity"
               onClick={close}
@@ -227,6 +249,18 @@ export default function VideoModalContent({
           ) : null}
         </div>
       </section>
+
+      <div
+        className="sticky bottom-0 opacity-0 pointer-events-none transition-opacity data-[visible=true]:opacity-100 data-[visible=true]:pointer-events-auto"
+        data-visible={!isTop}
+      >
+        <button
+          className="absolute bottom-6 right-6 p-3 bg-inversed text-inversed rounded-full shadow-md transition-colors hover:bg-hover-inversed"
+          onClick={scrollToTopHandler}
+        >
+          <ArrowLeftIcon className="w-6 h-6 rotate-90" />
+        </button>
+      </div>
     </div>
   );
 }
