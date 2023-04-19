@@ -6,7 +6,7 @@ import {
   useRef,
   useMemo,
   useCallback,
-  useEffect,
+  RefObject,
 } from 'react';
 
 import VideoModal from '@/components/features/Video/Modal';
@@ -22,6 +22,7 @@ interface VideoModalItem {
 interface ContextState {
   item: VideoModalItem | null;
   layoutAnimation: boolean;
+  headerRef: RefObject<HTMLHeadingElement> | null;
   open: (video: VideoTreeEntryWithData) => void;
   close: () => void;
 }
@@ -29,6 +30,7 @@ interface ContextState {
 const defaultContext: ContextState = {
   item: null,
   layoutAnimation: false,
+  headerRef: null,
   open: () => {},
   close: () => {},
 };
@@ -39,6 +41,7 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
   const [layoutAnimation, setLayoutAnimation] = useState(false);
   const router = useRouter();
   const routerRef = useRef(router);
+  const headerRef = useRef<HTMLHeadingElement>(null);
 
   const item = useMemo(() => {
     const { item } = router.query;
@@ -69,7 +72,9 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   return (
-    <VideoModalContext.Provider value={{ item, layoutAnimation, open, close }}>
+    <VideoModalContext.Provider
+      value={{ item, layoutAnimation, headerRef, open, close }}
+    >
       {children}
       <VideoModal />
     </VideoModalContext.Provider>
