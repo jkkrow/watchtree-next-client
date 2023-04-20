@@ -23,7 +23,7 @@ export default function Controls({ video }: ControlsProps) {
           <span className="w-6 h-6">
             <HistoryIcon />
           </span>
-          <span>Delete Watching History</span>
+          <span>Delete Watch History</span>
         </Button>
       ) : null}
       <VideoFavorites
