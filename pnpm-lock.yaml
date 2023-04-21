@@ -30,6 +30,7 @@ specifiers:
   sass: ^1.60.0
   shaka-player: ^4.3.5
   sharp: ^0.32.0
+  swiper: ^9.2.3
   tailwind-scrollbar-hide: ^1.1.7
   tailwindcss: ^3.2.4
   typescript: 4.9.4
@@ -65,6 +66,7 @@ dependencies:
   sass: 1.60.0
   shaka-player: 4.3.5
   sharp: 0.32.0
+  swiper: 9.2.3
   tailwind-scrollbar-hide: 1.1.7
   tailwindcss: 3.2.4_postcss@8.4.21
   typescript: 4.9.4
@@ -4561,6 +4563,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /ssr-window/4.0.2:
+    resolution: {integrity: sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==}
+    dev: false
+
   /stable/0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==}
     deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
@@ -4682,6 +4688,13 @@ packages:
       csso: 4.2.0
       picocolors: 1.0.0
       stable: 0.1.8
+    dev: false
+
+  /swiper/9.2.3:
+    resolution: {integrity: sha512-hxqcjIsYPP1fv+KIXPqGywl6ik8RBp0y0i9+TOIh55ca6SpZ5FrgNJ4QXPhsl6mlSBMEYPmh5zOKtZpI8zpWeQ==}
+    engines: {node: '>= 4.7.0'}
+    dependencies:
+      ssr-window: 4.0.2
     dev: false
 
   /synckit/0.8.4:

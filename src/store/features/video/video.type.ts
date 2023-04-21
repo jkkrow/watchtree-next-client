@@ -81,6 +81,10 @@ export interface GetCreatedVideosRequest extends OffsetPaginationRequest {}
 
 export interface GetFavoritesRequest extends OffsetPaginationRequest {}
 
+export interface GetChannelVideosRequest extends OffsetPaginationRequest {
+  id: string;
+}
+
 export interface GetVideoResponse {
   videoTree: VideoTreeWithData;
 }
@@ -95,4 +99,7 @@ export interface GetCreatedVideosResponse
   extends OffsetPaginationResponse<VideoTreeEntryWithData> {}
 
 export interface GetFavoritesResponse
+  extends OffsetPaginationResponse<VideoTreeEntryWithData> {}
+
+export interface GetChannelVideosResponse
   extends OffsetPaginationResponse<VideoTreeEntryWithData> {}

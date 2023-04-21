@@ -15,6 +15,8 @@ import {
   GetCreatedVideosResponse,
   GetFavoritesRequest,
   GetFavoritesResponse,
+  GetChannelVideosRequest,
+  GetChannelVideosResponse,
 } from './video.type';
 import { AppState } from '@/store';
 
@@ -110,6 +112,21 @@ const videoApi = appApi.injectEndpoints({
       ],
     }),
 
+    getChannelVideos: builder.query<
+      GetChannelVideosResponse,
+      GetChannelVideosRequest
+    >({
+      query: ({ id, ...rest }) => ({
+        url: `channels/${id}/video-trees`,
+        params: rest,
+      }),
+      providesTags: () => [
+        { type: 'Video', id: 'LIST' },
+        { type: 'History', id: 'LIST' },
+        'User',
+      ],
+    }),
+
     addToFavorites: builder.mutation<MessageResponse, string>({
       query: (id) => ({ url: `video-trees/${id}/favorites`, method: 'post' }),
       invalidatesTags: (_, __, id) => [
@@ -136,6 +153,7 @@ export const {
   useSearchVideosQuery,
   useGetCreatedVideosQuery,
   useGetFavoritesQuery,
+  useGetChannelVideosQuery,
   useAddToFavoritesMutation,
   useRemoveFromFavoritesMutation,
 } = videoApi;
@@ -146,6 +164,7 @@ export const {
   searchVideos,
   getCreatedVideos,
   getFavorites,
+  getChannelVideos,
   addToFavorites,
   removeFromFavorites,
 } = videoApi.endpoints;

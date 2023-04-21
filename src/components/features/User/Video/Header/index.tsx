@@ -17,8 +17,7 @@ export default function UserVideoHeader({ params }: UserVideoHeaderProps) {
   const router = useRouter();
   const tree = useAppSelector((state) => state.upload.uploadTree);
   const { refetch, isFetching, isLoading } = useGetCreatedVideosQuery(
-    params || skipToken,
-    { skip: !params }
+    params || skipToken
   );
   const [initiateUpload, { isLoading: initiateLoading }] =
     useInitiateUploadMutation();

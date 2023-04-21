@@ -4,9 +4,7 @@ import HistoryLayout from '@/components/features/History/_layout';
 import HistoryHeader from '@/components/features/History/Header';
 import HistoryGrid from '@/components/features/History/Grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
-import NotFound from '@/components/common/UI/NotFound';
 import Spinner from '@/components/common/UI/Spinner';
-import HistoryIcon from '@/assets/icons/history.svg';
 import { VideoModalProvider } from '@/context/video-modal';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getHistories } from '@/store/features/history/history.api';
@@ -21,13 +19,12 @@ const History: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>History</title>
+        <title>History - WatchTree</title>
       </Head>
 
       <HistoryHeader params={originalArgs} />
-      <HistoryGrid items={data?.items || []} ref={listRef} />
       <SkeletonGrid on={!data && !error} count={MAX} type="video" />
-      <NotFound items={data?.items} label="History" icon={HistoryIcon} />
+      <HistoryGrid items={data?.items} ref={listRef} />
       <Spinner on={isFetchingMore} size={64} />
     </>
   );

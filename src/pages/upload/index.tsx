@@ -10,7 +10,7 @@ const Upload: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Upload Video</title>
+        <title>Upload Video - WatchTree</title>
       </Head>
 
       <UploadPreview />

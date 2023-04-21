@@ -13,7 +13,7 @@ const Account: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Account</title>
+        <title>Account - WatchTree</title>
       </Head>
 
       <AccountDashboard />

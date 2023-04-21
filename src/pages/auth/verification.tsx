@@ -8,7 +8,7 @@ const Verification: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Verification</title>
+        <title>Verification - WatchTree</title>
       </Head>
 
       <VerificationForm />

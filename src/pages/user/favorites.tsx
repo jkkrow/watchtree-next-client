@@ -4,8 +4,6 @@ import UserLayout from '@/components/features/User/_layout';
 import VideoGrid from '@/components/features/Video/Grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
-import NotFound from '@/components/common/UI/NotFound';
-import FavoriteIcon from '@/assets/icons/favorite.svg';
 import { VideoModalProvider } from '@/context/video-modal';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { getFavorites } from '@/store/features/video/video.api';
@@ -22,12 +20,11 @@ const Favorites: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Favorites</title>
+        <title>Favorites - WatchTree</title>
       </Head>
 
-      <VideoGrid label="Favorite Videos" items={data?.items || []} />
       <SkeletonGrid on={!data && !error} count={MAX} type="video" />
-      <NotFound items={data?.items} label="Favorites" icon={FavoriteIcon} />
+      <VideoGrid label="Favorite Videos" items={data?.items} />
       <Pagination count={data?.count || 0} size={MAX} page={page} />
     </>
   );

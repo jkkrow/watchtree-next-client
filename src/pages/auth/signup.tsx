@@ -8,7 +8,7 @@ const Signup: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Sign In</title>
+        <title>Sign In - WatchTree</title>
       </Head>
 
       <SignupForm />

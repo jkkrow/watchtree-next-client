@@ -22,15 +22,13 @@ const Video: NextPageWithLayout = () => {
     };
   }, [router.isReady, router.query]);
 
-  const { data } = useWatchVideoQuery(launchParams?.id || skipToken, {
-    skip: !launchParams,
-  });
+  const { data } = useWatchVideoQuery(launchParams?.id || skipToken);
 
   return (
     <>
       {data ? (
         <Head>
-          <title>{data.videoTree.title}</title>
+          <title>{data.videoTree.title} - WatchTree</title>
         </Head>
       ) : null}
 

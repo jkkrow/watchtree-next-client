@@ -8,6 +8,7 @@ import { wrapper } from '@/store';
 import Layout from '@/layout';
 import '@/styles/globals.scss';
 import '@/styles/player.scss';
+import '@/styles/swiper.scss';
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

@@ -8,7 +8,7 @@ const Recovery: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Recovery</title>
+        <title>Recovery - WatchTree</title>
       </Head>
 
       <RecoveryForm />

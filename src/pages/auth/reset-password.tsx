@@ -8,7 +8,7 @@ const ResetPassword: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Reset Password</title>
+        <title>Reset Password - WatchTree</title>
       </Head>
 
       <ResetPasswordForm />

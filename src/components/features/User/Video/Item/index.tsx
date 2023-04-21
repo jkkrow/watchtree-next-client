@@ -17,7 +17,7 @@ import { useModal } from '@/hooks/ui/modal';
 import { useAppSelector } from '@/hooks/store';
 import { useContinueUploadMutation } from '@/store/features/upload/upload.api';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
-import { DeleteVideoModal, EditVideoModal } from '@/store/features/ui/ui.type';
+import { DeleteVideoModal } from '@/store/features/ui/ui.type';
 
 interface UserVideoItemProps {
   item: VideoTreeEntryWithData;
@@ -26,7 +26,6 @@ interface UserVideoItemProps {
 export default function UserVideoItem({ item }: UserVideoItemProps) {
   const router = useRouter();
   const tree = useAppSelector((state) => state.upload.uploadTree);
-  const { open: openEdit } = useModal<EditVideoModal>();
   const { open: openDelete } = useModal<DeleteVideoModal>();
   const { open: openVideoModal } = useContext(VideoModalContext);
   const [continueUpload, { isLoading }] = useContinueUploadMutation();
@@ -38,10 +37,6 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
   const editHandler = async () => {
     if (tree && tree.id === item.id) {
       return router.push('/upload');
-    }
-
-    if (tree && tree.id !== item.id) {
-      return openEdit('edit-video', { videoId: item.id });
     }
 
     await continueUpload(item.id).unwrap();

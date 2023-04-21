@@ -14,8 +14,7 @@ interface HistoryHeaderProps {
 export default function HistoryHeader({ params }: HistoryHeaderProps) {
   const { open } = useModal();
   const { refetch, isFetching, isLoading } = useGetHistoriesQuery(
-    params || skipToken,
-    { skip: !params }
+    params || skipToken
   );
 
   const clearHistoryHandler = () => {

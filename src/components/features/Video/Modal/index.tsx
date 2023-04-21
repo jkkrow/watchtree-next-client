@@ -13,7 +13,7 @@ export default function VideoModal() {
     <>
       {item ? (
         <Head>
-          <title>{item.video.title}</title>
+          <title>{item.video.title} - WatchTree</title>
         </Head>
       ) : null}
 

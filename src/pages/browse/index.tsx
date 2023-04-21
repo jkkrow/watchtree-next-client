@@ -3,9 +3,7 @@ import Head from 'next/head';
 import BrowseLayout from '@/components/features/Browse/_layout';
 import VideoGrid from '@/components/features/Video/Grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
-import NotFound from '@/components/common/UI/NotFound';
 import Spinner from '@/components/common/UI/Spinner';
-import VideoIcon from '@/assets/icons/video.svg';
 import { VideoModalProvider } from '@/context/video-modal';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getVideos } from '@/store/features/video/video.api';
@@ -21,16 +19,11 @@ const Browse: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Browse</title>
+        <title>Browse - WatchTree</title>
       </Head>
 
-      <VideoGrid
-        label="Recent Videos"
-        items={data?.items || []}
-        ref={listRef}
-      />
       <SkeletonGrid on={!data && !error} count={MAX} type="video" />
-      <NotFound items={data?.items} label="Video" icon={VideoIcon} />
+      <VideoGrid label="Recent Videos" items={data?.items} ref={listRef} />
       <Spinner on={isFetchingMore} size={64} />
     </>
   );

@@ -5,8 +5,6 @@ import SubscriptionContainer from '@/components/features/User/Subscription/Conta
 import SubscriptionGrid from '@/components/features/User/Subscription/grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Spinner from '@/components/common/UI/Spinner';
-import NotFound from '@/components/common/UI/NotFound';
-import SubscribeUsersIcon from '@/assets/icons/subscribe-users.svg';
 import { useInfiniteQuery } from '@/hooks/query/infinite';
 import { getSubscribes } from '@/store/features/channel/channel.api';
 import { NextPageWithLayout } from '../_app';
@@ -22,16 +20,11 @@ const Subscribes: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Subscribes</title>
+        <title>Subscribes - WatchTree</title>
       </Head>
 
-      <SubscriptionGrid items={data?.items || []} ref={listRef} />
       <SkeletonGrid on={!data && !error} count={MAX} type="subscription" />
-      <NotFound
-        items={data?.items}
-        label="Subscribe"
-        icon={SubscribeUsersIcon}
-      />
+      <SubscriptionGrid items={data?.items} ref={listRef} />
       <Spinner on={isFetchingMore} size={64} />
     </>
   );

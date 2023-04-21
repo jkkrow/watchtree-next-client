@@ -5,8 +5,6 @@ import SubscriptionContainer from '@/components/features/User/Subscription/Conta
 import SubscriptionGrid from '@/components/features/User/Subscription/grid';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
 import Pagination from '@/components/common/UI/Pagination';
-import NotFound from '@/components/common/UI/NotFound';
-import SubscribeUsersIcon from '@/assets/icons/subscribe-users.svg';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { getSubscribers } from '@/store/features/channel/channel.api';
 import { NextPageWithLayout } from '../_app';
@@ -22,16 +20,11 @@ const Subscribers: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Subscribers</title>
+        <title>Subscribers - WatchTree</title>
       </Head>
 
-      <SubscriptionGrid items={data?.items || []} />
       <SkeletonGrid on={!data && !error} count={MAX} type="subscription" />
-      <NotFound
-        items={data?.items}
-        label="Subscriber"
-        icon={SubscribeUsersIcon}
-      />
+      <SubscriptionGrid items={data?.items} />
       <Pagination count={data?.count || 0} size={MAX} page={page} />
     </>
   );

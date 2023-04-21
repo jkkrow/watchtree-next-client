@@ -16,7 +16,7 @@ export const channelApi = appApi.injectEndpoints({
   endpoints: (builder) => ({
     getChannel: builder.query<GetChannelResponse, string>({
       query: (id) => ({ url: `channels/${id}` }),
-      providesTags: ['User', 'Subscription'],
+      providesTags: (_, __, id) => [{ type: 'Subscription', id }, 'User'],
     }),
 
     getSubscribes: builder.query<
@@ -24,7 +24,7 @@ export const channelApi = appApi.injectEndpoints({
       KeysetPaginationRequest
     >({
       query: (params) => ({ url: 'channels/current/subscribes', params }),
-      providesTags: ['User', 'Subscription'],
+      providesTags: [{ type: 'Subscription', id: 'LIST' }, 'User'],
       ...getInfiniteQueryOptions(),
     }),
 
@@ -33,7 +33,7 @@ export const channelApi = appApi.injectEndpoints({
       OffsetPaginationRequest
     >({
       query: (params) => ({ url: 'channels/current/subscribers', params }),
-      providesTags: ['User', 'Subscription'],
+      providesTags: [{ type: 'Subscription', id: 'LIST' }, 'User'],
     }),
 
     subscribe: builder.mutation<MessageResponse, string>({
@@ -41,7 +41,10 @@ export const channelApi = appApi.injectEndpoints({
         url: `channels/${id}/subscriptions`,
         method: 'post',
       }),
-      invalidatesTags: ['Subscription'],
+      invalidatesTags: (_, __, id) => [
+        { type: 'Subscription', id },
+        { type: 'Subscription', id: 'LIST' },
+      ],
     }),
 
     unsubscribe: builder.mutation<MessageResponse, string>({
@@ -49,7 +52,10 @@ export const channelApi = appApi.injectEndpoints({
         url: `channels/${id}/subscriptions`,
         method: 'delete',
       }),
-      invalidatesTags: ['Subscription'],
+      invalidatesTags: (_, __, id) => [
+        { type: 'Subscription', id },
+        { type: 'Subscription', id: 'LIST' },
+      ],
     }),
   }),
 });
