@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { PropsWithChildren, useEffect } from 'react';
 import { Roboto } from '@next/font/google';
 import dayjs from 'dayjs';
@@ -7,12 +8,14 @@ import Header from './Header';
 import Footer from './Footer';
 import Curtain from './Curtain';
 import Modal from './Modal';
-import Alert from './Alert';
+import Notification from './Notification';
 import { useMountEffect } from '@/hooks/lifecycle/mount-effect';
 import { useAppDispatch, useAppSelector } from '@/hooks/store';
 import { useSignoutMutation } from '@/store/features/auth/auth.api';
 import { useGetUserQuery } from '@/store/features/user/user.api';
 import { setDarkMode } from '@/store/features/settings/settings.slice';
+
+const UploadPopup = dynamic(() => import('./UploadPopup'), { ssr: false });
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -49,7 +52,8 @@ export default function Layout({ children }: PropsWithChildren) {
       <Footer />
       <Curtain />
       <Modal />
-      <Alert />
+      <Notification />
+      <UploadPopup />
     </div>
   );
 }

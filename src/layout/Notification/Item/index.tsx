@@ -11,7 +11,7 @@ interface MessageItemProps {
   message: Message;
 }
 
-export default function MessageItem({ message }: MessageItemProps) {
+export default function NotificationItem({ message }: MessageItemProps) {
   const dispatch = useAppDispatch();
   const [setClearMessageTimeout] = useTimeout();
 

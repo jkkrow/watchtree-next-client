@@ -34,6 +34,12 @@ export default function NodeList({ video, loading, onWatch }: NodeListProps) {
     return nodes ? nodes.slice(-2) : null;
   }, [nodes]);
 
+  const hasNextVideo = useMemo(() => {
+    if (!nodes) return false;
+    if (!nodes[nodes.length - 1]) return false;
+    return nodes[nodes.length - 1].children.some((node) => !!node.url);
+  }, [nodes]);
+
   const toggleCollapsedHandler = () => {
     setCollapsed((prev) => !prev);
   };
@@ -64,7 +70,7 @@ export default function NodeList({ video, loading, onWatch }: NodeListProps) {
                 onWatch={onWatch}
               />
             ))}
-            {nodes[nodes.length - 1].children.length ? (
+            {hasNextVideo ? (
               <motion.div layout key="next-video" className="relative">
                 <button
                   className="absolute z-[1] inset-0 font-medium text-lg transition-colors hover:text-hover"

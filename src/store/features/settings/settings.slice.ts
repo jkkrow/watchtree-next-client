@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { appListener } from '@/store/app/listener';
-import { SettingsSliceState } from './settings.type';
+import { SettingsSliceState, UploadConfig } from './settings.type';
 
 const initialState: SettingsSliceState = {
   darkMode: false,
-  pageSize: 30,
+  upload: { popupSize: 'brief' },
 };
 
 export const settingsSlice = createSlice({
@@ -15,10 +15,13 @@ export const settingsSlice = createSlice({
     setDarkMode(state, { payload }: PayloadAction<boolean>) {
       state.darkMode = payload;
     },
+    setUploadConfig(state, { payload }: PayloadAction<Partial<UploadConfig>>) {
+      state.upload = { ...state.upload, ...payload };
+    },
   },
 });
 
-export const { setDarkMode } = settingsSlice.actions;
+export const { setDarkMode, setUploadConfig } = settingsSlice.actions;
 
 appListener.startListening({
   actionCreator: setDarkMode,

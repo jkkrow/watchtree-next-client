@@ -81,3 +81,31 @@ export const playerModalVariants: Variants = {
   active: { x: 0 },
   inActive: { x: '100%' },
 };
+
+export const uploadPopupVariants: Record<
+  'container' | 'alert' | 'list',
+  Variants
+> = {
+  container: {
+    active: {
+      width: '32rem',
+      height: '16rem',
+      borderRadius: '10px',
+      transition: { duration: 0.25, delayChildren: 0.25 },
+    },
+    inActive: {
+      width: '6rem',
+      height: '6rem',
+      borderRadius: '50px',
+      transition: { duration: 0.25 },
+    },
+  },
+  alert: {
+    active: { opacity: 1, transition: { duration: 0.25, delay: 0.25 } },
+    inActive: { opacity: 0, transition: { duration: 0 } },
+  },
+  list: {
+    active: { opacity: 1, transition: { duration: 0.25, delay: 0.25 } },
+    inActive: { opacity: 0, transition: { duration: 0 } },
+  },
+};

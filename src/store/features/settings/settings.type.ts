@@ -1,4 +1,8 @@
 export interface SettingsSliceState {
   darkMode: boolean;
-  pageSize: number;
+  upload: UploadConfig;
+}
+
+export interface UploadConfig {
+  popupSize: 'full' | 'brief';
 }
