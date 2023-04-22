@@ -11,15 +11,9 @@ interface PaginationProps {
   count: number;
   page: number;
   size: number;
-  keyword?: string;
 }
 
-export default function Pagination({
-  count,
-  page = 1,
-  size,
-  keyword,
-}: PaginationProps) {
+export default function Pagination({ count, page = 1, size }: PaginationProps) {
   const router = useRouter();
   const totalPage = useMemo(() => Math.ceil(count / size), [count, size]);
 
@@ -28,11 +22,10 @@ export default function Pagination({
       return;
     }
 
-    const destinationUrl = `${location.pathname}${
-      keyword ? `?keyword=${keyword}&page=${pageNumber}` : `?page=${pageNumber}`
-    }`;
-
-    router.push(destinationUrl);
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, page: pageNumber },
+    });
   };
 
   return (

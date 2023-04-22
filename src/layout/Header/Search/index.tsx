@@ -16,7 +16,7 @@ export default function Search() {
     const searchInput = searchInputRef.current;
     if (!keyword || !searchInput) return;
 
-    router.push(`/search/?keyword=${keyword}`);
+    router.push(`/browse/search/?keyword=${keyword}`);
     searchInput.blur();
   };
 
