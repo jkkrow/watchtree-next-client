@@ -20,10 +20,13 @@ export default function Overview({ video, onWatch }: OverviewProps) {
         <VideoThumbnail title={video.title} url={video.thumbnail} large />
         <div className="absolute inset-0 bg-gradient-to-r via-transparent from-neutral-900" />
         <div className="absolute inset-0 bg-gradient-to-t via-transparent from-neutral-900" />
+        <div className="absolute inset-0 bg-neutral-900/30" />
       </div>
 
-      <div className="relative flex flex-col p-12 gap-4 w-[500px] max-w-full">
-        <VideoTitle title={video.title} large />
+      <div className="relative flex flex-col p-12 gap-4">
+        <div className="w-[500px] max-w-full">
+          <VideoTitle title={video.title} large />
+        </div>
         <VideoDuration max={video.maxDuration} min={video.minDuration} brief />
         <div className="flex gap-4">
           <VideoViews count={video.views} />

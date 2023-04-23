@@ -49,6 +49,37 @@ const historyApi = appApi.injectEndpoints({
       ...getInfiniteQueryOptions(),
     }),
 
+    getRecentHistories: builder.query<
+      GetHistoriesResponse,
+      GetHistoriesRequest
+    >({
+      queryFn: async (arg, api, _, baseQuery) => {
+        const { info } = (api.getState() as AppState).user;
+        const emptyResult = { data: { items: [], token: null } };
+
+        if (info) {
+          const customArg = { url: 'channels/current/histories', params: arg };
+          return baseQuery(customArg) as { data: GetHistoriesResponse };
+        }
+
+        if (typeof window === 'undefined') return emptyResult;
+        const { localHistories, token } = await getLocalHistories(arg);
+        const ids = localHistories.map((history) => history.videoId);
+
+        if (!ids.length) return emptyResult;
+        const customArg = { url: 'video-trees', params: { ids } };
+        const { data, error } = await baseQuery(customArg);
+
+        if (error) return { error };
+        const { items: videos } = data as GetVideosResponse;
+        const items = await sortByLocalHistory(videos, localHistories);
+        const customData = { items, token } as GetHistoriesResponse;
+
+        return { data: customData };
+      },
+      providesTags: () => [{ type: 'History', id: 'LIST' }, 'Auth'],
+    }),
+
     saveHistory: builder.mutation<MessageResponse, SaveHistoryRequest>({
       queryFn: async (arg, api, extraOptions, baseQuery) => {
         const error = { status: 400, data: { message: 'Invalid request' } };
@@ -145,9 +176,16 @@ const historyApi = appApi.injectEndpoints({
 
 export const {
   useGetHistoriesQuery,
+  useGetRecentHistoriesQuery,
   useSaveHistoryMutation,
   useDeleteHistoryMutation,
   useClearHistoryMutation,
 } = historyApi;
-export const { getHistories, saveHistory, deleteHistory, clearHistory } =
-  historyApi.endpoints;
+
+export const {
+  getHistories,
+  getRecentHistories,
+  saveHistory,
+  deleteHistory,
+  clearHistory,
+} = historyApi.endpoints;

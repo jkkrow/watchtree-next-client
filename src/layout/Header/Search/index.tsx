@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 import SearchIcon from '@/assets/icons/search.svg';
@@ -9,15 +9,12 @@ export default function Search() {
   const [keyword, setKeyword] = useState('');
   const [focused, setFocused] = useState(false);
   const router = useRouter();
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const searchHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    const searchInput = searchInputRef.current;
-    if (!keyword || !searchInput) return;
+    if (!keyword) return;
 
     router.push(`/browse/search/?keyword=${keyword}`);
-    searchInput.blur();
   };
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +44,6 @@ export default function Search() {
       <motion.input
         className="w-40 border-b-2 border-current outline-none bg-transparent"
         id="search-input"
-        ref={searchInputRef}
         type="text"
         placeholder="Search Videos"
         autoComplete="off"

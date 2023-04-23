@@ -21,7 +21,7 @@ export default function Details({ video, loading }: DetailsProps) {
         </div>
       ) : null}
       {video ? (
-        <div className="flex flex-col md:flex-row gap-8 overflow-hidden">
+        <div className="flex flex-col justify-between md:flex-row gap-8 overflow-hidden">
           <VideoDescription
             text={(video as VideoTreeWithData).description}
             brief

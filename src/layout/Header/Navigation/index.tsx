@@ -7,7 +7,7 @@ export default function Navigation() {
   const links = [
     { href: '/', name: 'Home' },
     { href: '/browse', name: 'Recent' },
-    { href: '/featured', name: 'Featured' },
+    { href: '/browse/featured', name: 'Featured' },
   ];
 
   const { active, containerRef, open, close, toggle } =

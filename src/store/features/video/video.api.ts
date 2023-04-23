@@ -9,6 +9,8 @@ import {
   GetVideoResponse,
   GetVideosRequest,
   GetVideosResponse,
+  GetRecentVideosRequest,
+  GetRecentVideosResponse,
   SearchVideosRequest,
   SearchVideosResponse,
   GetCreatedVideosRequest,
@@ -77,6 +79,25 @@ const videoApi = appApi.injectEndpoints({
         'Auth',
       ],
       ...getInfiniteQueryOptions(),
+    }),
+
+    getRecentVideos: builder.query<
+      GetRecentVideosResponse,
+      GetRecentVideosRequest
+    >({
+      query: (params) => ({ url: 'video-trees', params }),
+      transformResponse: async (data: GetRecentVideosResponse, meta) => {
+        const isLocal = meta && !meta.userId && meta.environment === 'client';
+        const items = isLocal
+          ? await applyLocalHistories(data.items)
+          : data.items;
+        return { items, count: data.count };
+      },
+      providesTags: () => [
+        { type: 'Video', id: 'LIST' },
+        { type: 'History', id: 'LIST' },
+        'Auth',
+      ],
     }),
 
     searchVideos: builder.query<SearchVideosResponse, SearchVideosRequest>({
@@ -148,8 +169,8 @@ const videoApi = appApi.injectEndpoints({
 export const {
   useWatchVideoQuery,
   useGetVideoQuery,
-  useLazyGetVideoQuery,
   useGetVideosQuery,
+  useGetRecentVideosQuery,
   useSearchVideosQuery,
   useGetCreatedVideosQuery,
   useGetFavoritesQuery,
@@ -161,6 +182,7 @@ export const {
   watchVideo,
   getVideo,
   getVideos,
+  getRecentVideos,
   searchVideos,
   getCreatedVideos,
   getFavorites,

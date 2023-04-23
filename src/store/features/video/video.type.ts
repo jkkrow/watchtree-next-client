@@ -73,6 +73,8 @@ export type VideoTreeStatus = 'public' | 'private';
 
 export interface GetVideosRequest extends KeysetPaginationRequest {}
 
+export interface GetRecentVideosRequest extends OffsetPaginationRequest {}
+
 export interface SearchVideosRequest extends OffsetPaginationRequest {
   keyword: string;
 }
@@ -91,6 +93,9 @@ export interface GetVideoResponse {
 
 export interface GetVideosResponse
   extends KeysetPaginationResponse<VideoTreeEntryWithData> {}
+
+export interface GetRecentVideosResponse
+  extends OffsetPaginationResponse<VideoTreeEntryWithData> {}
 
 export interface SearchVideosResponse
   extends OffsetPaginationResponse<VideoTreeEntryWithData> {}

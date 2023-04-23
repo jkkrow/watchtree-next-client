@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 
 import BrowseLayout from '@/components/features/Browse/_layout';
 import VideoGrid from '@/components/features/Video/Grid';
@@ -9,7 +10,6 @@ import { VideoModalProvider } from '@/context/video-modal';
 import { usePaginationQuery } from '@/hooks/query/pagination';
 import { searchVideos } from '@/store/features/video/video.api';
 import { NextPageWithLayout } from '../_app';
-import { useMemo } from 'react';
 
 const MAX = 24;
 
@@ -34,9 +34,11 @@ const Search: NextPageWithLayout = () => {
 
   return (
     <>
-      <Head>
-        <title>Search - WatchTree</title>
-      </Head>
+      {keyword ? (
+        <Head>
+          <title>Search result for {`"${keyword}"`} - WatchTree</title>
+        </Head>
+      ) : null}
 
       <SkeletonGrid on={!data && !error} count={MAX} type="video" />
       <VideoGrid label={`#${keyword}`} items={data?.items} />

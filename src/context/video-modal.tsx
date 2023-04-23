@@ -23,7 +23,7 @@ interface ContextState {
   item: VideoModalItem | null;
   layoutAnimation: boolean;
   headerRef: RefObject<HTMLHeadingElement> | null;
-  open: (video: VideoTreeEntryWithData) => void;
+  open: (video: VideoTreeEntryWithData, layoutAnimation?: boolean) => void;
   close: () => void;
 }
 
@@ -53,7 +53,7 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
   useScrollLock(!!item, 'video-modal', item?.scrollPosition || undefined);
 
   const open = useCallback(
-    (video: VideoTreeEntryWithData) => {
+    (video: VideoTreeEntryWithData, layoutAnimation = true) => {
       const { documentElement } = document;
       const { scrollTop, scrollHeight, clientHeight } = documentElement;
       const scrollPosition = scrollHeight <= clientHeight ? null : scrollTop;
@@ -61,7 +61,7 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
       const encoded = encodeObject({ video, scrollPosition });
       const query = { ...router.query, item: encoded };
 
-      setLayoutAnimation(true);
+      setLayoutAnimation(layoutAnimation);
       routerRef.current.push({ query }, undefined, { scroll: false });
     },
     [router.query]
