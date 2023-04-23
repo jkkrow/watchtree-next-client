@@ -17,13 +17,19 @@ import { encodeObject, decodeObject } from '@/utils/serialize';
 interface VideoModalItem {
   video: VideoTreeEntryWithData;
   scrollPosition: number | null;
+  label: string | undefined;
+}
+
+interface OpenModalOptions {
+  label?: string;
+  layoutAnimation?: boolean;
 }
 
 interface ContextState {
   item: VideoModalItem | null;
   layoutAnimation: boolean;
   headerRef: RefObject<HTMLHeadingElement> | null;
-  open: (video: VideoTreeEntryWithData, layoutAnimation?: boolean) => void;
+  open: (video: VideoTreeEntryWithData, options: OpenModalOptions) => void;
   close: () => void;
 }
 
@@ -53,12 +59,15 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
   useScrollLock(!!item, 'video-modal', item?.scrollPosition || undefined);
 
   const open = useCallback(
-    (video: VideoTreeEntryWithData, layoutAnimation = true) => {
+    (
+      video: VideoTreeEntryWithData,
+      { label, layoutAnimation = true }: OpenModalOptions
+    ) => {
       const { documentElement } = document;
       const { scrollTop, scrollHeight, clientHeight } = documentElement;
       const scrollPosition = scrollHeight <= clientHeight ? null : scrollTop;
 
-      const encoded = encodeObject({ video, scrollPosition });
+      const encoded = encodeObject({ video, scrollPosition, label });
       const query = { ...router.query, item: encoded };
 
       setLayoutAnimation(layoutAnimation);

@@ -1,0 +1,27 @@
+.container {
+  overflow: visible;
+
+  :global(.swiper-button-prev),
+  :global(.swiper-button-next) {
+    top: initial;
+    bottom: 100%;
+    color: var(--text-primary);
+    background-color: transparent;
+    width: 3rem;
+    height: 4rem;
+    opacity: 1;
+
+    &:hover:not(:global(.swiper-button-disabled)) {
+      background-color: var(--bg-hover);
+    }
+  }
+
+  :global(.swiper-button-prev) {
+    left: initial;
+    right: 3rem;
+  }
+
+  :global(.swiper-button-disabled) {
+    opacity: 0.4;
+  }
+}

@@ -17,12 +17,14 @@ interface HistoryItemProps {
   item: VideoTreeEntryWithData;
 }
 
+const LABEL = 'history';
+
 export default function HistoryItem({ item }: HistoryItemProps) {
   const { open } = useContext(VideoModalContext);
   const [deleteHistory, { isLoading }] = useDeleteHistoryMutation();
 
   const openVideoModalHandler = () => {
-    open(item);
+    open(item, { label: LABEL });
   };
 
   const deleteHistoryHandler = () => {
@@ -32,7 +34,7 @@ export default function HistoryItem({ item }: HistoryItemProps) {
   return (
     <motion.li
       className="relative flex flex-col shadow-md bg-primary"
-      layoutId={item.id}
+      layoutId={item.id + LABEL}
     >
       <div className="cursor-pointer" onClick={openVideoModalHandler}>
         <VideoThumbnail url={item.thumbnail} title={item.title} />

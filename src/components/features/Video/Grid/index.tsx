@@ -20,7 +20,7 @@ const VideoGrid = forwardRef<HTMLUListElement, VideoGridProps>(
           ref={ref}
         >
           {items.map((item) => (
-            <VideoItem key={item.id} item={item as VideoTreeEntryWithData} />
+            <VideoItem key={item.id} label={label} item={item} />
           ))}
         </ul>
         <NotFound label="Video" items={items} icon={VideoIcon} />

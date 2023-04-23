@@ -19,7 +19,7 @@ export default function VideoModal() {
 
       <AnimatePresence initial={false}>
         {item ? (
-          <div className="fixed flex inset-0 md:p-6 z-10">
+          <div className="fixed flex inset-0 md:p-6 z-20">
             <motion.div
               className="absolute inset-0 bg-black/60"
               variants={videoModalVariants.container}
@@ -29,8 +29,10 @@ export default function VideoModal() {
               onClick={close}
             />
             <motion.div
-              className="relative max-w-6xl z-10 w-full mx-auto bg-primary md:rounded-md overflow-auto scrollbar-hide"
-              layoutId={layoutAnimation ? item.video.id : undefined}
+              className="relative max-w-6xl z-20 w-full mx-auto bg-primary md:rounded-md overflow-auto scrollbar-hide"
+              layoutId={
+                layoutAnimation ? item.video.id + item.label : undefined
+              }
               variants={
                 !layoutAnimation ? videoModalVariants.window : undefined
               }

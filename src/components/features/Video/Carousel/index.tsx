@@ -36,7 +36,7 @@ export default function VideoCarousel({ items }: VideoCarouselProps) {
     };
 
   const openModalHandler = (item: VideoTreeEntryWithData) => () => {
-    open(item, false);
+    open(item, { layoutAnimation: false });
   };
 
   return items ? (

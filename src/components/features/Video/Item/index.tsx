@@ -16,17 +16,18 @@ import { opacityVariants } from '@/constants/variants';
 import { VideoTreeEntryWithData } from '@/store/features/video/video.type';
 
 interface VideoItemProps {
+  label?: string;
   item: VideoTreeEntryWithData;
 }
 
-export default function VideoItem({ item }: VideoItemProps) {
+export default function VideoItem({ label, item }: VideoItemProps) {
   const { active, itemRef, style, start, stop, cancel } = useScaleOnHover();
   const { open, item: modalItem } = useContext(VideoModalContext);
   const { open: watch } = useCurtain();
 
   const openModalHandler = () => {
     cancel();
-    open(item);
+    open(item, { label });
   };
 
   const watchVideoHandler = (event: React.MouseEvent) => {
@@ -43,7 +44,7 @@ export default function VideoItem({ item }: VideoItemProps) {
     <motion.li
       className="relative data-[active=true]:z-10"
       data-active={modalItem?.video.id === item.id}
-      layoutId={item.id}
+      layoutId={item.id + label}
       onClick={openModalHandler}
     >
       <div

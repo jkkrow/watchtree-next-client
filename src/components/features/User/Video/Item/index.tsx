@@ -23,6 +23,8 @@ interface UserVideoItemProps {
   item: VideoTreeEntryWithData;
 }
 
+const LABEL = 'user';
+
 export default function UserVideoItem({ item }: UserVideoItemProps) {
   const router = useRouter();
   const tree = useAppSelector((state) => state.upload.uploadTree);
@@ -31,7 +33,7 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
   const [continueUpload, { isLoading }] = useContinueUploadMutation();
 
   const openVideoModalHandler = () => {
-    openVideoModal(item);
+    openVideoModal(item, { label: LABEL });
   };
 
   const editHandler = async () => {
@@ -50,7 +52,7 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
   return (
     <motion.li
       className="relative flex flex-col h-full bg-primary overflow-hidden shadow-md"
-      layoutId={item.id}
+      layoutId={item.id + LABEL}
     >
       <div className="relative cursor-pointer" onClick={openVideoModalHandler}>
         <VideoThumbnail title={item.title} url={item.thumbnail} />
