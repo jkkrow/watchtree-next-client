@@ -6,8 +6,8 @@ import { useDropdown } from '@/hooks/ui/dropdown';
 export default function Navigation() {
   const links = [
     { href: '/', name: 'Home' },
-    { href: '/browse', name: 'Recent' },
     { href: '/browse/featured', name: 'Featured' },
+    { href: '/browse/recent', name: 'Recent' },
   ];
 
   const { active, containerRef, open, close, toggle } =

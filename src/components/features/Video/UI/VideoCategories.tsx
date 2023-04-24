@@ -10,7 +10,7 @@ export default function VideoCategories({ categories }: VideoCategoriesProps) {
       {categories.map((category) => (
         <li className="flex" key={category}>
           <Link
-            href={`/browse/?keyword=${category}`}
+            href={`/browse/search/?keyword=${category}`}
             className="px-3 py-1.5 rounded-md bg-primary text-primary border-[1px] border-secondary transition-colors hover:bg-hover"
           >
             {category}

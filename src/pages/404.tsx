@@ -8,7 +8,7 @@ export default function NotFound() {
         className="font-medium w-fit m-auto hover:text-hover transition-colors"
         href="/"
       >
-        Return to homepage
+        Return to home page
       </Link>
     </div>
   );

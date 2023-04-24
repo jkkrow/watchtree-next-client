@@ -59,7 +59,7 @@ const Featured: NextPageWithLayout = () => {
           />
           <VideoSlide
             label="Recent Videos"
-            to="/browse"
+            to="/browse/recent"
             items={recentData?.items}
           />
           <VideoSlide

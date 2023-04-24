@@ -38,7 +38,7 @@ export default function SigninForm() {
     if (router.query && router.query.redirect) {
       router.replace(router.query.redirect as string);
     } else {
-      router.replace('/browse');
+      router.replace('/browse/featured');
     }
   };
 

@@ -11,7 +11,7 @@ import { NextPageWithLayout } from '../_app';
 
 const MAX = 30;
 
-const Browse: NextPageWithLayout = () => {
+const Recent: NextPageWithLayout = () => {
   const { data, error, isFetchingMore, listRef } = useInfiniteQuery(getVideos, {
     max: MAX,
   });
@@ -19,7 +19,7 @@ const Browse: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>Browse - WatchTree</title>
+        <title>Recent Videos - WatchTree</title>
       </Head>
 
       <SkeletonGrid on={!data && !error} count={MAX} type="video" />
@@ -29,7 +29,7 @@ const Browse: NextPageWithLayout = () => {
   );
 };
 
-Browse.getLayout = function (page) {
+Recent.getLayout = function (page) {
   return (
     <VideoModalProvider>
       <BrowseLayout>{page}</BrowseLayout>
@@ -37,4 +37,4 @@ Browse.getLayout = function (page) {
   );
 };
 
-export default Browse;
+export default Recent;
