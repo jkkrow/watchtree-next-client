@@ -86,7 +86,9 @@ export default function VideoCarousel({ items }: VideoCarouselProps) {
                   active={item.favorited}
                 />
               </div>
-              <VideoCreator creator={item.creator} />
+              <div onClick={(event) => event.stopPropagation()}>
+                <VideoCreator creator={item.creator} />
+              </div>
 
               <div className="relative hidden mt-4 gap-4 lg:flex">
                 <Button small onClick={watchVideoHandler(item)}>

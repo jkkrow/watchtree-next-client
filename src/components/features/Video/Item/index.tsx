@@ -105,7 +105,10 @@ export default function VideoItem({ label, item }: VideoItemProps) {
                 ended={item.history?.ended}
               />
               <div className="flex justify-between gap-4 text-sm">
-                <div className="flex items-center overflow-hidden">
+                <div
+                  className="flex items-center overflow-hidden"
+                  onClick={(event) => event.stopPropagation()}
+                >
                   <VideoCreator creator={item.creator} />
                 </div>
                 <VideoFavorites

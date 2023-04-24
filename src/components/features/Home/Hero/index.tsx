@@ -25,7 +25,7 @@ export default function Hero() {
         <div className="relative flex flex-col flex-shrink-0 justify-center w-[450px] max-w-full gap-6">
           <h1 className="text-5xl tracking-tight font-extrabold">WatchTree</h1>
           <h2 className="text-3xl font-bold tracking-wide">
-            A Video streaming platform for enthusiastic creators
+            A Video Streaming Platform for Enthusiastic Creators
           </h2>
           <p className="font-medium">
             Publish creative contents with tree-structured videos

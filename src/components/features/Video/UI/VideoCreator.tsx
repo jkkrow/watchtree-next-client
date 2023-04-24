@@ -17,7 +17,6 @@ export default function VideoCreator({ creator, brief }: VideoCreatorProps) {
     <Link
       className="flex items-center w-fit max-w-full hover:opacity-70 transition-opacity"
       href={`/channel/${creator.id}`}
-      onClick={(event) => event.stopPropagation()}
     >
       <div className="group relative flex items-center pr-2">
         <Avatar src={creator.picture} name={creator.name} size={24} />
