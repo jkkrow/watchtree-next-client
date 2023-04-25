@@ -30,7 +30,7 @@ export default function Header() {
     <>
       <div className="absolute invisible top-0 w-full" ref={headerRef} />
       <header
-        className="sticky flex items-center top-0 w-full h-20 px-4 gap-4 z-20 bg-primary ring-secondary transition-shadow md:px-8 md:gap-8 data-[top=false]:shadow-lg dark:data-[top=false]:ring-1"
+        className="sticky flex items-center top-0 w-full h-20 px-4 gap-4 z-20 bg-primary ring-tertiary transition-shadow md:px-8 md:gap-8 data-[top=false]:shadow-lg dark:data-[top=false]:ring-2"
         data-top={isTop}
       >
         <Logo />

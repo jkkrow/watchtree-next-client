@@ -43,6 +43,13 @@ module.exports = {
         '11xl': 1792,
         '12xl': 1920,
       },
+      screens: {
+        '-2xl': { max: '1535px' },
+        '-xl': { max: '1279px' },
+        '-lg': { max: '1023px' },
+        '-md': { max: '767px' },
+        '-sm': { max: '639px' },
+      },
     },
   },
   plugins: [

@@ -13,7 +13,7 @@ export default function MenuDropdown({ active }: MenuDropdownProps) {
     <AnimatePresence>
       {active ? (
         <motion.div
-          className="absolute top-full right-0 w-60 bg-primary border-[1px] border-secondary shadow-lg"
+          className="absolute top-full right-0 w-60 bg-primary border-2 border-tertiary shadow-lg"
           variants={opacityVariants}
           transition={{ duration: 0.1 }}
           initial="inActive"

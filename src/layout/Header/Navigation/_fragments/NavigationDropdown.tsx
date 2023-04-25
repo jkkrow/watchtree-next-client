@@ -19,7 +19,7 @@ export default function NavigationDropdown({
     <AnimatePresence>
       {active ? (
         <motion.ul
-          className="absolute text-center top-full bg-primary border-[1px] border-secondary shadow-lg"
+          className="absolute text-center top-full bg-primary border-2 border-tertiary shadow-lg"
           variants={opacityVariants}
           transition={{ duration: 0.1 }}
           initial="inActive"
