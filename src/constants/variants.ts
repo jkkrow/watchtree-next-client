@@ -109,3 +109,18 @@ export const uploadPopupVariants: Record<
     inActive: { opacity: 0, transition: { duration: 0 } },
   },
 };
+
+export const visualVariants: Record<'selection', Variants> = {
+  selection: {
+    active: {
+      opacity: 1,
+      y: 0,
+      transition: { ease: 'easeOut', duration: 0.3 },
+    },
+    inActive: {
+      opacity: 0,
+      y: '2rem',
+      transition: { ease: 'easeOut', duration: 0.3 },
+    },
+  },
+};

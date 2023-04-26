@@ -1,4 +1,7 @@
-import Row from './_fragments/Row';
+import Row from './Row';
+import TreeVisual from './Visual/Tree';
+import PlayerVisual from './Visual/Player';
+import SelectionVisual from './Visual/Selection';
 
 export default function Features() {
   return (
@@ -11,9 +14,9 @@ export default function Features() {
             <>
               <p>
                 Our innovative tree-structured video format redefines the way
-                you experience video streaming. The root video serves as the
-                starting point of your journey, branching out into multiple
-                child videos that present you with a range of choices.
+                you experience video streaming. The <b>root video</b> serves as
+                the starting point of your journey, branching out into multiple
+                <b> child videos</b> that present you with a range of choices.
               </p>
               <p>
                 The unique format allows you to actively participate in the
@@ -24,6 +27,7 @@ export default function Features() {
               </p>
             </>
           }
+          visual={TreeVisual}
         />
         <Row
           header="Unleash Your Creativity"
@@ -34,11 +38,12 @@ export default function Features() {
               tree-structured video format, you can produce captivating stories
               that unfold in multiple directions, allowing viewers to immerse
               themselves in your creative universe. Whether it&apos;s an
-              interactive film, an educational series, or an engaging product
-              demonstration, our platform provides you with the tools and
-              freedom to craft truly innovative content.
+              <b> interactive film</b>, an <b>educational series</b>, or an
+              <b> engaging product demonstration</b>, our platform provides you
+              with the tools and freedom to craft truly innovative content.
             </p>
           }
+          visual={PlayerVisual}
         />
         <Row
           header="Active Viewer Engagement"
@@ -53,6 +58,7 @@ export default function Features() {
               memorable and satisfying experience for all.
             </p>
           }
+          visual={SelectionVisual}
         />
       </ul>
     </section>

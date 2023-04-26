@@ -48,7 +48,7 @@ export default function Hero() {
       ref={containerRef}
     >
       <div className="relative flex items-center w-full h-max m-auto">
-        <div className="absolute bottom-0 flex w-[550px] max-w-full right-0 text-tertiary lg:w-7/12 lg:text-primary -lg:[&_*]:filter-none">
+        <div className="absolute bottom-0 flex w-[550px] max-w-full right-0 text-tertiary lg:w-7/12 lg:text-secondary -lg:[&_*]:filter-none">
           <TreeImage className="w-full h-full [&_*]:h-full translate-x-6 translate-y-2" />
         </div>
         <div className="relative flex flex-col flex-shrink-0 justify-center w-[450px] max-w-full gap-6">
