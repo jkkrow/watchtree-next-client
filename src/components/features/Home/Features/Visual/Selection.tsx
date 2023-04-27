@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ScreenIcon from '@/assets/icons/screen.svg';
 import Button from '@/components/common/Element/Button';
 import { useTimeout } from '@/hooks/util/time';
-import { getEmojis, getRandomEmojis } from '@/utils/emoji';
+import { getEmojis, getRandomEmojis } from './_utils/emoji';
 import { visualVariants } from '@/constants/variants';
 
 export default function SelectionVisual() {
