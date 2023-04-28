@@ -5,11 +5,6 @@ export function findNodeById(root: Tree, id: string) {
   return nodes.find((node) => node.id === id);
 }
 
-export function findNodeByChildId(root: Tree, id: string) {
-  const nodes = traverseNodes(root);
-  return nodes.find((node) => node.children.find((child) => child.id === id));
-}
-
 export function traverseNodes(root: Tree) {
   let currentNode = root;
   const queue: (typeof root)[] = [];

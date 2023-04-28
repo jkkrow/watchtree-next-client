@@ -79,7 +79,6 @@ export default function TreeVisual() {
         <div className="w-full h-full -translate-y-16">
           <NodeVisual
             currentNode={tree}
-            tree={tree}
             activeNodeId={activeNodeId}
             onSelect={selectNodeHandler}
           />

@@ -110,7 +110,21 @@ export const uploadPopupVariants: Record<
   },
 };
 
-export const visualVariants: Record<'selection', Variants> = {
+export const visualVariants: Record<'player' | 'selection', Variants> = {
+  player: {
+    active: {
+      x: 0,
+      transition: { ease: 'easeOut', duration: 0.3 },
+    },
+    inActive: {
+      x: '100%',
+      transition: { ease: 'easeOut', duration: 0.3 },
+    },
+    exit: {
+      x: '-100%',
+      transition: { ease: 'easeOut', duration: 0.3 },
+    },
+  },
   selection: {
     active: {
       opacity: 1,

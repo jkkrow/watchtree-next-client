@@ -46,7 +46,7 @@ export default function SelectionVisual() {
         ) : null}
       </div>
       <div className="absolute flex flex-wrap bottom-12 gap-2" key="buttons">
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {emojis.map((emoji) => (
             <motion.div
               key={emoji}
