@@ -110,6 +110,41 @@ export const uploadPopupVariants: Record<
   },
 };
 
+export const heroVariants: Record<
+  'container' | 'text' | 'image' | 'button',
+  Variants
+> = {
+  container: {
+    active: { opacity: 1, transition: { staggerChildren: 0.5 } },
+    inActive: { opacity: 0 },
+  },
+  text: {
+    active: { opacity: 1, x: 0, transition: { ease: 'easeOut' } },
+    inActive: { opacity: 0, x: -200 },
+  },
+  image: opacityVariants,
+  button: opacityVariants,
+};
+
+export const featureVariants: Record<'container' | 'left' | 'right', Variants> =
+  {
+    container: {
+      active: {
+        opacity: 1,
+        transition: { delayChildren: 0.5, staggerChildren: 0.25 },
+      },
+      inActive: { opacity: 0 },
+    },
+    left: {
+      active: { opacity: 1, x: 0, transition: { ease: 'easeOut' } },
+      inActive: { opacity: 0, x: -200 },
+    },
+    right: {
+      active: { opacity: 1, x: 0, transition: { ease: 'easeOut' } },
+      inActive: { opacity: 0, x: 200 },
+    },
+  };
+
 export const visualVariants: Record<'player' | 'selection', Variants> = {
   player: {
     active: {

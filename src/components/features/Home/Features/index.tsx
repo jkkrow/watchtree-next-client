@@ -1,14 +1,24 @@
+import { motion } from 'framer-motion';
+
 import Row from './Row';
 import TreeVisual from './Visual/Tree';
 import PlayerVisual from './Visual/Player';
 import SelectionVisual from './Visual/Selection';
+import { featureVariants } from '@/constants/variants';
 
 export default function Features() {
   return (
-    <section className="flex flex-col max-w-8xl py-32 m-auto gap-12">
+    <motion.section
+      className="flex flex-col max-w-8xl py-32 m-auto gap-12"
+      variants={featureVariants.container}
+      initial="inActive"
+      whileInView="active"
+      viewport={{ once: true }}
+    >
       <h2 className="font-bold text-3xl">What is Tree-Structued Video?</h2>
       <ul className="flex flex-col gap-20">
         <Row
+          index={1}
           header="Interactive Multi-Path Video Format"
           description={
             <>
@@ -29,6 +39,7 @@ export default function Features() {
           visual={TreeVisual}
         />
         <Row
+          index={2}
           header="Unleash Your Creativity"
           description={
             <>
@@ -51,15 +62,16 @@ export default function Features() {
           visual={PlayerVisual}
         />
         <Row
+          index={3}
           header="Active Viewer Engagement"
           description={
             <>
               <p>
                 Say goodbye to passive video consumption! Our platform
                 encourages viewers to become active participants in the content
-                they watch. By offering a choice between different child videos,
-                viewers can shape their own experiences and engage with content
-                in a more meaningful way.
+                they watch. By offering a <b>choice</b> between different child
+                videos, viewers can shape their own experiences and engage with
+                content in a more meaningful way.
               </p>
               <p>
                 This interactive format fosters a deeper connection between
@@ -71,6 +83,6 @@ export default function Features() {
           visual={SelectionVisual}
         />
       </ul>
-    </section>
+    </motion.section>
   );
 }

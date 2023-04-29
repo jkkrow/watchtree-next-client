@@ -20,14 +20,14 @@ export default function PlayerVisual() {
 
   return (
     <div className="flex justify-center items-center w-full h-full">
-      <div className="w-80 h-80 overflow-hidden">
-        <ul className="flex w-max">
+      <div className="w-full h-full overflow-hidden">
+        <ul>
           <AnimatePresence initial={false} mode="wait">
             {visualList.map(({ name, image }, index) =>
               activeIndex === index ? (
                 <motion.li
                   key={name}
-                  className="w-80 h-80 cursor-pointer hover:text-hover transition-colors"
+                  className="cursor-pointer hover:text-hover transition-colors [&>*]:w-80 [&>*]:h-80 [&>*]:m-auto"
                   variants={visualVariants.player}
                   initial="inActive"
                   animate="active"
