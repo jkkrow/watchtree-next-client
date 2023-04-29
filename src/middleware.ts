@@ -18,10 +18,10 @@ export default async function middleware(req: NextRequest) {
   const onlyUsers = ['user', 'upload'].includes(pathname.split('/')[1]);
 
   if (isUser && onlyGuests) {
-    return NextResponse.redirect(new URL('/', url));
+    return NextResponse.redirect(new URL('/browse/featured', url));
   }
 
   if (!isUser && onlyUsers) {
-    return NextResponse.redirect(new URL('/auth', url));
+    return NextResponse.redirect(new URL('/auth/signin', url));
   }
 }

@@ -15,7 +15,7 @@ export default function Features() {
       whileInView="active"
       viewport={{ once: true }}
     >
-      <h2 className="font-bold text-3xl">What is Tree-Structued Video?</h2>
+      <h2 className="font-bold text-3xl">What is Tree-Structured Video?</h2>
       <ul className="flex flex-col gap-20">
         <Row
           index={1}

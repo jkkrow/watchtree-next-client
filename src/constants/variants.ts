@@ -145,6 +145,11 @@ export const featureVariants: Record<'container' | 'left' | 'right', Variants> =
     },
   };
 
+export const footerVariants: Variants = {
+  active: { opacity: 1, y: 0, transition: { ease: 'easeOut' } },
+  inActive: { opacity: 0, y: 50 },
+};
+
 export const visualVariants: Record<'player' | 'selection', Variants> = {
   player: {
     active: {

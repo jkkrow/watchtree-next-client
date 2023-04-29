@@ -91,7 +91,7 @@ export default function VideoCarousel({ items }: VideoCarouselProps) {
               </div>
 
               <div className="relative hidden mt-4 gap-4 lg:flex">
-                <Button small onClick={watchVideoHandler(item)}>
+                <Button small inversed onClick={watchVideoHandler(item)}>
                   <PlayIcon className="w-4 h-4" />
                   <span>Watch</span>
                 </Button>

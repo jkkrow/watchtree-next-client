@@ -46,7 +46,7 @@ export default function Hero() {
 
   return (
     <motion.section
-      className="relative flex justify-center w-full max-w-7xl h-[calc(100vh-12rem)] m-auto"
+      className="relative flex justify-center w-full max-w-8xl h-[calc(100vh-12rem)] m-auto"
       ref={containerRef}
       variants={heroVariants.container}
       initial="inActive"
