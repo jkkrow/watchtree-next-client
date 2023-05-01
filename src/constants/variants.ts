@@ -120,7 +120,7 @@ export const heroVariants: Record<
   },
   text: {
     active: { opacity: 1, x: 0, transition: { ease: 'easeOut' } },
-    inActive: { opacity: 0, x: -200 },
+    inActive: { opacity: 0, x: -50 },
   },
   image: opacityVariants,
   button: opacityVariants,
@@ -137,18 +137,13 @@ export const featureVariants: Record<'container' | 'left' | 'right', Variants> =
     },
     left: {
       active: { opacity: 1, x: 0, transition: { ease: 'easeOut' } },
-      inActive: { opacity: 0, x: -200 },
+      inActive: { opacity: 0, x: -100 },
     },
     right: {
       active: { opacity: 1, x: 0, transition: { ease: 'easeOut' } },
-      inActive: { opacity: 0, x: 200 },
+      inActive: { opacity: 0, x: 100 },
     },
   };
-
-export const footerVariants: Variants = {
-  active: { opacity: 1, y: 0, transition: { ease: 'easeOut' } },
-  inActive: { opacity: 0, y: 50 },
-};
 
 export const visualVariants: Record<'player' | 'selection', Variants> = {
   player: {
@@ -177,4 +172,14 @@ export const visualVariants: Record<'player' | 'selection', Variants> = {
       transition: { ease: 'easeOut', duration: 0.3 },
     },
   },
+};
+
+export const sampleVariants: Variants = {
+  active: { opacity: 1, x: 0, transition: { ease: 'easeOut' } },
+  inActive: { opacity: 0, x: -20 },
+};
+
+export const footerVariants: Variants = {
+  active: { opacity: 1, y: 0, transition: { ease: 'easeOut' } },
+  inActive: { opacity: 0, y: 50 },
 };

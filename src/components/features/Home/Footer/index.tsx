@@ -18,15 +18,15 @@ export default function Footer() {
   };
 
   return (
-    <section className="w-full max-w-8xl py-32 m-auto">
+    <section className="w-full max-w-6xl py-32 m-auto">
       <motion.div
-        className="flex flex-col px-12 py-20 gap-12 rounded-md bg-hover"
+        className="flex flex-col px-12 py-12 gap-8 rounded-md shadow-xl border-2 border-secondary overflow-hidden lg:py-20 lg:gap-12"
         variants={footerVariants}
         initial="inActive"
         whileInView="active"
         viewport={{ amount: 'all', once: true }}
       >
-        <h3 className="font-bold text-3xl">Are you ready to begin?</h3>
+        <h3 className="font-medium text-3xl">Are you ready to begin?</h3>
         <div className="flex gap-4">
           <Button small inversed onClick={getStartedHandler}>
             Get Started

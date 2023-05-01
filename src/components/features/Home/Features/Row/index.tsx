@@ -20,7 +20,7 @@ export default function Row({
       className="group flex flex-col gap-4 lg:gap-8 lg:flex-row lg:[&:nth-of-type(even)]:flex-row-reverse"
       variants={index % 2 ? featureVariants.right : featureVariants.left}
     >
-      <div className="flex-shrink-0 bg-hover w-full h-80 rounded-md lg:w-2/5 lg:max-w-lg">
+      <div className="flex-shrink-0 border-2 border-secondary w-full h-80 rounded-md shadow-xl lg:w-2/5 lg:max-w-lg">
         <Visual />
       </div>
       <div className="flex flex-col w-full p-4 gap-4">

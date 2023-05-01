@@ -16,7 +16,7 @@ export default function Features() {
       viewport={{ once: true }}
     >
       <h2 className="font-bold text-3xl">What is Tree-Structured Video?</h2>
-      <ul className="flex flex-col gap-20">
+      <ul className="flex flex-col gap-32">
         <Row
           index={1}
           header="Interactive Multi-Path Video Format"

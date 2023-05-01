@@ -33,6 +33,10 @@ module.exports = {
         'hover-inversed': 'var(--bg-hover-inversed)',
         'active-inversed': 'var(--bg-active-inversed)',
       },
+      boxShadow: {
+        '3d-r': '1rem 1rem var(--text-primary)',
+        '3d-l': '-1rem 1rem var(--text-primary)',
+      },
       gridTemplateColumns: {
         video: 'repeat(auto-fill, minmax(20rem, 1fr))',
       },

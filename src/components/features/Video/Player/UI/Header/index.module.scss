@@ -26,5 +26,12 @@
     height: auto;
     aspect-ratio: 1/1;
     cursor: pointer;
+    transition: transform 200ms;
+
+    @media (hover: hover) {
+      &:hover {
+        transform: scale(1.3);
+      }
+    }
   }
 }

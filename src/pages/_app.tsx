@@ -7,6 +7,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-fade';
+import 'swiper/css/effect-cube';
 
 import { wrapper } from '@/store';
 import Layout from '@/layout';
