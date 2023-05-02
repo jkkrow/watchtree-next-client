@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import BrowseLayout from '@/components/features/Browse/_layout';
 import SkeletonGrid from '@/components/common/UI/Skeleton/Grid';
-import Skeleton from '@/components/common/UI/Skeleton';
+import CarouselSkeleton from '@/components/common/UI/Skeleton/Item/Carousel';
 import VideoCarousel from '@/components/features/Video/Carousel';
 import VideoSlide from '@/components/features/Video/Slide';
 import { VideoModalProvider } from '@/context/video-modal';
@@ -47,7 +47,7 @@ const Featured: NextPageWithLayout = () => {
         <title>Featured Videos - WatchTree</title>
       </Head>
 
-      {loading ? <Skeleton variant="rectangular" /> : null}
+      {loading ? <CarouselSkeleton /> : null}
       <SkeletonGrid on={loading} count={MAX} type="video" />
       {!loading ? (
         <>

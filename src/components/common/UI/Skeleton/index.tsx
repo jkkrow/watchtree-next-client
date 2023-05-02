@@ -1,5 +1,5 @@
 interface SkeletonProps {
-  variant: 'text' | 'circular' | 'rectangular';
+  variant?: 'text' | 'circular' | 'rectangular';
   width?: number | string;
   height?: number | string;
 }
