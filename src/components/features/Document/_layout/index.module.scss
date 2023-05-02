@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 90rem;
+  padding: 1.5rem;
+  margin: auto;
+  gap: 1.5rem;
+
+  h1 {
+    font-size: xx-large;
+    font-weight: bolder;
+  }
+
+  h2 {
+    font-size: x-large;
+    font-weight: bold;
+  }
+
+  hr {
+    border-color: var(--text-primary);
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2rem;
+    gap: 1rem;
+  }
+
+  li {
+    list-style: square;
+  }
+}

@@ -3,8 +3,8 @@ import Link from 'next/link';
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const links = [
-    { href: '/private-policy', name: 'Private Policy' },
-    { href: '/terms-and-conditions', name: 'Terms and Conditions' },
+    { href: '/document/private-policy', name: 'Private Policy' },
+    { href: '/document/terms-and-conditions', name: 'Terms and Conditions' },
   ];
 
   return (
