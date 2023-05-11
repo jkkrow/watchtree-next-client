@@ -94,7 +94,7 @@ export const uploadApi = appApi.injectEndpoints({
           label: nodeId === uploadTree.root.id ? 'Root' : `Select ${fileName}`,
           url: URL.createObjectURL(file),
           duration: Math.ceil(duration * 1000) / 1000,
-          selectionTimeStart: +(duration - 10 || 0).toFixed(3),
+          selectionTimeStart: +Math.max(0, duration - 10).toFixed(3),
           selectionTimeEnd: +duration.toFixed(3),
         };
 
