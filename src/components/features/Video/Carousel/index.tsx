@@ -58,7 +58,12 @@ export default function VideoCarousel({ items }: VideoCarouselProps) {
         {items.map((item) => (
           <SwiperSlide key={item.id} className="relative">
             <div className="relative ml-auto w-[1800px] max-w-full [&_*]:text-[clamp(0.5rem,2vw,1rem)]">
-              <VideoThumbnail title={item.title} url={item.thumbnail} large />
+              <VideoThumbnail
+                title={item.title}
+                url={item.thumbnail}
+                fallback={item.defaultThumbnail}
+                large
+              />
               <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-gradient-to-r via-transparent from-neutral-900" />
                 <div className="absolute inset-0 bg-gradient-to-t via-transparent from-neutral-900" />

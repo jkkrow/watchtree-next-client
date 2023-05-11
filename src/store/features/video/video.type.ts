@@ -31,6 +31,7 @@ export interface VideoTreeEntry {
   title: string;
   categories: string[];
   thumbnail: string;
+  defaultThumbnail: string;
   size: number;
   maxDuration: number;
   minDuration: number;

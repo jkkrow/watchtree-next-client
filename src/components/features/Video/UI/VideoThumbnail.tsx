@@ -6,6 +6,7 @@ import { getImageUrl } from '@/utils/image';
 interface VideoThumbnailProps {
   title: string;
   url: string;
+  fallback?: string;
   large?: boolean;
   preload?: boolean;
 }
@@ -13,15 +14,18 @@ interface VideoThumbnailProps {
 export default function VideoThumbnail({
   title,
   url,
+  fallback,
   large,
   preload = true,
 }: VideoThumbnailProps) {
+  const src = url || fallback;
+
   return (
     <div className="relative flex justify-center items-center aspect-video">
-      {url ? (
+      {src ? (
         <Image
           className="object-cover"
-          src={getImageUrl(url)}
+          src={getImageUrl(src)}
           alt={title}
           sizes={large ? '960px' : '320px'}
           fill

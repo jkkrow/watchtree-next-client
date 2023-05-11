@@ -55,7 +55,11 @@ export default function UserVideoItem({ item }: UserVideoItemProps) {
       layoutId={item.id + LABEL}
     >
       <div className="relative cursor-pointer" onClick={openVideoModalHandler}>
-        <VideoThumbnail title={item.title} url={item.thumbnail} />
+        <VideoThumbnail
+          title={item.title}
+          url={item.thumbnail}
+          fallback={item.defaultThumbnail}
+        />
         {item.editing ? (
           <div className="absolute top-0 left-0 font-medium bg-neutral-900/80 text-neutral-100 p-2">
             EDITING

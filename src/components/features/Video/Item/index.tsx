@@ -55,7 +55,11 @@ export default function VideoItem({ label, item }: VideoItemProps) {
         onMouseLeave={stop}
       >
         <div className="relative flex-shrink-0 overflow-hidden">
-          <VideoThumbnail title={item.title} url={item.thumbnail} />
+          <VideoThumbnail
+            title={item.title}
+            url={item.thumbnail}
+            fallback={item.defaultThumbnail}
+          />
           <AnimatePresence>
             {active ? (
               <motion.div

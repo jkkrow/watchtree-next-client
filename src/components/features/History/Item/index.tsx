@@ -37,7 +37,11 @@ export default function HistoryItem({ item }: HistoryItemProps) {
       layoutId={item.id + LABEL}
     >
       <div className="cursor-pointer" onClick={openVideoModalHandler}>
-        <VideoThumbnail url={item.thumbnail} title={item.title} />
+        <VideoThumbnail
+          title={item.title}
+          url={item.thumbnail}
+          fallback={item.defaultThumbnail}
+        />
       </div>
       <div className="flex flex-col h-full p-4 gap-4">
         <div className="flex-1 flex flex-col gap-4">

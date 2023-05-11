@@ -17,7 +17,12 @@ export default function Overview({ video, onWatch }: OverviewProps) {
   return (
     <>
       <div className="absolute top-0 right-0 w-[800px] max-w-full">
-        <VideoThumbnail title={video.title} url={video.thumbnail} large />
+        <VideoThumbnail
+          title={video.title}
+          url={video.thumbnail}
+          fallback={video.defaultThumbnail}
+          large
+        />
         <div className="absolute inset-0 bg-gradient-to-r via-transparent from-neutral-900" />
         <div className="absolute inset-0 bg-gradient-to-t via-transparent from-neutral-900" />
         <div className="absolute inset-0 bg-neutral-900/30" />
