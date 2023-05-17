@@ -99,8 +99,9 @@ export const VideoModalProvider = ({ children }: PropsWithChildren) => {
   );
 
   const close = useCallback(() => {
-    routerRef.current.back();
-  }, []);
+    const { item, ...rest } = router.query;
+    routerRef.current.push({ query: rest }, undefined, { scroll: false });
+  }, [router.query]);
 
   const removeLayoutAnimation = () => {
     setLayoutAnimation(false);

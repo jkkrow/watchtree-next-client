@@ -5,6 +5,7 @@ import { useMemo } from 'react';
 
 import VideoLayout from '@/components/features/Video/_layout';
 import VideoTree from '@/components/features/Video/TreeView/Tree';
+import Loader from '@/components/common/UI/Loader';
 import { useWatchVideoQuery } from '@/store/features/video/video.api';
 import { NextPageWithLayout } from '../_app';
 
@@ -22,7 +23,7 @@ const Video: NextPageWithLayout = () => {
     };
   }, [router.isReady, router.query]);
 
-  const { data } = useWatchVideoQuery(launchParams?.id || skipToken);
+  const { data, error } = useWatchVideoQuery(launchParams?.id || skipToken);
 
   return (
     <>
@@ -32,6 +33,7 @@ const Video: NextPageWithLayout = () => {
         </Head>
       ) : null}
 
+      <Loader on={!data && !error} position="top" overlay />
       {data && launchParams ? (
         <VideoTree
           tree={data.videoTree}

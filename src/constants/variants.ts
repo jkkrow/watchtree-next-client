@@ -20,6 +20,20 @@ export const toggleVariants: Variants = {
   inActive: { x: '-50%' },
 };
 
+export const loaderVariants: Record<'container' | 'item', Variants> = {
+  container: {
+    active: { opacity: 1, transition: { staggerChildren: 0.2 } },
+    inActive: { opacity: 0 },
+  },
+  item: {
+    active: {
+      scale: [0, 1, 0],
+      opacity: [0, 1, 0],
+      transition: { duration: 1, repeat: Infinity },
+    },
+  },
+};
+
 export const videoModalVariants: Record<'container' | 'window', Variants> = {
   container: opacityVariants,
   window: {
