@@ -47,13 +47,14 @@ export default function Layout({ children }: PropsWithChildren) {
     <div
       className={`${roboto.className} relative flex flex-col min-h-screen text-primary bg-primary selection:bg-inversed selection:text-inversed`}
     >
-      <Header />
+      <div className="m-auto">Under Maintenance</div>
+      {/* <Header />
       <Main>{children}</Main>
       <Footer />
       <Curtain />
       <Modal />
       <Notification />
-      <UploadPopup />
+      <UploadPopup /> */}
     </div>
   );
 }
